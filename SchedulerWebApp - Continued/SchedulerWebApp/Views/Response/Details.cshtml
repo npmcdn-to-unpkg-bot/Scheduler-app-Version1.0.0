@@ -1,0 +1,11 @@
+﻿@model SchedulerWebApp.Models.Event
+
+@{
+    ViewBag.Title = Model.Title + " details";
+}
+
+<div class="col-md-8 col-md-offset-2">
+    <h1>@Model.Title details</h1>
+    <hr/>
+    @Html.Partial("_Details")
+</div>

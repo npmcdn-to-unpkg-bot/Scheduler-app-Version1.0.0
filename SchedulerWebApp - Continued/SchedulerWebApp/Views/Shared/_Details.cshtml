@@ -1,0 +1,47 @@
+﻿@model SchedulerWebApp.Models.Event
+
+
+    <div class="thumbnail">
+        <div class="caption">
+            <div class="row">
+                    <div class="col-sm-6">
+                        <table class="table borderless table-condensed centered">
+                            <tbody>
+                                <tr>
+                                    <td class=" col-sm-4">@Html.LabelFor(model => model.Title) </td>
+                                    <td class=" col-sm-8">@Html.DisplayFor(model => model.Title)</td>
+                                </tr>
+                                <tr>
+                                    <td class=" col-sm-4">@Html.LabelFor(model => model.Location) </td>
+                                    <td class=" col-sm-8">@Html.DisplayFor(model => model.Location)</td>
+                                </tr>
+                                <tr>
+                                    <td class=" col-sm-4">@Html.LabelFor(model => model.StartDate) </td>
+                                    <td class=" col-sm-8">@Html.DisplayFor(model => model.StartDate)</td>
+                                </tr>
+                                <tr>
+                                    <td class=" col-sm-4">@Html.LabelFor(model => model.Description) </td>
+                                    <td class=" col-sm-8">@Html.DisplayFor(model => model.Description)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="container">
+                    @{
+                        var participants = Model.Participants;
+                        if (participants.Count == 0)
+                        {
+                            Html.RenderPartial("_NoParticipants");
+                        }
+                        else
+                        {
+                            Html.RenderPartial("_Participants", participants);
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>

@@ -1,0 +1,81 @@
+﻿@model SchedulerWebApp.Models.ViewModels.ResponseViewModel
+
+@{
+    ViewBag.Title = "Response";
+}
+
+
+
+<div class="col-md-8 col-md-offset-2">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <h2>Response</h2>
+        <div class="form-horizontal">
+            <h4>Invitation</h4>
+            <hr />
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div>
+                @Html.HiddenFor(model => model.EventId)
+                @Html.HiddenFor(model => model.ParticipantId)
+                @Html.HiddenFor(model => model.ParticipantEmail)
+            </div>
+            <div class="row">
+                <div class="col-sm-10 col-sm-offset-1">
+                    <p>
+                        You have been invited to <strong>@Model.EventsTitle</strong>.
+                        It will take place on <strong>@Model.EventDate.ToShortDateString()</strong> in <strong>@Model.EventsLocation.</strong>
+                    </p>
+                    <p>Please provide your availabitity below.</p>
+                    <br />
+                </div>
+                <div class="col-sm-10 col-sm-offset-1">
+                    <table class="table borderless">
+                        <tbody>
+                            <tr>
+                                <td class="col-sm-1 title-left ">
+                                    @Html.LabelFor(model => model.Availability)
+                                </td>
+                                <td class="col-sm-10">
+                                    <div class="col-xs-12">
+                                        <div class="col-sm-4">@Html.RadioButtonFor(model => model.Availability, true) Will attend</div>
+                                        <div class="col-sm-5 ">@Html.RadioButtonFor(model => model.Availability, false) Will not attend</div>
+                                    </div>
+                                    <div class="col-sm-7 hidden-xs"></div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-sm-1 title-left">
+                                    @Html.LabelFor(model => model.Comments)
+                                </td>
+                                <td class="col-sm-10">
+                                    <div class="col-sm-12">
+                                        <div class="col-sm-12">
+                                            @Html.EditorFor(model => model.Comments, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="col-sm-1 title-left"></td>
+                                <td class="col-sm-10">
+                                    <div class="col-sm-12">
+                                        <div class="col-sm-12">
+                                            <input type="submit" value="Send" class="btn btn-primary button-width" />
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

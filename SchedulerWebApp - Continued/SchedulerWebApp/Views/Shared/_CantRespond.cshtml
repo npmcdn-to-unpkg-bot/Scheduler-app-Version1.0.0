@@ -1,0 +1,14 @@
+﻿@model SchedulerWebApp.Models.Event
+
+@{
+    ViewBag.Title = "_CantRespond";
+}
+<div class="col-lg-offset-2 col-md-8">
+    <h2 class="text-center">Late Response </h2>
+    <hr />
+
+    <div class="alert alert-danger text-center" role="alert">
+        <p>You can no more respond to this Event. Responce were accepted till @Model.ListDate.Date/@Model.ListDate.Month/@Model.ListDate.Year.</p>
+        <p>Please contact the organiser.</p>
+    </div>
+</div>

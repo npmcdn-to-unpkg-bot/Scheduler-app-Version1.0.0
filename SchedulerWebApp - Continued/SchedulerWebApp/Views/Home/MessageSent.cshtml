@@ -1,0 +1,20 @@
+﻿@{
+    ViewBag.Title = "MessageSent";
+}
+
+<div class="col-md-offset-2 col-md-8">
+    <h2 class="text-center">Message sent</h2>
+    <hr />
+
+    <div class="alert alert-success" role="alert">
+        <h1 class="text-center"><span class="glyphicon glyphicon glyphicon-ok"></span></h1>
+        <p class="text-center">
+            
+            We have recieved your message ,you will hear from us soon. Thanks you.
+        </p>
+        <br />
+        <div class="row">
+            @Html.ActionLink("Home", "Index", "Home", null, new { @class = "btn btn-primary  col-sm-4 col-sm-offset-4" })
+        </div>
+    </div>
+</div>

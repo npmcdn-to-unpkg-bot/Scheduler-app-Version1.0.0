@@ -1,0 +1,65 @@
+﻿/* textarea.input-validation-error {
+      border-color: #CC0000;
+ }*/
+
+.borderless tbody tr td, .borderless thead tr th {
+    border: none;
+}
+
+.margin-top {
+    margin-top: 10px;
+}
+
+.title-label {
+    font-weight: bold;
+    text-align: right;
+}
+
+.title-left {
+    font-weight: bold;
+    text-align: left;
+}
+
+.button-width {
+    width: 85px;
+}
+
+textarea {
+    -moz-resize: vertical;
+    -ms-resize: vertical;
+    -o-resize: vertical;
+    resize: vertical;
+}
+
+.tab-pane {
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    padding: 1.5em;
+}
+
+.body-div {
+    box-shadow: 0 0 20px 3px #d3d3d3;
+    padding-bottom: 30px;
+    border-radius: 10px;
+    margin-top: 50px;
+    margin-bottom: 20px;
+    height: 100%;
+    min-height: 100%
+}
+
+.body-firstRow {
+    padding: 40px 80px 40px 80px;
+}
+
+.event-div {
+    margin-bottom: 30px;
+}
+
+.deleteEvent-div {
+    margin-top: 25px;
+}
+
+.datepicker {
+    z-index:1151 !important;
+}

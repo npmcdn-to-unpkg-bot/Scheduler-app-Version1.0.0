@@ -1,0 +1,47 @@
+﻿@model IEnumerable<SchedulerWebApp.Models.Event>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+    <ul class="nav nav-tabs" id="myTab">
+        <li class="active"><a href="#upcomingEvent">Upcoming Events</a></li>
+        <li><a href="#passedEvent">Previous Events</a></li>
+        <li><a href="#allEvents">All Events</a></li>
+    </ul>
+
+    <div class="tab-content">
+
+        <div id="upcomingEvent" class="tab-pane fade in active">
+            <div class="row">
+                @Html.Action("UpcomingEvents", "Events")
+            </div>
+        </div>
+
+        <div id="passedEvent" class="tab-pane fade">
+            <div class="row">
+                @Html.Action("PreviousEvents", "Events")
+            </div>
+        </div>
+
+        <div id="allEvents" class="tab-pane fade">
+            <div class="row">
+                @Html.Action("AllEvents", "Events")
+        </div>
+    </div>
+
+</div>
+
+
+@section scripts
+    {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#myTab a").click(function (e) {
+                e.preventDefault();
+                $(this).tab('show');
+            });
+        });
+    </script>
+}

@@ -1,0 +1,36 @@
+﻿@using System.Globalization
+@model SchedulerWebApp.Models.Event
+
+<div class="col-sm-4 event-div">
+    <div class="thumbnail">
+        <div class="caption">
+            <h4 class="text-center">@Model.Title.ToUpper()</h4>
+            <table class="borderless table table-condensed centered">
+                <tbody>
+                    <tr>
+                        <td class="col-sm-3"><label>Where?</label></td>
+                        <td class="col-sm-9">@Model.Location</td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-3"><label>When?</label></td>
+                        <td class="col-sm-9">@Model.StartDate.DayOfWeek , @Model.StartDate.Date.ToString("MMM", CultureInfo.InvariantCulture) @Model.StartDate.Day</td>
+                    </tr>
+                    <tr>
+                        <td class="col-sm-3"><label>Envitees:</label></td>
+                        <td class="col-sm-9"><span class="badge">@Model.Participants.Count</span></td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table borderless centered">
+                <tr>
+                    <td class="col-sm-6">
+                        @Html.ActionLink("Details", "Details", "Events", new { id = Model.Id }, new { @class = "btn btn-primary btn-block" })
+                    </td>
+                    <td class="col-sm-6">
+                        @Html.ActionLink("Invite", "SendEventsInvitation", "Invitation", new { id = Model.Id }, new { @class = "btn btn-primary btn-block" })
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

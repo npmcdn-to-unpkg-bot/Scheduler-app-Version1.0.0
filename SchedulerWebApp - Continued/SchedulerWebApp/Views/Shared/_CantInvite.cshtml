@@ -1,0 +1,17 @@
+﻿@model SchedulerWebApp.Models.Event
+@{
+    ViewBag.Title = "_CantRespond";
+}
+<div class="col-md-offset-2 col-md-8">
+    <h2 class="text-center">Event has passed</h2>
+    <hr />
+
+    <div class="alert alert-danger" role="alert">
+        <p>
+            You can't invite participant to this event anymore. It already took place on @Model.EndDate.Day/@Model.EndDate.Month/@Model.EndDate.Year <br />
+            See click the button below for more event details
+        </p>
+        <br />
+        @Html.ActionLink("Event Details", "Details", "Events", new { id = Model.Id }, new { @class = "btn btn-primary" })
+    </div>
+</div>

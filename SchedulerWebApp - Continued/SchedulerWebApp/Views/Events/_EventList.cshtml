@@ -1,0 +1,6 @@
+﻿@model IEnumerable<SchedulerWebApp.Models.Event>
+
+@foreach (var item in Model)
+{
+    @Html.Partial("_Events", item)
+}

@@ -1,0 +1,19 @@
+﻿@model SchedulerWebApp.Models.Event
+@{
+    ViewBag.Title = "No events";
+}
+<hr />
+
+
+    <h2 class="text-center">Access denied!</h2>
+   
+
+    <div class="alert alert-danger text-center" role="alert">
+        <p>
+            You are not the organiser of this event. Only organiser can manage events.
+        </p>
+
+        <br />
+        @Html.ActionLink("Back to events", "Index", "Events", null, new { @class = "btn btn-primary " })
+    </div>
+

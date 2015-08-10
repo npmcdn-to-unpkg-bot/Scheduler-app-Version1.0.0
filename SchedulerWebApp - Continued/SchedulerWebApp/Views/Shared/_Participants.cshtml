@@ -1,0 +1,39 @@
+﻿@model IEnumerable<SchedulerWebApp.Models.Participant>
+
+<h3>Invitees</h3>
+
+<table class="table table-responsive table-condensed">
+    <tr>
+        <th class="col-sm-3">
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Availability)
+        </th>
+        <th class="col-sm-4">
+            @Html.DisplayNameFor(model => model.Comments)
+        </th>
+        <th class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Responce)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @(item.Availability ? "Available" : "Not available") 
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Comments)
+            </td>
+            <td>
+                @(item.Responce ? "Responded" : "No Response")
+            </td>
+        </tr>
+    }
+
+</table>

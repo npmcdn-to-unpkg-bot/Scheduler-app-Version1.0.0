@@ -1,0 +1,45 @@
+﻿@using System.Security.Claims
+@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    var identity = (ClaimsIdentity) User.Identity;
+    string name;
+    try
+    {
+        name = identity.FindFirst(ClaimTypes.GivenName).Value;
+    }
+    catch (Exception)
+    {
+        name = identity.GetUserName();
+    }
+
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "nav navbar-form navbar-right" }))
+    {
+        @Html.AntiForgeryToken()
+
+
+    <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><b class="glyphicon glyphicon-user"></b> Hello @name! <b class="caret"></b> </a>
+            <ul class="dropdown-menu">
+                <li>@Html.ActionLink("Manage Account", "Index", "Manage", null, new { title = "Manage" })</li>
+                <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+            </ul>
+        </li>
+
+        
+    </ul>
+    }
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">My Account <b class="caret"></b></a>
+            <ul class="dropdown-menu">
+                <li>@Html.ActionLink("Register", "Register", "Account", null, new { id = "registerLink" })</li>
+                <li>@Html.ActionLink("Log in", "Login", "Account", null, new { id = "loginLink" })</li>
+            </ul>
+        </li>
+    </ul>
+}

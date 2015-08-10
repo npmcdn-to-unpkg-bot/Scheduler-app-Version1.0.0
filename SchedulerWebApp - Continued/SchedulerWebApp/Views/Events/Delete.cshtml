@@ -1,0 +1,62 @@
+﻿@model SchedulerWebApp.Models.Event
+
+@{
+    ViewBag.Title = "Delete " + Model.Title;
+}
+<div class="col-md-8 col-md-offset-2">
+    <h2 class="text-danger">You are about to delete @Model.Title</h2>
+    <p>Are you sure?</p>
+    <hr/>
+    <div class="thumbnail">
+        <div class="caption">
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <div class="deleteEvent-div">
+                        <table class="borderless table table-condensed centered">
+                            <tbody>
+                                <tr>
+                                    <td class="col-sm-3">@Html.LabelFor(model => model.Title)</td>
+                                    <td class="col-sm-9">@Html.DisplayFor(model => model.Title)</td>
+                                </tr>
+                                <tr>
+                                    <td class="col-sm-3">@Html.LabelFor(model => model.Location)</td>
+                                    <td class="col-sm-9">@Html.DisplayFor(model => model.Location)</td>
+                                </tr>
+                                <tr>
+                                    <td class="col-sm-3">@Html.LabelFor(model => model.Description)</td>
+                                    <td class="col-sm-9">@Html.DisplayFor(model => model.Description)</td>
+                                </tr>
+                                <tr>
+                                    <td class="col-sm-3">@Html.LabelFor(model => model.StartDate)</td>
+                                    <td class="col-sm-9">@Html.DisplayFor(model => model.StartDate)</td>
+                                </tr>
+                                <tr>
+                                    <td class="col-sm-3">@Html.LabelFor(model => model.EndDate)</td>
+                                    <td class="col-sm-9">@Html.DisplayFor(model => model.EndDate)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div><!--Div details table Row-->
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <table class="table borderless centered margin-top">
+                    <tr>
+                        <td class="col-sm-6">
+                            <input type="submit" value="Confirm Delete" class="btn btn-primary btn-block" />
+                        </td>
+                        <td class="col-sm-6">
+                            @Html.ActionLink("Cancel", "Details", "Events", new { id = Model.Id }, new { @class = "btn btn-primary btn-block" })
+                        </td>
+                    </tr>
+                </table>
+            }
+        </div>
+    </div><!--Buttons table row-->
+</div><!-- Div content-->
