@@ -38,17 +38,18 @@ namespace SchedulerWebApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult SendEventsInvitation([Bind(Include = "ParticipantsEmails")] InvitationViewModel model,
-            int? id)
+        public ActionResult SendEventsInvitation([Bind(Include = "ParticipantsEmails,EventId")] InvitationViewModel model
+            /*int? id*/)
         {
+            var id = model.EventId;
             //check input values
             if (!ModelState.IsValid)
             {
-                return View(ReturnInvitationModel(id));
+                return View(ReturnInvitationModel(model.EventId));
             }
 
             // get event from database
-            var eventForInvitation = _db.Events.Find(id);
+            var eventForInvitation = _db.Events.Find(model.EventId);
 
 
             var todayDate = DateTime.UtcNow.Date;
@@ -121,6 +122,7 @@ namespace SchedulerWebApp.Controllers
             }
             //redirect to details
             return RedirectToAction("Details", "Events", new { id });
+
         }
 
         #endregion

@@ -22,7 +22,8 @@ namespace SchedulerWebApp.Models.ViewModels
         [Required]
         [ValidEmail]
         [Display(Name = "Email(s)")]
-        [DataType(DataType.MultilineText)]
+        [InvitedOnce("EventId")]
+        /*[DataType(DataType.MultilineText)]*/
         [Remote("CheckParticipantEmail", "Invitation", ErrorMessage = "This participant is already invited.",
             AdditionalFields = "EventId")]
         public string ParticipantsEmails { get; set; }

@@ -19,15 +19,30 @@ namespace SchedulerWebApp
                 "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
+                "~/Scripts/moment.js",
                 "~/Scripts/bootstrap.js",
-                "~/Scripts/bootstrap-datepicker.js",
                 "~/Scripts/respond.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/dateTimePicker").Include(
+                "~/Scripts/bootstrap-datetimepicker.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
+                     "~/Scripts/jquery-ui-{version}.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/tagIt").Include(
+                     "~/Scripts/tag-it.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/bootstrap.css",
-                "~/Content/datepicker.css",
-                "~/Content/site.css"
+                /*"~/Content/datepicker.css",*/
+                "~/Content/site.css",
+                "~/Content/bootstrap-datetimepicker.css"
                 /*"~/Content/business-casual.css"*/));
+
+            bundles.Add(new StyleBundle("~/Content/tagIt").Include(
+                "~/Content/jquery-ui-flick-themes.css", 
+                "~/Content/jquery.tagit.css"));
+
         }
     }
 }

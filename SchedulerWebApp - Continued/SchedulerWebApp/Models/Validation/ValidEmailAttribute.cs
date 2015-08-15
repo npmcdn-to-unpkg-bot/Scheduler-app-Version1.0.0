@@ -9,7 +9,9 @@ namespace SchedulerWebApp.Models.Validation
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            string enteredEmails = value != null ? value.ToString() : string.Empty;
+            string enteredEmails;
+            if (value != null) enteredEmails = value.ToString();
+            else enteredEmails = string.Empty;
 
             //split emails
             string[] emails = enteredEmails.Split(',');
@@ -37,5 +39,6 @@ namespace SchedulerWebApp.Models.Validation
                 return false;
             }
         }
+
     }
 }

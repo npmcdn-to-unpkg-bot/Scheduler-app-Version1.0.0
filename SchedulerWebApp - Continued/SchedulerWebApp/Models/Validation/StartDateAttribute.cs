@@ -19,13 +19,14 @@ namespace SchedulerWebApp.Models.Validation
             PropertyInfo propertyInfo = validationContext.ObjectType.GetProperty(CompareDate);
             object dateToCompare = propertyInfo.GetValue(validationContext.ObjectInstance);
 
-            DateTime startDate = dateToCompare is DateTime ? (DateTime)dateToCompare : new DateTime();
+            DateTime startDate = dateToCompare is DateTime ? (DateTime) dateToCompare : new DateTime();
 
             string dateString;
             DateTime dateTime;
             const string format = "d";
 
-            dateString = value != null ? String.Format("{0:d}", value) : string.Empty;
+            if (value != null) dateString = String.Format("{0:d}", value);
+            else dateString = string.Empty;
 
             /*var validDateformat = DateTime.TryParse(dateString, out dateTime);*/
 
