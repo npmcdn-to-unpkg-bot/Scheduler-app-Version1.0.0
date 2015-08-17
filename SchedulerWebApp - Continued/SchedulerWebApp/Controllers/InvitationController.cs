@@ -13,6 +13,7 @@ namespace SchedulerWebApp.Controllers
 {
     public class InvitationController : Controller
     {
+        private ContactsController _contactsController = new ContactsController();
         private readonly SchedulerDbContext _db = new SchedulerDbContext();
 
         #region Send Ivitation
@@ -30,34 +31,25 @@ namespace SchedulerWebApp.Controllers
                 return View("_NoAccess");
             }
 
-            var todayDate = DateTime.UtcNow.Date;
-            var eventsDate = @event.StartDate.Date;
-
-            bool hasPassed = eventsDate < todayDate;
-            return hasPassed ? View("_CantInvite", @event) : View(ReturnInvitationModel(id));
+            bool hasPassed = EventHasNotPassed(@event);
+            return !hasPassed ? View("_CantInvite", @event) : View(ReturnInvitationModel(id));
         }
 
         [HttpPost]
-        public ActionResult SendEventsInvitation([Bind(Include = "ParticipantsEmails,EventId")] InvitationViewModel model
-            /*int? id*/)
+        public ActionResult SendEventsInvitation([Bind(Include = "ParticipantsEmails,EventId")] InvitationViewModel model)
         {
             var id = model.EventId;
             //check input values
             if (!ModelState.IsValid)
             {
-                return View(ReturnInvitationModel(model.EventId));
+                return View(ReturnInvitationModel(id));
             }
 
             // get event from database
-            var eventForInvitation = _db.Events.Find(model.EventId);
+            var eventForInvitation = _db.Events.Find(id);
 
-
-            var todayDate = DateTime.UtcNow.Date;
-            var eventEndDate = eventForInvitation.EndDate.Date;
-
-            //check if event has happened
-            bool notPassed = todayDate <= eventEndDate;
-
+            //Check if invitations can still be sent
+            var notPassed = EventHasNotPassed(eventForInvitation);
             if (!notPassed)
             {
                 return View("_CantInvite", eventForInvitation);
@@ -67,6 +59,9 @@ namespace SchedulerWebApp.Controllers
             var user = _db.Users.Find(userid);
 
             List<string> emailList = model.ParticipantsEmails.Split(',').ToList();
+
+            var unsavedContacts = new List<Contact>();
+            bool v = false;
 
             //loop through emails
             foreach (var participantEmail in emailList)
@@ -84,7 +79,7 @@ namespace SchedulerWebApp.Controllers
                 _db.SaveChanges();
 
                 #region Create and send Email
-                    
+
                 //create email
                 var email = new EmailViewModel
                             {
@@ -119,14 +114,50 @@ namespace SchedulerWebApp.Controllers
                 // start participant list summary scheduler
                 var listScheduler = new ParticipantSummaryScheduler();
                 listScheduler.Start(eventId, user.FirstName, user.Email, listDate);
+
+
+                var contactEmails = _contactsController.GetUserContacts(GetUserId());
+                v = contactEmails.Any(c => c.Email == participantEmail);
+
+                //after sending email its time to save unsaved contacts
+                if (v)
+                {
+                    continue;
+                }
+                unsavedContacts.Add(new Contact { SchedulerUserId = userid, Email = participantEmail });
+
+                
+            }
+            if (!v)
+            {
+                //ask user to save in his contacts return view with list of unsaved contacts
+
+                //todo: use View model to take unsaved emails to the view and the take events id to view and back to contacts controller to search  the email and save it
+               
+                return View("unsavedContacts", unsavedContacts);
             }
             //redirect to details
             return RedirectToAction("Details", "Events", new { id });
 
         }
 
+        private string GetUserId()
+        {
+            return User.Identity.GetUserId();
+        }
+
+        private static bool EventHasNotPassed(Event eventForInvitation)
+        {
+            var todayDate = DateTime.UtcNow.Date;
+            var eventEndDate = eventForInvitation.EndDate.Date;
+
+            //check if event has happened
+            bool notPassed = todayDate < eventEndDate;
+            return notPassed;
+        }
+
         #endregion
-        
+
         #region No double Invitation
 
         public JsonResult CheckParticipantEmail(string participantsEmails, int eventId)

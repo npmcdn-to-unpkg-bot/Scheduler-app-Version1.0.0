@@ -12,14 +12,15 @@ namespace SchedulerWebApp.Models.DBContext
 
         protected override void Seed(SchedulerDbContext context)
         {
-            //User details
+
+            #region Seed User
             var admin = new SchedulerUser
-                        {
-                            FirstName = "Administrator",
-                            LastName = "Web Admin",
-                            Email = "admin@scheduler.com",
-                            UserName = "admin@scheduler.com"
-                        };
+                            {
+                                FirstName = "Administrator",
+                                LastName = "Web Admin",
+                                Email = "admin@scheduler.com",
+                                UserName = "admin@scheduler.com"                                         
+                            };
             var firstUser = new SchedulerUser
                              {
                                  FirstName = "FirstUser-Name",
@@ -34,19 +35,21 @@ namespace SchedulerWebApp.Models.DBContext
                                  LastName = "User",
                                  Email = "secondUser@mail.com",
                                  UserName = "secondUser@mail.com"
-                             };
+                             }; 
+            #endregion
 
             //some events
+            #region Seed Events
             var footballTournament = new Event
-                              {
-                                  Title = "Football tournament",
-                                  Description = "Winter indoor tournament is around the conner. Please let us know if you will take part this year!",
-                                  StartDate = new DateTime(2015, 03, 27),
-                                  EndDate = new DateTime(2015, 03, 28),
-                                  ReminderDate = new DateTime(2015, 03, 27),
-                                  ListDate = new DateTime(2015, 03, 28),
-                                  Location = "Some football hall"
-                              };
+                                  {
+                                      Title = "Football tournament",
+                                      Description = "Winter indoor tournament is around the conner. Please let us know if you will take part this year!",
+                                      StartDate = new DateTime(2015, 09, 27),
+                                      EndDate = new DateTime(2015, 09, 28),
+                                      ReminderDate = new DateTime(2015, 09, 27),
+                                      ListDate = new DateTime(2015, 09, 28),
+                                      Location = "Some football hall"
+                                  };
             var newYearParty = new Event
                                 {
                                     Title = "New year party",
@@ -64,14 +67,14 @@ namespace SchedulerWebApp.Models.DBContext
                                    Description = "Do you have knowledge or want to learn on asp.net? " +
                                                  "asp.net developers will be meeting to exchange ideas, " +
                                                  "Let us know if you will be joining us",
-                                   StartDate = new DateTime(2015, 03, 20),
-                                   EndDate = new DateTime(2015, 03, 20),
-                                   ReminderDate = new DateTime(2015, 03, 10),
-                                   ListDate = new DateTime(2015, 03, 13),
+                                   StartDate = new DateTime(2015, 09, 20),
+                                   EndDate = new DateTime(2015, 09, 20),
+                                   ReminderDate = new DateTime(2015, 09, 10),
+                                   ListDate = new DateTime(2015, 09, 13),
                                    Location = "Developers Hall"
-                               };
-
-
+                               }; 
+            #endregion
+            
             if (!context.Users.Any(u => u.UserName == "admin@scheduler.com"))
             {
                 var userStore = new UserStore<SchedulerUser>(context);
@@ -92,6 +95,30 @@ namespace SchedulerWebApp.Models.DBContext
                 userManager.AddClaim(secondUser.Id, new Claim(ClaimTypes.GivenName, secondUser.FirstName));
             }
 
+            #region seed Contacts
+
+            var firstContact = new Contact()
+                               {
+                                   ContactId = 1,
+                                   FirstName = "Hans",
+                                   LastName = "Muster",
+                                   Email = "hansMuster@email.com",
+                                   PhoneNumber = "0761234567",
+                                   SchedulerUserId = admin.Id
+                               };
+
+            var secondContact = new Contact
+                                {
+                                    ContactId = 2,
+                                    FirstName = "TestUser",
+                                    LastName = "LastName",
+                                    Email = "testUser@email.com",
+                                    PhoneNumber = "0761234567",
+                                    SchedulerUserId = admin.Id
+                                };
+            
+            #endregion
+
             footballTournament.SchedulerUserId = firstUser.Id;
             newYearParty.SchedulerUserId = firstUser.Id;
             aspNetCoding.SchedulerUserId = secondUser.Id;
@@ -99,6 +126,9 @@ namespace SchedulerWebApp.Models.DBContext
             context.Events.Add(newYearParty);
             context.Events.Add(footballTournament);
             context.Events.Add(aspNetCoding);
+
+            context.Contacts.Add(firstContact);
+            context.Contacts.Add(secondContact);
 
             context.SaveChanges();
 

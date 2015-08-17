@@ -13,6 +13,7 @@ namespace SchedulerWebApp.Models.DBContext
 
         public virtual DbSet<Event> Events { get; set; }
         public virtual DbSet<Participant> Participants { get; set; }
+        public  virtual DbSet<Contact> Contacts { get; set; }
 
         public static SchedulerDbContext Create()
         {

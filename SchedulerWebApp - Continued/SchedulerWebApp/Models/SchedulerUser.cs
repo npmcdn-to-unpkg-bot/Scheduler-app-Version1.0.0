@@ -12,6 +12,7 @@ namespace SchedulerWebApp.Models
         public string LastName { get; set; }
 
         public virtual List<Event> Events { get; set; }
+        public virtual List<Contact> Contacts { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<SchedulerUser> manager)
         {
