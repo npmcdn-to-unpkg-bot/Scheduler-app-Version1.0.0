@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 using SchedulerWebApp.Models;
 using SchedulerWebApp.Models.DBContext;
@@ -60,8 +61,9 @@ namespace SchedulerWebApp.Controllers
 
             List<string> emailList = model.ParticipantsEmails.Split(',').ToList();
 
-            var unsavedContacts = new List<Contact>();
-            bool v = false;
+            var unsavedContacts = new UnsavedContactViewModel();
+            bool allSaved = false;
+            var contacts = new List<Contact>();
 
             //loop through emails
             foreach (var participantEmail in emailList)
@@ -117,29 +119,36 @@ namespace SchedulerWebApp.Controllers
 
 
                 var contactEmails = _contactsController.GetUserContacts(GetUserId());
-                v = contactEmails.Any(c => c.Email == participantEmail);
+                allSaved = contactEmails.Any(c => c.Email == participantEmail);
 
                 //after sending email its time to save unsaved contacts
-                if (v)
+                if (allSaved)
                 {
                     continue;
                 }
-                unsavedContacts.Add(new Contact { SchedulerUserId = userid, Email = participantEmail });
-
-                
+                var contact = new Contact {Email = participantEmail};
+                contacts.Add(contact);
+                unsavedContacts.Contacts = contacts;
             }
-            if (!v)
+            if (!allSaved)
             {
                 //ask user to save in his contacts return view with list of unsaved contacts
-
-                //todo: use View model to take unsaved emails to the view and the take events id to view and back to contacts controller to search  the email and save it
-               
-                return View("unsavedContacts", unsavedContacts);
+                unsavedContacts.EventId = eventForInvitation.Id;
+                TempData["model"] = unsavedContacts;
+                return RedirectToAction("SaveEmails");
             }
             //redirect to details
             return RedirectToAction("Details", "Events", new { id });
 
         }
+
+        public ActionResult SaveEmails()
+        {
+            var viewmodel = (UnsavedContactViewModel)TempData["model"];
+            return View("unsavedContacts", viewmodel);
+        }
+
+
 
         private string GetUserId()
         {
@@ -152,7 +161,7 @@ namespace SchedulerWebApp.Controllers
             var eventEndDate = eventForInvitation.EndDate.Date;
 
             //check if event has happened
-            bool notPassed = todayDate < eventEndDate;
+            bool notPassed = todayDate <= eventEndDate;
             return notPassed;
         }
 

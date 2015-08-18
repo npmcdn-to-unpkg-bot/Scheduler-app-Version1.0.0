@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using SchedulerWebApp.Models;
 using SchedulerWebApp.Models.DBContext;
+using SchedulerWebApp.Models.ViewModels;
 
 namespace SchedulerWebApp.Controllers
 {
@@ -60,9 +61,32 @@ namespace SchedulerWebApp.Controllers
             return View(contact);
         }
 
-        public ActionResult AddUnsaved(Contact contact)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddUnsaved(UnsavedContactViewModel model)
         {
-            return View("Create", contact);
+            if (!ModelState.IsValid)
+            {
+                return View("unsavedContacts", model);
+            }
+            var contacts = model.Contacts;
+
+            foreach (var c in contacts)
+            {
+                var newContact = new Contact
+                                 {
+                                     FirstName = c.FirstName,
+                                     LastName = c.LastName,
+                                     Email = c.Email,
+                                     PhoneNumber = c.PhoneNumber
+                                 };
+
+                GetUserContacts(GetCurrentUserId()).Add(newContact);
+                _db.SaveChanges();
+
+            }
+
+            return RedirectToAction("Index");
         }
 
         // GET: Contacts/Edit/5

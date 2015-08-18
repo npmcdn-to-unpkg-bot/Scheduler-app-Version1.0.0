@@ -1,0 +1,81 @@
+﻿@model SchedulerWebApp.Models.ViewModels.UnsavedContactViewModel
+
+
+@using (Html.BeginForm("AddUnsaved", "Contacts", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    var eventId = Model.EventId;
+
+    <div class="row">
+        <table class="table borderless table-condensed">
+            <colgroup>
+                <col class="col-sm-4" />
+                <col class="col-sm-4" />
+                <col class="col-sm-4" />
+            </colgroup>
+            <tr>
+                <td></td>
+                <td>
+                    <div class="alert alert-success" role="alert">
+                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                        Invitations were successfully sent.
+                    </div>
+                </td>
+                <td></td>
+            </tr>
+        </table>
+
+    </div>
+
+    <h4>Save unsaved emails</h4>
+
+    <table class="table borderless table-condensed">
+        <colgroup>
+            <col class="col-sm-3" />
+            <col class="col-sm-3" />
+            <col class="col-sm-3" />
+            <col class="col-sm-3" />
+        </colgroup>
+
+        <tbody>
+
+            @for (var i = 0; i < Model.Contacts.Count(); i++)
+            {
+            <tr>
+                <td>
+                    @Html.EditorFor(model => Model.Contacts[i].Email, new { htmlAttributes = new { @class = "form-control", placeholder = "Email" } })
+                    @Html.ValidationMessageFor(model => Model.Contacts[i].Email, "", new { @class = "text-danger" })
+                </td>
+                <td>
+                    @Html.EditorFor(model => Model.Contacts[i].FirstName, new { htmlAttributes = new { @class = "form-control", placeholder ="First Name" } })
+                    @Html.ValidationMessageFor(model => Model.Contacts[i].FirstName, "", new { @class = "text-danger" })
+                </td>
+                <td>
+                    @Html.EditorFor(model => Model.Contacts[i].LastName, new { htmlAttributes = new { @class = "form-control", placeholder = "Last Name" } })
+                    @Html.ValidationMessageFor(model => Model.Contacts[i].LastName, "", new { @class = "text-danger" })
+                </td>
+                <td>
+                    @Html.EditorFor(model => Model.Contacts[i].PhoneNumber, new { htmlAttributes = new { @class = "form-control",placeholder ="Phone Number" } })
+                    @Html.ValidationMessageFor(model => Model.Contacts[i].PhoneNumber, "", new { @class = "text-danger" })
+                </td>
+
+                @*  <td>
+                        @Html.ActionLink("Add", "AddUnsaved", "Contacts", new { email = item.Email }, null) |
+                    </td>*@
+            </tr>
+            }
+            <tr>
+                <td></td>
+                <td>@Html.EditorFor(m => m.EventId, new { htmlAttributes = new { @class = "hidden" } })</td>
+                <td>
+                    @Html.ActionLink("Cancel", "Details", "Events", new { id = eventId }, new { @class = "btn btn-primary btn-block" })
+                </td>
+                <td>
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </td>
+            </tr>
+        </tbody>
+    </table>
+}
