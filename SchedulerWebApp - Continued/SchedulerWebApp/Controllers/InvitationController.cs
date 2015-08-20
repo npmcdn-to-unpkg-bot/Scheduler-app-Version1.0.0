@@ -58,14 +58,14 @@ namespace SchedulerWebApp.Controllers
 
             var userid = User.Identity.GetUserId();
             var user = _db.Users.Find(userid);
-
-            List<string> emailList = model.ParticipantsEmails.Split(',').ToList();
-
+            
             var unsavedContacts = new UnsavedContactViewModel();
             bool allSaved = false;
             var contacts = new List<Contact>();
 
             //loop through emails
+            var emailList = model.ParticipantsEmails.Split(',').ToList();
+
             foreach (var participantEmail in emailList)
             {
                 //create new participant 
