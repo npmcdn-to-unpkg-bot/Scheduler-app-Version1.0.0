@@ -9,7 +9,7 @@ namespace SchedulerWebApp.Controllers
         const string SenderName = "scheduleasy.com";
         const string SenderEmail = "no-reply@scheduleasy.com";
 
-        public EmailResult DeliverEmail(EmailViewModel model, string emailTemplate)
+        public EmailResult DeliverEmail(InvitationEmail model, string emailTemplate)
         {
             //email Method
             SetMailMethod(MailMethod.SMTP);

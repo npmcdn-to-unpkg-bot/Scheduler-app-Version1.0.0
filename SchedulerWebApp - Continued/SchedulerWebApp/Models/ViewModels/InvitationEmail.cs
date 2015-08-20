@@ -1,8 +1,9 @@
 ﻿using System;
+using Postal;
 
 namespace SchedulerWebApp.Models.ViewModels
 {
-    public class EmailViewModel
+    public class InvitationEmail : Email
     {
         public int EventsId { get; set; }
         public string EventTitle { get; set; }

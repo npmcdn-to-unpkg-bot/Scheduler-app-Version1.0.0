@@ -225,7 +225,7 @@
     <Compile Include="Models\Validation\ValidDateAttribute.cs" />
     <Compile Include="Models\Validation\ValidEmailAttribute.cs" />
     <Compile Include="Models\ViewModels\ContactViewModel.cs" />
-    <Compile Include="Models\ViewModels\EmailViewModel.cs" />
+    <Compile Include="Models\ViewModels\InvitationEmail.cs" />
     <Compile Include="Models\ViewModels\InvitationViewModel.cs" />
     <Compile Include="Models\ViewModels\ParticipantListViewModel.cs" />
     <Compile Include="Models\ViewModels\ResponseViewModel.cs" />

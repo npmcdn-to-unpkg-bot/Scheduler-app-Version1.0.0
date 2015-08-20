@@ -24,7 +24,7 @@ namespace SchedulerWebApp.Models.Service
             foreach (var participant in participants)
             {
                 //create email
-                var email = new EmailViewModel
+                var email = new InvitationEmail
                             {
                                 EventsId = @event.Id,
                                 EventTitle = @event.Title,

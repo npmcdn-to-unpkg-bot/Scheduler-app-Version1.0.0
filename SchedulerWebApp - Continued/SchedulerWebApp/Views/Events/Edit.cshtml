@@ -37,7 +37,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.StartDate, new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control", id = "datePickerStart" } })
                     @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -45,7 +45,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.EndDate, new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control", id = "datePickerEnd" } })
                     @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -53,7 +53,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.ReminderDate, new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.ReminderDate, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.ReminderDate, new { htmlAttributes = new { @class = "form-control", id = "datePickerRemainder" } })
                     @Html.ValidationMessageFor(model => model.ReminderDate, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -61,7 +61,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.ListDate, new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.ListDate, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.ListDate, new { htmlAttributes = new { @class = "form-control", id = "datePickerList" } })
                     @Html.ValidationMessageFor(model => model.ListDate, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -86,24 +86,63 @@
 </div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/dateTimePicker")
 
-<script type="text/javascript">
+    <script type="text/javascript">
         $(function () {
 
-            if (!Modernizr.inputtypes.date) {
-                $("input[type='date']").datepicker({
-                    format: "dd.mm.yyyy",
-                    todayBtn: "linked",
-                    orientation: "top left",
-                    calendarWeeks: true,
-                    autoclose: true,
-                    todayHighlight: true
+
+            $('#datePickerStart').datetimepicker({ format: "DD.MM.YYYY" });
+            $('#datePickerEnd').datetimepicker({
+                format: "DD.MM.YYYY",
+                useCurrent: true
+            });
+
+            linkStartAndEndDates();
+
+            linkThreeDatesElements("datePickerStart", "datePickerEnd", "datePickerRemainder");
+
+            linkThreeDatesElements("datePickerRemainder", "datePickerEnd", "datePickerList");
+
+
+            function linkStartAndEndDates() {
+                $('#datePickerStart').on("dp.change", function (e) {
+                    $('#datePickerEnd').data("DateTimePicker").minDate(e.date);
+                });
+
+                $('#datePickerEnd').on("dp.change", function (e) {
+
+                    var originalMaxDate = e.date;
+                    var newMax = new Date(originalMaxDate);
+                    newMax.setDate(newMax.getDate() + 365);
+
+                    var startMaxDate = newMax;
+
+                    $('#datePickerStart').data("DateTimePicker").maxDate(startMaxDate);
                 });
             }
-            $.validator.addMethod('date', function (value, element) {
-                var d = new Date();
-                return this.optional(element) || !/Invalid|NaN/.test(new Date(d.toLocaleDateString(value)));
-            });
+
+            function linkThreeDatesElements(minDateElementId, maxDateElementId, dateElementId) {
+                var minDate = '#' + minDateElementId, maxDate = '#' + maxDateElementId, date = '#' + dateElementId;
+
+                $(minDate).on("dp.change", function (e) {
+                    $(date).data("DateTimePicker").minDate(e.date);
+                });
+
+                $(maxDate).on("dp.change", function (e) {
+                    $(date).data("DateTimePicker").maxDate(e.date);
+                });
+
+                $(date).datetimepicker({
+                    format: "DD.MM.YYYY"
+                });
+            }
         });
-</script>
+
+        $.validator.addMethod('date', function (value, element) {
+            var d = new Date();
+            return this.optional(element) || !/Invalid|NaN/.test(new Date(d.toLocaleDateString(value)));
+        });
+
+    </script>
 }

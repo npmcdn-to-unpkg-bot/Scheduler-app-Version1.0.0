@@ -83,7 +83,7 @@ namespace SchedulerWebApp.Controllers
                 #region Create and send Email
 
                 //create email
-                var email = new EmailViewModel
+                var email = new InvitationEmail
                             {
                                 EventsId = eventForInvitation.Id,
                                 EventTitle = eventForInvitation.Title,

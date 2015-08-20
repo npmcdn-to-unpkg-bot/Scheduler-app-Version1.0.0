@@ -33,7 +33,7 @@ namespace SchedulerWebApp.Models.Service
             foreach (var participant in noResponseParticipants)
             {
                 //create email
-                var email = new EmailViewModel
+                var email = new InvitationEmail
                             {
                                 EventsId = @event.Id,
                                 EventTitle = @event.Title,

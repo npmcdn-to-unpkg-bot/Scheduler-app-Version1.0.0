@@ -8,11 +8,11 @@ namespace SchedulerWebApp.Models.Service
     {
         public void Start(DateTime remindDate, int eventId, string senderName, string senderEmail)
         {
-            //intialize scheduler ans start it
+            //initialize scheduler ans start it
             IScheduler scheduler = StdSchedulerFactory.GetDefaultScheduler();
             scheduler.Start();
 
-            //create job to be perfomed
+            //create job to be performed
             IJobDetail job = JobBuilder.Create<ReminderJob>()
                                        .UsingJobData("eventId",eventId)
                                        .UsingJobData("senderName",senderName)
