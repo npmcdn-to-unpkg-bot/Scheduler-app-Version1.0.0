@@ -394,6 +394,8 @@
     <Content Include="Views\Contacts\Index.cshtml" />
     <Content Include="Views\Shared\unsavedContacts.cshtml" />
     <Content Include="Views\Emails\Invitation.cshtml" />
+    <Content Include="Views\Emails\EmailInfoChange.cshtml" />
+    <Content Include="Views\Emails\Cancellation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

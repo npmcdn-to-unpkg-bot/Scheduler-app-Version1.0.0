@@ -7,6 +7,8 @@
         public string OrganizerName { get; set; }
         public string OrganizerEmail { get; set; }
         public string ParticipantEmail { get; set; }
-        public string ResponseUrlString { get; set; }
+        public string EmailSubject { get; set; }
+        public string ResponseUrl { get; set; }
+        public string EventDetailsUrl { get; set; }
     }
 }

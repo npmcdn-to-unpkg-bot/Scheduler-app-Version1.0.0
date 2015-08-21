@@ -91,8 +91,7 @@ namespace SchedulerWebApp.Controllers
                                                        .Select(p => p.Id)
                                                        .FirstOrDefault();
 
-                var responseUrl = Url.Action("Response", "Response",
-                    new RouteValueDictionary(new {id = eventForInvitation.Id, pId = participantId}), "https");
+                var responseUrl = Url.Action("Response", "Response", new RouteValueDictionary(new { id = eventForInvitation.Id, pId = participantId }), "https");
 
                 var emailInfo = new EmailInformation
                                 {
@@ -101,11 +100,11 @@ namespace SchedulerWebApp.Controllers
                                     OrganizerName = organizerFirstName,
                                     ParticipantId = participantId,
                                     ParticipantEmail = participantEmail,
-                                    ResponseUrlString = responseUrl
+                                    ResponseUrl = responseUrl
                                 };
 
                 //create email
-                PostalEmailManager.SendInvitationEmail(emailInfo);
+                PostalEmailManager.SendEmail(emailInfo, new InvitationEmail());
 
                 //Send email
                 //new EmailDeliveryController().DeliverEmail(email, "InvitationEmail").Deliver();
@@ -123,7 +122,7 @@ namespace SchedulerWebApp.Controllers
 
                 // start participant list summary scheduler
                 var listScheduler = new ParticipantSummaryScheduler();
-                listScheduler.Start(eventId, user.FirstName, user.Email, listDate); 
+                listScheduler.Start(eventId, user.FirstName, user.Email, listDate);
                 #endregion
 
 

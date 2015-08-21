@@ -1,7 +1,4 @@
-﻿/*
- * Because Postal Doesn't support email Layouts, There are almost simmilar code  
- */
-using System.IO;
+﻿using System.IO;
 using System.Web.Hosting;
 using System.Web.Mvc;
 using Postal;
@@ -14,14 +11,54 @@ namespace SchedulerWebApp.Models.PostalEmail
 
         public static void SendInvitationEmail(EmailInformation emailInfo)
         {
-            var email = ComposeEmail(emailInfo);
-
+            var email = ComposeEmail(emailInfo, new InvitationEmail());
             SendCorespondingEmail(email);
         }
 
-        private static InvitationEmail ComposeEmail(EmailInformation emailInfo)
+        public static void SendChangeInfoEmail(EmailInformation emailInfo)
         {
-            var email = new InvitationEmail
+            var email = ComposeEmail(emailInfo, new EmailInfoChangeEmail());
+            SendCorespondingEmail(email);
+        }
+
+        public static void SendCancellationEmail(EmailInformation emailInfo)
+        {
+            var email = ComposeEmail(emailInfo, new CancellationEmail());
+            SendCorespondingEmail(email);
+        }
+
+        public static void SendEmail(EmailInformation emailInfo, object newEmailObject)
+        {
+            var email = ComposeEmail(emailInfo, newEmailObject);
+            SendCorespondingEmail(email);
+        }
+
+        private static Email ComposeEmail(EmailInformation emailInfo, object newEmailObject)
+        {
+            Email email = null;
+
+            if (newEmailObject.GetType() == typeof(InvitationEmail))
+            {
+                email = new InvitationEmail
+                       {
+                           EventsId = emailInfo.CurrentEvent.Id,
+                           EventTitle = emailInfo.CurrentEvent.Title,
+                           EventLocation = emailInfo.CurrentEvent.Location,
+                           StartDate = emailInfo.CurrentEvent.StartDate,
+                           GetListDate = emailInfo.CurrentEvent.ListDate,
+                           ParticipantId = emailInfo.ParticipantId,
+                           ReceiverEmail = emailInfo.ParticipantEmail,
+                           OrganizerName = emailInfo.OrganizerName,
+                           OrganizerEmail = emailInfo.OrganizerEmail,
+                           SenderEmail = "aim_ahmad@hotmail.com",
+                           EmailSubject = emailInfo.CurrentEvent.Title + emailInfo.EmailSubject,
+                           ResponseUrl = emailInfo.ResponseUrl
+                       };
+
+            }
+            else if (newEmailObject.GetType() == typeof(EmailInfoChangeEmail))
+            {
+                email = new EmailInfoChangeEmail
                         {
                             EventsId = emailInfo.CurrentEvent.Id,
                             EventTitle = emailInfo.CurrentEvent.Title,
@@ -33,14 +70,34 @@ namespace SchedulerWebApp.Models.PostalEmail
                             OrganizerName = emailInfo.OrganizerName,
                             OrganizerEmail = emailInfo.OrganizerEmail,
                             SenderEmail = "aim_ahmad@hotmail.com",
-                            EmailSubject = "Invitation to " + emailInfo.CurrentEvent.Title,
-                            ResponseUrl = emailInfo.ResponseUrlString
+                            EmailSubject = emailInfo.CurrentEvent.Title + emailInfo.EmailSubject,
+                            ResponseUrl = emailInfo.ResponseUrl,
+                            EventDetailsUrl = emailInfo.EventDetailsUrl
                         };
+            }
+            else if (newEmailObject.GetType() == typeof(CancellationEmail))
+            {
+                email = new CancellationEmail
+                        {
+                            EventsId = emailInfo.CurrentEvent.Id,
+                            EventTitle = emailInfo.CurrentEvent.Title,
+                            EventLocation = emailInfo.CurrentEvent.Location,
+                            StartDate = emailInfo.CurrentEvent.StartDate,
+                            GetListDate = emailInfo.CurrentEvent.ListDate,
+                            ParticipantId = emailInfo.ParticipantId,
+                            ReceiverEmail = emailInfo.ParticipantEmail,
+                            OrganizerName = emailInfo.OrganizerName,
+                            OrganizerEmail = emailInfo.OrganizerEmail,
+                            SenderEmail = "aim_ahmad@hotmail.com",
+                            EmailSubject = emailInfo.CurrentEvent.Title + emailInfo.EmailSubject,
+                        };
+            }
+
+
             return email;
         }
 
-
-        private static void SendCorespondingEmail(InvitationEmail email)
+        private static void SendCorespondingEmail(Email email)
         {
             // ReSharper disable once AssignNullToNotNullAttribute
             var viewpath = Path.GetFullPath(HostingEnvironment.MapPath(@"~/Views/Emails"));
@@ -51,13 +108,10 @@ namespace SchedulerWebApp.Models.PostalEmail
             emailService.Send(email);
         }
 
-        //send invitation
 
         //create Event cancellation Email 
         //send cancellation
 
-        //create Event changed Email 
-        //send changed
 
         //create remainder Email 
         //send remainder

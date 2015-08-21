@@ -4,9 +4,11 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using System.Web.Routing;
 using Microsoft.AspNet.Identity;
 using SchedulerWebApp.Models;
 using SchedulerWebApp.Models.DBContext;
+using SchedulerWebApp.Models.PostalEmail;
 using SchedulerWebApp.Models.Service;
 
 namespace SchedulerWebApp.Controllers
@@ -179,13 +181,46 @@ namespace SchedulerWebApp.Controllers
                 _db.Entry(eventToEdit).State = EntityState.Modified;
                 _db.SaveChanges();
 
-                //get user 
-                var userId = User.Identity.GetUserId();
-                var user = _db.Users.Find(userId);
+                //Get Participants
+                var currentEvent = _db.Events
+                            .Where(e => e.Id == eventToEdit.Id)
+                            .Include(e => e.Participants)
+                            .FirstOrDefault();
+
+                if (currentEvent == null)
+                {
+                    return View("Error");
+                }
+
+                var participants = currentEvent.Participants.ToList();
+
+                var user = GetUser();
+                var detailsUrl = Url.Action("Details", "Response", new RouteValueDictionary(new { id = currentEvent.Id }), "https");
+                var responseUrl = Url.Action("Details", "Response", new RouteValueDictionary(new { id = currentEvent.Id }), "https");
+
+
+                foreach (var participant in participants)
+                {
+                    var pId = participant.Id;
+                    var emailInfo = new EmailInformation
+                                    {
+                                        CurrentEvent = currentEvent,
+                                        OrganizerName = user.FirstName,
+                                        OrganizerEmail = user.UserName,
+                                        ParticipantId = pId,
+                                        ParticipantEmail = participant.Email,
+                                        EmailSubject = " changes.",
+                                        ResponseUrl = responseUrl,
+                                        EventDetailsUrl = detailsUrl
+                                    };
+
+                    //Notify Participant using postal
+                    PostalEmailManager.SendEmail(emailInfo, new EmailInfoChangeEmail());
+                }
 
                 //Notify participants of the changes
-                var emailDelivery = new EmailDelivery();
-                emailDelivery.SendInfoEmail(eventToEdit.Id, user.FirstName, user.UserName, "has been modified", "EditedEventInfo");
+                //var emailDelivery = new EmailDelivery();
+                //emailDelivery.SendInfoEmail(eventToEdit.Id, user.FirstName, user.UserName, "has been modified", "EditedEventInfo");
 
                 return RedirectToAction("Index");
             }
@@ -217,18 +252,41 @@ namespace SchedulerWebApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            var user = GetUser();
             var @event = GetUserEvents().Find(e => e.Id == id);
+
 
             //if event hasn't occured notify users of cancellation
             if (EventHasNotOccured(@event))
             {
-                //get user 
-                var userId = User.Identity.GetUserId();
-                var user = _db.Users.Find(userId);
+                var currentEvent = _db.Events.Where(e => e.Id == @event.Id)
+                                    .Include(e => e.Participants).FirstOrDefault();
+
+                if (currentEvent == null)
+                {
+                    return View("error");
+                }
+                var participants = currentEvent.Participants.ToList();
+
+                foreach (var participant in participants)
+                {
+                    var emailInfo = new EmailInformation
+                                    {
+                                        CurrentEvent = @event,
+                                        OrganizerEmail = user.UserName,
+                                        OrganizerName = user.FirstName,
+                                        EmailSubject = " cancellation",
+                                        ParticipantEmail = participant.Email,
+                                        ParticipantId = participant.Id
+                                    };
+                    PostalEmailManager.SendEmail(emailInfo, new CancellationEmail());
+                }
+
+
 
                 //Notify participant of the cancellation
-                var emailDelivery = new EmailDelivery();
-                emailDelivery.SendInfoEmail(id, user.FirstName, user.UserName, "have been cancelled", "DeletedEventInfo");
+                //var emailDelivery = new EmailDelivery();
+                //emailDelivery.SendInfoEmail(@event.Id, user.FirstName, user.UserName, "have been cancelled", "DeletedEventInfo");
 
             }
 
@@ -237,12 +295,19 @@ namespace SchedulerWebApp.Controllers
             return RedirectToAction("Index");
         }
 
+        private SchedulerUser GetUser()
+        {
+            var userId = User.Identity.GetUserId();
+            var user = _db.Users.Find(userId);
+            return user;
+        }
+
         #endregion
 
         public List<Event> GetUserEvents()
         {
-            var currentUser = User.Identity.GetUserId();
-            var userEvents = _db.Users.Single(u => u.Id==currentUser).Events;
+            var currentUser = GetUser().Id;
+            var userEvents = _db.Users.Single(u => u.Id == currentUser).Events;
             return userEvents;
         }
 

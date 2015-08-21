@@ -20,5 +20,6 @@ namespace SchedulerWebApp.Models.PostalEmail
         public string OrganizerName { get; set; }
         public string OrganizerEmail { get; set; }
         public string ResponseUrl { get; set; }
+        public string EventDetailsUrl { get; set; }
     }
 }

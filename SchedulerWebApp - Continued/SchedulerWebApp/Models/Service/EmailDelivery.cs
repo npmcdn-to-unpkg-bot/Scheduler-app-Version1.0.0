@@ -38,11 +38,11 @@ namespace SchedulerWebApp.Models.Service
                                 StartDate = @event.StartDate,
                                 GetListDate = @event.ListDate,
                                 ParticipantId = participantId,
+                                ReceiverEmail = participant.Email,
                                 SenderName = "scheduleasy.com",
                                 SenderEmail = "no-reply@scheduleasy.com",
                                 OrganizerName = organizerName,
                                 OrganizerEmail = organizerEmail,
-                                ReceiverEmail = participant.Email,
                                 EmailSubject = @event.Title + " " + emailSubject
                             };
 
