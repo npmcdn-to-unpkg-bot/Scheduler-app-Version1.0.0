@@ -1,5 +1,6 @@
 ﻿using System.Net.Mail;
 using ActionMailerNext.Mvc5_2;
+using SchedulerWebApp.Models.PostalEmail;
 using SchedulerWebApp.Models.ViewModels;
 
 namespace SchedulerWebApp.Controllers

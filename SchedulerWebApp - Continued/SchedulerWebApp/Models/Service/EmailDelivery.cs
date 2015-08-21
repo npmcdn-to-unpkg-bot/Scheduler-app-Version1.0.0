@@ -2,6 +2,7 @@
 using System.Linq;
 using SchedulerWebApp.Controllers;
 using SchedulerWebApp.Models.DBContext;
+using SchedulerWebApp.Models.PostalEmail;
 using SchedulerWebApp.Models.ViewModels;
 
 namespace SchedulerWebApp.Models.Service
@@ -23,17 +24,20 @@ namespace SchedulerWebApp.Models.Service
 
             foreach (var participant in participants)
             {
+                var participantId = @event.Participants
+                                          .Where(p => p.Email == participant.Email)
+                                          .Select(p => p.Id)
+                                          .FirstOrDefault();
+
                 //create email
-                var email = new InvitationEmail
+                var email = new CancellationEmail
                             {
                                 EventsId = @event.Id,
                                 EventTitle = @event.Title,
                                 EventLocation = @event.Location,
                                 StartDate = @event.StartDate,
                                 GetListDate = @event.ListDate,
-                                ParticipantId = @event.Participants.Where(p => p.Email == participant.Email)
-                                    .Select(p => p.Id)
-                                    .FirstOrDefault(),
+                                ParticipantId = participantId,
                                 SenderName = "scheduleasy.com",
                                 SenderEmail = "no-reply@scheduleasy.com",
                                 OrganizerName = organizerName,
@@ -47,9 +51,9 @@ namespace SchedulerWebApp.Models.Service
             }
         }
 
-        public void SendContactFormulaEmail(ContactViewModel model,string emailTemplate)
+        public void SendContactFormulaEmail(ContactViewModel model, string emailTemplate)
         {
-            var email = new ContactViewModel()
+            var email = new ContactViewModel
                         {
                             SenderFistName = model.SenderFistName,
                             SenderLastName = model.SenderLastName,
@@ -60,7 +64,5 @@ namespace SchedulerWebApp.Models.Service
             new EmailDeliveryController().DeliverContactFormula(email, emailTemplate).Deliver();
         }
 
-        
-        
     }
 }

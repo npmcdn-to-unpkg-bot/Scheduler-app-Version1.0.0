@@ -1,4 +1,5 @@
-﻿using Microsoft.Owin;
+﻿using Hangfire;
+using Microsoft.Owin;
 using Owin;
 using SchedulerWebApp;
 
@@ -10,6 +11,9 @@ namespace SchedulerWebApp
     {
         public void Configuration(IAppBuilder app)
         {
+            GlobalConfiguration.Configuration.UseSqlServerStorage("DefaultConnection");
+            app.UseHangfireDashboard();
+
             ConfigureAuth(app);
         }
     }

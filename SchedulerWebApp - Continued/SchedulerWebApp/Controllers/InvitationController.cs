@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
-using Microsoft.Ajax.Utilities;
+using System.Web.Routing;
 using Microsoft.AspNet.Identity;
 using SchedulerWebApp.Models;
 using SchedulerWebApp.Models.DBContext;
+using SchedulerWebApp.Models.PostalEmail;
 using SchedulerWebApp.Models.Service;
 using SchedulerWebApp.Models.ViewModels;
 
@@ -58,7 +59,7 @@ namespace SchedulerWebApp.Controllers
 
             var userid = User.Identity.GetUserId();
             var user = _db.Users.Find(userid);
-            
+
             var unsavedContacts = new UnsavedContactViewModel();
             bool allSaved = false;
             var contacts = new List<Contact>();
@@ -82,26 +83,32 @@ namespace SchedulerWebApp.Controllers
 
                 #region Create and send Email
 
+                var organizerFirstName = user.FirstName;
+                var organizerEmail = user.Email;
+
+                var participantId = eventForInvitation.Participants
+                                                       .Where(p => p.Email == participantEmail)
+                                                       .Select(p => p.Id)
+                                                       .FirstOrDefault();
+
+                var responseUrl = Url.Action("Response", "Response",
+                    new RouteValueDictionary(new {id = eventForInvitation.Id, pId = participantId}), "https");
+
+                var emailInfo = new EmailInformation
+                                {
+                                    CurrentEvent = eventForInvitation,
+                                    OrganizerEmail = organizerEmail,
+                                    OrganizerName = organizerFirstName,
+                                    ParticipantId = participantId,
+                                    ParticipantEmail = participantEmail,
+                                    ResponseUrlString = responseUrl
+                                };
+
                 //create email
-                var email = new InvitationEmail
-                            {
-                                EventsId = eventForInvitation.Id,
-                                EventTitle = eventForInvitation.Title,
-                                EventLocation = eventForInvitation.Location,
-                                StartDate = eventForInvitation.StartDate,
-                                GetListDate = eventForInvitation.ListDate,
-                                ParticipantId = eventForInvitation.Participants.Where(p => p.Email == participantEmail)
-                                    .Select(p => p.Id)
-                                    .FirstOrDefault(),
-                                OrganizerName = user.FirstName,
-                                OrganizerEmail = user.UserName,
-                                SenderEmail = "aim_ahmad@hotmail.com",
-                                ReceiverEmail = participantEmail,
-                                EmailSubject = "Invitation to " + eventForInvitation.Title
-                            };
+                PostalEmailManager.SendInvitationEmail(emailInfo);
 
                 //Send email
-                new EmailDeliveryController().DeliverEmail(email, "InvitationEmail").Deliver();
+                //new EmailDeliveryController().DeliverEmail(email, "InvitationEmail").Deliver();
 
                 #endregion
 
@@ -109,13 +116,15 @@ namespace SchedulerWebApp.Controllers
                 var reminderDate = eventForInvitation.ReminderDate;
                 var listDate = eventForInvitation.ListDate;
 
+                #region Scheduling should be done when the event is Created not during Invitation because Invitations can be sent many times and cause multiple scheduling
                 // start remainder scheduler
                 var reminderScheduler = new ReminderScheduler();
                 reminderScheduler.Start(reminderDate, eventId, user.FirstName, user.UserName);
 
                 // start participant list summary scheduler
                 var listScheduler = new ParticipantSummaryScheduler();
-                listScheduler.Start(eventId, user.FirstName, user.Email, listDate);
+                listScheduler.Start(eventId, user.FirstName, user.Email, listDate); 
+                #endregion
 
 
                 var contactEmails = _contactsController.GetUserContacts(GetUserId());
@@ -126,7 +135,7 @@ namespace SchedulerWebApp.Controllers
                 {
                     continue;
                 }
-                var contact = new Contact {Email = participantEmail};
+                var contact = new Contact { Email = participantEmail };
                 contacts.Add(contact);
                 unsavedContacts.Contacts = contacts;
             }

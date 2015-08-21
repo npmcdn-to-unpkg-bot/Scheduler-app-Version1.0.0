@@ -1,7 +1,7 @@
 ﻿using System;
 using Postal;
 
-namespace SchedulerWebApp.Models.ViewModels
+namespace SchedulerWebApp.Models.PostalEmail
 {
     public class InvitationEmail : Email
     {
@@ -19,5 +19,6 @@ namespace SchedulerWebApp.Models.ViewModels
 
         public string OrganizerName { get; set; }
         public string OrganizerEmail { get; set; }
+        public string ResponseUrl { get; set; }
     }
 }

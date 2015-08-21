@@ -3,6 +3,7 @@ using System.Linq;
 using Quartz;
 using SchedulerWebApp.Controllers;
 using SchedulerWebApp.Models.DBContext;
+using SchedulerWebApp.Models.PostalEmail;
 using SchedulerWebApp.Models.ViewModels;
 
 namespace SchedulerWebApp.Models.Service
