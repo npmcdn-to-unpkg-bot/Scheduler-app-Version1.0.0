@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Postal;
 
-namespace SchedulerWebApp.Models.ViewModels
+namespace SchedulerWebApp.Models.PostalEmail
 {
-    public class ContactViewModel
+    public class ContactUsEmail : Email
     {
         [Required]
         [Display(Name = "First Name")]
@@ -28,5 +29,7 @@ namespace SchedulerWebApp.Models.ViewModels
         [DataType(DataType.MultilineText)]
         [Display(Name = "Message")]
         public string EmailBody { get; set; }
+
+        public string ReceiverEmail { get; set; }
     }
 }

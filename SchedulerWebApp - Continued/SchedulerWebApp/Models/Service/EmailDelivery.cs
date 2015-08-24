@@ -51,9 +51,9 @@ namespace SchedulerWebApp.Models.Service
             }
         }
 
-        public void SendContactFormulaEmail(ContactViewModel model, string emailTemplate)
+        public void SendContactFormulaEmail(ContactUsEmail model, string emailTemplate)
         {
-            var email = new ContactViewModel
+            var email = new ContactUsEmail
                         {
                             SenderFistName = model.SenderFistName,
                             SenderLastName = model.SenderLastName,

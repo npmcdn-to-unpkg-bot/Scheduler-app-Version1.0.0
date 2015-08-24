@@ -229,7 +229,7 @@
     <Compile Include="Models\Validation\DeadlineDateAttribute.cs" />
     <Compile Include="Models\Validation\ValidDateAttribute.cs" />
     <Compile Include="Models\Validation\ValidEmailAttribute.cs" />
-    <Compile Include="Models\ViewModels\ContactViewModel.cs" />
+    <Compile Include="Models\PostalEmail\ContactUsEmail.cs" />
     <Compile Include="Models\PostalEmail\InvitationEmail.cs" />
     <Compile Include="Models\ViewModels\InvitationViewModel.cs" />
     <Compile Include="Models\ViewModels\ParticipantListViewModel.cs" />
@@ -399,6 +399,7 @@
     <Content Include="Views\Emails\Cancellation.cshtml" />
     <Content Include="Views\Emails\ParticipantList.cshtml" />
     <Content Include="Views\Emails\Remainder.cshtml" />
+    <Content Include="Views\Emails\ContactUs.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

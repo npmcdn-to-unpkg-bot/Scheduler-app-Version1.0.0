@@ -83,18 +83,7 @@ namespace SchedulerWebApp.Models.PostalEmail
 
             return email;
         }
-
-        private static void SendCorespondingEmail(Email email)
-        {
-            // ReSharper disable once AssignNullToNotNullAttribute
-            var viewpath = Path.GetFullPath(HostingEnvironment.MapPath(@"~/Views/Emails"));
-            var engines = new ViewEngineCollection();
-            engines.Add(new FileSystemRazorViewEngine(viewpath));
-            var emailService = new Postal.EmailService(engines);
-
-            emailService.Send(email);
-        }
-
+        
         public static void SendListEmail(EmailInformation emailInfo, object emailObject)
         {
             Email email = null;
@@ -168,6 +157,22 @@ namespace SchedulerWebApp.Models.PostalEmail
             }
 
             //create list Email 
+        }
+
+        public static void SendContactUsEmail(ContactUsEmail email)
+        {
+            SendCorespondingEmail(email);
+        }
+
+        private static void SendCorespondingEmail(Email email)
+        {
+            // ReSharper disable once AssignNullToNotNullAttribute
+            var viewpath = Path.GetFullPath(HostingEnvironment.MapPath(@"~/Views/Emails"));
+            var engines = new ViewEngineCollection();
+            engines.Add(new FileSystemRazorViewEngine(viewpath));
+            var emailService = new Postal.EmailService(engines);
+
+            emailService.Send(email);
         }
     }
 }

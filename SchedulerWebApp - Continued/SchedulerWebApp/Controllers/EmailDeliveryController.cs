@@ -38,7 +38,7 @@ namespace SchedulerWebApp.Controllers
             return Email(emailTemplate, model);
         }
 
-        public EmailResult DeliverContactFormula(ContactViewModel model, string emailTemplate)
+        public EmailResult DeliverContactFormula(ContactUsEmail model, string emailTemplate)
         {
             //email Method
             SetMailMethod(MailMethod.SMTP);
