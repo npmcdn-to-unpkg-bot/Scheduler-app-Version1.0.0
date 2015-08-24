@@ -13,7 +13,7 @@ namespace SchedulerWebApp
         {
             GlobalConfiguration.Configuration.UseSqlServerStorage("DefaultConnection");
             app.UseHangfireDashboard();
-
+            app.UseHangfireServer();
             ConfigureAuth(app);
         }
     }

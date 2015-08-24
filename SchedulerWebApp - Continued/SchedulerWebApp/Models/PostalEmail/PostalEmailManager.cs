@@ -1,31 +1,18 @@
-﻿using System.IO;
+﻿using System.Data.Entity;
+using System.IO;
+using System.Linq;
 using System.Web.Hosting;
 using System.Web.Mvc;
 using Postal;
+using SchedulerWebApp.Models.DBContext;
 
 namespace SchedulerWebApp.Models.PostalEmail
 {
     public static class PostalEmailManager
     {
+        static readonly SchedulerDbContext Db = new SchedulerDbContext();
+
         //create invitation Email 
-
-        public static void SendInvitationEmail(EmailInformation emailInfo)
-        {
-            var email = ComposeEmail(emailInfo, new InvitationEmail());
-            SendCorespondingEmail(email);
-        }
-
-        public static void SendChangeInfoEmail(EmailInformation emailInfo)
-        {
-            var email = ComposeEmail(emailInfo, new EmailInfoChangeEmail());
-            SendCorespondingEmail(email);
-        }
-
-        public static void SendCancellationEmail(EmailInformation emailInfo)
-        {
-            var email = ComposeEmail(emailInfo, new CancellationEmail());
-            SendCorespondingEmail(email);
-        }
 
         public static void SendEmail(EmailInformation emailInfo, object newEmailObject)
         {
@@ -89,7 +76,7 @@ namespace SchedulerWebApp.Models.PostalEmail
                             OrganizerName = emailInfo.OrganizerName,
                             OrganizerEmail = emailInfo.OrganizerEmail,
                             SenderEmail = "aim_ahmad@hotmail.com",
-                            EmailSubject = emailInfo.CurrentEvent.Title + emailInfo.EmailSubject,
+                            EmailSubject = emailInfo.CurrentEvent.Title + emailInfo.EmailSubject
                         };
             }
 
@@ -108,15 +95,79 @@ namespace SchedulerWebApp.Models.PostalEmail
             emailService.Send(email);
         }
 
+        public static void SendListEmail(EmailInformation emailInfo, object emailObject)
+        {
+            Email email = null;
 
-        //create Event cancellation Email 
-        //send cancellation
+            var currentEvent = Db.Events.Where(e => e.Id == emailInfo.CurrentEvent.Id)
+                                  .Include(e => e.Participants)
+                                  .FirstOrDefault();
 
+            if (currentEvent == null) return;
 
-        //create remainder Email 
-        //send remainder
+            var participants = currentEvent.Participants.ToList();
 
-        //create list Email 
-        //send list
+            var allParticipant = participants.Count();
+            var respondedParticipants = participants.Count(p => p.Responce);
+            var notResponded = allParticipant - respondedParticipants;
+            var attendingParticipant = participants.Count(p => p.Availability);
+            var notAttendingParticipant = allParticipant - attendingParticipant;
+
+            //if (emailObject.GetType() == typeof(ParticipantListEmail))
+            //{
+            email = new ParticipantListEmail
+                        {
+                            EventsId = emailInfo.CurrentEvent.Id,
+                            EventTitle = emailInfo.CurrentEvent.Title,
+                            SenderEmail = "test@email.com",
+                            ReceiverEmail = emailInfo.OrganizerEmail,
+                            OrganizerEmail = emailInfo.OrganizerEmail,
+                            OrganizerName = emailInfo.OrganizerName,
+                            AllParticipants = allParticipant,
+                            ParticipantAttending = attendingParticipant,
+                            ParticipantNotAttending = notAttendingParticipant,
+                            ParticipantsNotResponded = notResponded,
+                            ParticipantsResponded = respondedParticipants,
+                            EmailSubject = "Participants summary" + " " + emailInfo.CurrentEvent.Title,
+                            EventDetailsUrl = emailInfo.EventDetailsUrl
+                        };
+            //}
+
+            SendCorespondingEmail(email);
+        }
+
+        public static void SendRemainder(EmailInformation emailInfo, object emailObject)
+        {
+            if (emailObject.GetType() == typeof(RemainderEmail))
+            {
+
+                var noResponseParticipants = emailInfo.CurrentEvent.Participants
+                    .Where(p => p.Responce == false);
+
+                foreach (var participant in noResponseParticipants)
+                {
+                    //create email
+                    Email email = new RemainderEmail
+                                  {
+                                      EventsId = emailInfo.CurrentEvent.Id,
+                                      EventTitle = emailInfo.CurrentEvent.Title,
+                                      EventLocation = emailInfo.CurrentEvent.Location,
+                                      StartDate = emailInfo.CurrentEvent.StartDate,
+                                      GetListDate = emailInfo.CurrentEvent.ListDate,
+                                      ParticipantId = Db.Participants.Where(p => p.Email == participant.Email)
+                                          .Select(p => p.Id)
+                                          .FirstOrDefault(),
+                                      ReceiverEmail = participant.Email,
+                                      SenderName = "scheduleasy.com",
+                                      SenderEmail = "no-reply@scheduleasy.com",
+                                      EmailSubject = "Remainder for" + " " + emailInfo.CurrentEvent.Title,
+                                      ResponseUrl = emailInfo.ResponseUrl
+                                  };
+                    SendCorespondingEmail(email);
+                }
+            }
+
+            //create list Email 
+        }
     }
 }

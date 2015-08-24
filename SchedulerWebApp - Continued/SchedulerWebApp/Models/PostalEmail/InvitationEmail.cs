@@ -21,5 +21,12 @@ namespace SchedulerWebApp.Models.PostalEmail
         public string OrganizerEmail { get; set; }
         public string ResponseUrl { get; set; }
         public string EventDetailsUrl { get; set; }
+
+
+        public int AllParticipants { get; set; }
+        public int ParticipantAttending { get; set; }
+        public int ParticipantNotAttending { get; set; }
+        public int ParticipantsResponded { get; set; }
+        public int ParticipantsNotResponded { get; set; }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace SchedulerWebApp.Models.PostalEmail
+﻿using System;
+
+namespace SchedulerWebApp.Models.PostalEmail
 {
     public class EmailInformation
     {
@@ -10,5 +12,7 @@
         public string EmailSubject { get; set; }
         public string ResponseUrl { get; set; }
         public string EventDetailsUrl { get; set; }
+        public DateTime RemainderDate { get; set; }
+        public DateTime ListDate { get; set; }
     }
 }

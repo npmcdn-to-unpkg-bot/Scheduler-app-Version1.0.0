@@ -1,21 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using Hangfire;
 using System.Web.Routing;
 using Microsoft.AspNet.Identity;
 using SchedulerWebApp.Models;
 using SchedulerWebApp.Models.DBContext;
 using SchedulerWebApp.Models.PostalEmail;
-using SchedulerWebApp.Models.Service;
 using SchedulerWebApp.Models.ViewModels;
 
 namespace SchedulerWebApp.Controllers
 {
     public class InvitationController : Controller
     {
-        private ContactsController _contactsController = new ContactsController();
+        private readonly ContactsController _contactsController = new ContactsController();
         private readonly SchedulerDbContext _db = new SchedulerDbContext();
 
         #region Send Ivitation
@@ -61,7 +62,8 @@ namespace SchedulerWebApp.Controllers
             var user = _db.Users.Find(userid);
 
             var unsavedContacts = new UnsavedContactViewModel();
-            bool allSaved = false;
+            EmailInformation emailInfo = null;
+            var allSaved = false;
             var contacts = new List<Contact>();
 
             //loop through emails
@@ -92,15 +94,20 @@ namespace SchedulerWebApp.Controllers
                                                        .FirstOrDefault();
 
                 var responseUrl = Url.Action("Response", "Response", new RouteValueDictionary(new { id = eventForInvitation.Id, pId = participantId }), "https");
+                var detailsUrl = Url.Action("Details", "Events", new RouteValueDictionary(new { id = eventForInvitation.Id }), "https");
 
-                var emailInfo = new EmailInformation
+
+                emailInfo = new EmailInformation
                                 {
                                     CurrentEvent = eventForInvitation,
                                     OrganizerEmail = organizerEmail,
                                     OrganizerName = organizerFirstName,
                                     ParticipantId = participantId,
                                     ParticipantEmail = participantEmail,
-                                    ResponseUrl = responseUrl
+                                    ResponseUrl = responseUrl,
+                                    RemainderDate = eventForInvitation.ReminderDate,
+                                    ListDate = eventForInvitation.ListDate,
+                                    EventDetailsUrl = detailsUrl
                                 };
 
                 //create email
@@ -109,20 +116,6 @@ namespace SchedulerWebApp.Controllers
                 //Send email
                 //new EmailDeliveryController().DeliverEmail(email, "InvitationEmail").Deliver();
 
-                #endregion
-
-                var eventId = eventForInvitation.Id;
-                var reminderDate = eventForInvitation.ReminderDate;
-                var listDate = eventForInvitation.ListDate;
-
-                #region Scheduling should be done when the event is Created not during Invitation because Invitations can be sent many times and cause multiple scheduling
-                // start remainder scheduler
-                var reminderScheduler = new ReminderScheduler();
-                reminderScheduler.Start(reminderDate, eventId, user.FirstName, user.UserName);
-
-                // start participant list summary scheduler
-                var listScheduler = new ParticipantSummaryScheduler();
-                listScheduler.Start(eventId, user.FirstName, user.Email, listDate);
                 #endregion
 
 
@@ -145,18 +138,39 @@ namespace SchedulerWebApp.Controllers
                 TempData["model"] = unsavedContacts;
                 return RedirectToAction("SaveEmails");
             }
+
+            #region Scheduling should be done when the event is Created not during Invitation because Invitations can be sent many times and cause multiple scheduling
+            // start remainder scheduler
+            //var reminderScheduler = new ReminderScheduler();
+            //reminderScheduler.Start(reminderDate, eventId, user.FirstName, user.UserName);
+
+            BackgroundJob.Schedule(() => PostalEmailManager.SendRemainder(emailInfo, new RemainderEmail()), TimeSpan.FromMinutes(1));
+
+            //var test = new TestClass();
+            //BackgroundJob.Schedule(() => test.Test(), TimeSpan.FromMinutes(1));
+
+            // start participant list summary scheduler
+            //var listScheduler = new ParticipantSummaryScheduler();
+            //listScheduler.Start(eventId, user.FirstName, user.Email, listDate);
+
+            BackgroundJob.Schedule(() => PostalEmailManager.SendListEmail(emailInfo, new ParticipantListEmail()), TimeSpan.FromMinutes(2));
+
+            #endregion
+            
             //redirect to details
             return RedirectToAction("Details", "Events", new { id });
 
         }
 
+        /// <summary>
+        /// called when there are emaills that are not saved
+        /// </summary>
+        /// <returns></returns>
         public ActionResult SaveEmails()
         {
             var viewmodel = (UnsavedContactViewModel)TempData["model"];
             return View("unsavedContacts", viewmodel);
         }
-
-
 
         private string GetUserId()
         {
@@ -217,6 +231,14 @@ namespace SchedulerWebApp.Controllers
                                           EventLocation = @event.Location
                                       };
             return invitationViewModel;
+        }
+
+        public class TestClass
+        {
+            public void Test()
+            {
+                Debug.WriteLine("test is Called");
+            }
         }
     }
 }

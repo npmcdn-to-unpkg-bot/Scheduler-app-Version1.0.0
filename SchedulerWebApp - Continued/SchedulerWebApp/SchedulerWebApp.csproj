@@ -208,6 +208,7 @@
     </Compile>
     <Compile Include="Models\Contact.cs" />
     <Compile Include="Models\PostalEmail\EmailInformation.cs" />
+    <Compile Include="Models\PostalEmail\ParticipantListEmail.cs" />
     <Compile Include="Models\PostalEmail\PostalEmailManager.cs" />
     <Compile Include="Models\Validation\InvitedOnceAttribute.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
@@ -396,6 +397,8 @@
     <Content Include="Views\Emails\Invitation.cshtml" />
     <Content Include="Views\Emails\EmailInfoChange.cshtml" />
     <Content Include="Views\Emails\Cancellation.cshtml" />
+    <Content Include="Views\Emails\ParticipantList.cshtml" />
+    <Content Include="Views\Emails\Remainder.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
