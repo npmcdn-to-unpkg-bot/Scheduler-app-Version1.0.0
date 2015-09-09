@@ -41,12 +41,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ActionMailerNext">
-      <HintPath>..\packages\ActionMailerNext.2.0.0.0\lib\net45\ActionMailerNext.dll</HintPath>
-    </Reference>
-    <Reference Include="ActionMailerNext.Mvc5-2">
-      <HintPath>..\packages\ActionMailerNext.Mvc5-2.2.0.0.1\lib\net45\ActionMailerNext.Mvc5-2.dll</HintPath>
-    </Reference>
     <Reference Include="Common.Logging">
       <HintPath>..\packages\Common.Logging.3.0.0\lib\net40\Common.Logging.dll</HintPath>
     </Reference>
@@ -59,9 +53,6 @@
     <Reference Include="Hangfire.SqlServer">
       <HintPath>..\packages\Hangfire.SqlServer.1.5.0-beta2\lib\net45\Hangfire.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="Mandrill">
-      <HintPath>..\packages\Mandrill.1.0.85\lib\net40\Mandrill.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -70,14 +61,8 @@
     <Reference Include="Postal">
       <HintPath>..\packages\Postal.Mvc5.1.2.0\lib\net45\Postal.dll</HintPath>
     </Reference>
-    <Reference Include="Quartz">
-      <HintPath>..\packages\Quartz.2.3.1\lib\net40\Quartz.dll</HintPath>
-    </Reference>
     <Reference Include="RazorEngine">
       <HintPath>..\packages\RazorEngine.3.4.1\lib\net45\RazorEngine.dll</HintPath>
-    </Reference>
-    <Reference Include="RestSharp">
-      <HintPath>..\packages\RestSharp.104.4.0\lib\net4\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -197,7 +182,6 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ContactsController.cs" />
-    <Compile Include="Controllers\EmailDeliveryController.cs" />
     <Compile Include="Controllers\EventsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\InvitationController.cs" />
@@ -213,7 +197,6 @@
     <Compile Include="Models\Validation\InvitedOnceAttribute.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\DBContext\CustomDbInitializer.cs" />
-    <Compile Include="Models\Service\EmailDelivery.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\SchedulerUser.cs" />
     <Compile Include="Models\PostalEmail\CancellationEmail.cs" />
@@ -221,10 +204,6 @@
     <Compile Include="Models\ViewModels\ManageViewModels.cs" />
     <Compile Include="Models\Participant.cs" />
     <Compile Include="Models\DBContext\SchedulerDbContext.cs" />
-    <Compile Include="Models\Service\ParticipantSummaryJob.cs" />
-    <Compile Include="Models\Service\ParticipantSummaryScheduler.cs" />
-    <Compile Include="Models\Service\ReminderJob.cs" />
-    <Compile Include="Models\Service\ReminderScheduler.cs" />
     <Compile Include="Models\Validation\StartDateAttribute.cs" />
     <Compile Include="Models\Validation\DeadlineDateAttribute.cs" />
     <Compile Include="Models\Validation\ValidDateAttribute.cs" />
@@ -296,9 +275,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
-    <None Include="job_scheduling_data_2_0.xsd">
-      <SubType>Designer</SubType>
-    </None>
     <Content Include="Scripts\bootstrap-datetimepicker.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />

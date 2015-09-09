@@ -9,7 +9,6 @@ using Microsoft.AspNet.Identity;
 using SchedulerWebApp.Models;
 using SchedulerWebApp.Models.DBContext;
 using SchedulerWebApp.Models.PostalEmail;
-using SchedulerWebApp.Models.Service;
 
 namespace SchedulerWebApp.Controllers
 {
@@ -171,9 +170,8 @@ namespace SchedulerWebApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(
-            [Bind(Include = "Id,Title,Location,Description,StartDate,EndDate,ReminderDate,ListDate,SchedulerUserId")] Event
-                eventToEdit, int? id)
+        public ActionResult Edit([Bind(Include = "Id,Title,Location,Description,StartDate,EndDate,ReminderDate,ListDate,SchedulerUserId")] 
+            Event eventToEdit, int? id)
         {
 
             if (ModelState.IsValid)
@@ -217,10 +215,6 @@ namespace SchedulerWebApp.Controllers
                     //Notify Participant using postal
                     PostalEmailManager.SendEmail(emailInfo, new EmailInfoChangeEmail());
                 }
-
-                //Notify participants of the changes
-                //var emailDelivery = new EmailDelivery();
-                //emailDelivery.SendInfoEmail(eventToEdit.Id, user.FirstName, user.UserName, "has been modified", "EditedEventInfo");
 
                 return RedirectToAction("Index");
             }
@@ -281,13 +275,6 @@ namespace SchedulerWebApp.Controllers
                                     };
                     PostalEmailManager.SendEmail(emailInfo, new CancellationEmail());
                 }
-
-
-
-                //Notify participant of the cancellation
-                //var emailDelivery = new EmailDelivery();
-                //emailDelivery.SendInfoEmail(@event.Id, user.FirstName, user.UserName, "have been cancelled", "DeletedEventInfo");
-
             }
 
             _db.Events.Remove(@event);

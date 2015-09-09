@@ -1,7 +1,5 @@
 ﻿using System.Web.Mvc;
 using SchedulerWebApp.Models.PostalEmail;
-using SchedulerWebApp.Models.Service;
-using SchedulerWebApp.Models.ViewModels;
 
 namespace SchedulerWebApp.Controllers
 {
@@ -32,17 +30,12 @@ namespace SchedulerWebApp.Controllers
         public ActionResult Contact([Bind(Include = "SenderFistName,SenderLastName,SenderEmail,EmailSubject,EmailBody")]
             ContactUsEmail model)
         {
-            if (ModelState.IsValid)
-            {
-                //var emailDelivery = new EmailDelivery();
-                //emailDelivery.SendContactFormulaEmail(model, "ContactFormulaEmail");
+            if (!ModelState.IsValid) return View(model);
+            
+            model.ReceiverEmail = "admin@schedule.com";
+            PostalEmailManager.SendContactUsEmail(model);
 
-                model.ReceiverEmail = "admin@schedule.com";
-                PostalEmailManager.SendContactUsEmail(model);
-
-                return View("MessageSent");
-            }
-            return View(model);
+            return View("MessageSent");
         }
     }
 }

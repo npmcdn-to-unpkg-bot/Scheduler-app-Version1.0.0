@@ -83,80 +83,61 @@ namespace SchedulerWebApp.Models.PostalEmail
 
             return email;
         }
-        
+
         public static void SendListEmail(EmailInformation emailInfo, object emailObject)
         {
             Email email = null;
 
-            var currentEvent = Db.Events.Where(e => e.Id == emailInfo.CurrentEvent.Id)
-                                  .Include(e => e.Participants)
-                                  .FirstOrDefault();
-
+            var currentEvent = Db.Events.Where(e => e.Id == emailInfo.CurrentEvent.Id).Include(e => e.Participants).FirstOrDefault();
+            
             if (currentEvent == null) return;
 
             var participants = currentEvent.Participants.ToList();
 
             var allParticipant = participants.Count();
             var respondedParticipants = participants.Count(p => p.Responce);
-            var notResponded = allParticipant - respondedParticipants;
             var attendingParticipant = participants.Count(p => p.Availability);
             var notAttendingParticipant = allParticipant - attendingParticipant;
 
-            //if (emailObject.GetType() == typeof(ParticipantListEmail))
-            //{
             email = new ParticipantListEmail
                         {
-                            EventsId = emailInfo.CurrentEvent.Id,
                             EventTitle = emailInfo.CurrentEvent.Title,
                             SenderEmail = "test@email.com",
                             ReceiverEmail = emailInfo.OrganizerEmail,
-                            OrganizerEmail = emailInfo.OrganizerEmail,
                             OrganizerName = emailInfo.OrganizerName,
                             AllParticipants = allParticipant,
                             ParticipantAttending = attendingParticipant,
                             ParticipantNotAttending = notAttendingParticipant,
-                            ParticipantsNotResponded = notResponded,
                             ParticipantsResponded = respondedParticipants,
                             EmailSubject = "Participants summary" + " " + emailInfo.CurrentEvent.Title,
                             EventDetailsUrl = emailInfo.EventDetailsUrl
                         };
-            //}
 
             SendCorespondingEmail(email);
         }
 
         public static void SendRemainder(EmailInformation emailInfo, object emailObject)
         {
-            if (emailObject.GetType() == typeof(RemainderEmail))
+            var @event = Db.Events.Where(e => e.Id == emailInfo.CurrentEvent.Id).Include(e => e.Participants).FirstOrDefault();
+            var noResponseParticipants = @event.Participants
+                                         .Where(p => p.Responce == false).ToList();
+
+            foreach (var participant in noResponseParticipants)
             {
-
-                var noResponseParticipants = emailInfo.CurrentEvent.Participants
-                    .Where(p => p.Responce == false);
-
-                foreach (var participant in noResponseParticipants)
-                {
-                    //create email
-                    Email email = new RemainderEmail
-                                  {
-                                      EventsId = emailInfo.CurrentEvent.Id,
-                                      EventTitle = emailInfo.CurrentEvent.Title,
-                                      EventLocation = emailInfo.CurrentEvent.Location,
-                                      StartDate = emailInfo.CurrentEvent.StartDate,
-                                      GetListDate = emailInfo.CurrentEvent.ListDate,
-                                      ParticipantId = Db.Participants.Where(p => p.Email == participant.Email)
-                                          .Select(p => p.Id)
-                                          .FirstOrDefault(),
-                                      ReceiverEmail = participant.Email,
-                                      SenderName = "scheduleasy.com",
-                                      SenderEmail = "no-reply@scheduleasy.com",
-                                      EmailSubject = "Remainder for" + " " + emailInfo.CurrentEvent.Title,
-                                      ResponseUrl = emailInfo.ResponseUrl
-                                  };
-                    SendCorespondingEmail(email);
-                }
+                //create email
+                Email email = new RemainderEmail
+                              {
+                                  EventTitle = emailInfo.CurrentEvent.Title,
+                                  EventLocation = emailInfo.CurrentEvent.Location,
+                                  StartDate = emailInfo.CurrentEvent.StartDate,
+                                  GetListDate = emailInfo.CurrentEvent.ListDate,
+                                  ReceiverEmail = participant.Email,
+                                  SenderEmail = "no-reply@scheduleasy.com",
+                                  EmailSubject = "Remainder for" + " " + emailInfo.CurrentEvent.Title,
+                                  ResponseUrl = emailInfo.ResponseUrl
+                              };
+                SendCorespondingEmail(email);
             }
-
-            //create list Email 
         }
 
         public static void SendContactUsEmail(ContactUsEmail email)

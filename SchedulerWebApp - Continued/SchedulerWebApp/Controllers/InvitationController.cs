@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -33,13 +32,12 @@ namespace SchedulerWebApp.Controllers
             {
                 return View("_NoAccess");
             }
-
             bool hasPassed = EventHasNotPassed(@event);
             return !hasPassed ? View("_CantInvite", @event) : View(ReturnInvitationModel(id));
         }
 
         [HttpPost]
-        public ActionResult SendEventsInvitation([Bind(Include = "ParticipantsEmails,EventId")] InvitationViewModel model)
+        public ActionResult SendEventsInvitation([Bind(Include = "ParticipantsEmails,EventId,SendRemainder")] InvitationViewModel model)
         {
             var id = model.EventId;
             //check input values
@@ -50,6 +48,9 @@ namespace SchedulerWebApp.Controllers
 
             // get event from database
             var eventForInvitation = _db.Events.Find(id);
+
+            //Check if there are invited Participants already
+            var noInvitation = !eventForInvitation.Participants.ToList().Any();
 
             //Check if invitations can still be sent
             var notPassed = EventHasNotPassed(eventForInvitation);
@@ -110,11 +111,8 @@ namespace SchedulerWebApp.Controllers
                                     EventDetailsUrl = detailsUrl
                                 };
 
-                //create email
+                //Send Invitation Email
                 PostalEmailManager.SendEmail(emailInfo, new InvitationEmail());
-
-                //Send email
-                //new EmailDeliveryController().DeliverEmail(email, "InvitationEmail").Deliver();
 
                 #endregion
 
@@ -131,51 +129,41 @@ namespace SchedulerWebApp.Controllers
                 contacts.Add(contact);
                 unsavedContacts.Contacts = contacts;
             }
-            if (!allSaved)
+
+            #region Scheduling should be done when the event is Created to avoid multple scheduling on every invitation
+
+            //To avoid m Scheduling, 
+            //Check for Participants in the DB if there is no any then schedule Otherwise don't
+            if (noInvitation)
             {
-                //ask user to save in his contacts return view with list of unsaved contacts
-                unsavedContacts.EventId = eventForInvitation.Id;
-                TempData["model"] = unsavedContacts;
-                return RedirectToAction("SaveEmails");
+                //organizer wants to send remainders
+                if (model.SendRemainder)
+                {
+                    BackgroundJob.Schedule(() => PostalEmailManager.SendRemainder(emailInfo, new RemainderEmail()),
+                        TimeSpan.FromMinutes(2));
+                }
+
+
+                // start participant list summary scheduler
+                BackgroundJob.Schedule(() => PostalEmailManager.SendListEmail(emailInfo, new ParticipantListEmail()),
+                    TimeSpan.FromMinutes(3));
             }
 
-            #region Scheduling should be done when the event is Created not during Invitation because Invitations can be sent many times and cause multiple scheduling
-            // start remainder scheduler
-            //var reminderScheduler = new ReminderScheduler();
-            //reminderScheduler.Start(reminderDate, eventId, user.FirstName, user.UserName);
-
-            BackgroundJob.Schedule(() => PostalEmailManager.SendRemainder(emailInfo, new RemainderEmail()), TimeSpan.FromMinutes(1));
-
-            //var test = new TestClass();
-            //BackgroundJob.Schedule(() => test.Test(), TimeSpan.FromMinutes(1));
-
-            // start participant list summary scheduler
-            //var listScheduler = new ParticipantSummaryScheduler();
-            //listScheduler.Start(eventId, user.FirstName, user.Email, listDate);
-
-            BackgroundJob.Schedule(() => PostalEmailManager.SendListEmail(emailInfo, new ParticipantListEmail()), TimeSpan.FromMinutes(2));
-
             #endregion
-            
-            //redirect to details
-            return RedirectToAction("Details", "Events", new { id });
 
+            //redirect to details if all contacts are saved
+            if (allSaved)
+            {
+                return RedirectToAction("Details", "Events", new { id });
+            }
+
+            //ask user to save in his contacts return view with list of unsaved contacts
+            unsavedContacts.EventId = eventForInvitation.Id;
+            TempData["model"] = unsavedContacts;           //Pass list to SaveEmails action
+            return RedirectToAction("SaveEmails");
         }
 
-        /// <summary>
-        /// called when there are emaills that are not saved
-        /// </summary>
-        /// <returns></returns>
-        public ActionResult SaveEmails()
-        {
-            var viewmodel = (UnsavedContactViewModel)TempData["model"];
-            return View("unsavedContacts", viewmodel);
-        }
-
-        private string GetUserId()
-        {
-            return User.Identity.GetUserId();
-        }
+        #endregion
 
         private static bool EventHasNotPassed(Event eventForInvitation)
         {
@@ -187,7 +175,20 @@ namespace SchedulerWebApp.Controllers
             return notPassed;
         }
 
-        #endregion
+        private string GetUserId()
+        {
+            return User.Identity.GetUserId();
+        }
+
+        /// <summary>
+        /// called when there are emaills that are not saved
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult SaveEmails()
+        {
+            var viewmodel = (UnsavedContactViewModel)TempData["model"];
+            return View("unsavedContacts", viewmodel);
+        }
 
         #region No double Invitation
 
@@ -228,17 +229,10 @@ namespace SchedulerWebApp.Controllers
                                           EventId = @event.Id,
                                           EventTitle = @event.Title,
                                           EventDate = @event.StartDate,
-                                          EventLocation = @event.Location
+                                          EventLocation = @event.Location,
+                                          SendRemainder = true
                                       };
             return invitationViewModel;
-        }
-
-        public class TestClass
-        {
-            public void Test()
-            {
-                Debug.WriteLine("test is Called");
-            }
         }
     }
 }
