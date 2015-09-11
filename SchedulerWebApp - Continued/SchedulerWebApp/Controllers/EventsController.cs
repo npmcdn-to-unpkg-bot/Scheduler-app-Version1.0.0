@@ -173,52 +173,52 @@ namespace SchedulerWebApp.Controllers
         public ActionResult Edit([Bind(Include = "Id,Title,Location,Description,StartDate,EndDate,ReminderDate,ListDate,SchedulerUserId")] 
             Event eventToEdit, int? id)
         {
-
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                _db.Entry(eventToEdit).State = EntityState.Modified;
-                _db.SaveChanges();
-
-                //Get Participants
-                var currentEvent = _db.Events
-                            .Where(e => e.Id == eventToEdit.Id)
-                            .Include(e => e.Participants)
-                            .FirstOrDefault();
-
-                if (currentEvent == null)
-                {
-                    return View("Error");
-                }
-
-                var participants = currentEvent.Participants.ToList();
-
-                var user = GetUser();
-                var detailsUrl = Url.Action("Details", "Response", new RouteValueDictionary(new { id = currentEvent.Id }), "https");
-                var responseUrl = Url.Action("Details", "Response", new RouteValueDictionary(new { id = currentEvent.Id }), "https");
-
-
-                foreach (var participant in participants)
-                {
-                    var pId = participant.Id;
-                    var emailInfo = new EmailInformation
-                                    {
-                                        CurrentEvent = currentEvent,
-                                        OrganizerName = user.FirstName,
-                                        OrganizerEmail = user.UserName,
-                                        ParticipantId = pId,
-                                        ParticipantEmail = participant.Email,
-                                        EmailSubject = " changes.",
-                                        ResponseUrl = responseUrl,
-                                        EventDetailsUrl = detailsUrl
-                                    };
-
-                    //Notify Participant using postal
-                    PostalEmailManager.SendEmail(emailInfo, new EmailInfoChangeEmail());
-                }
-
-                return RedirectToAction("Index");
+                return View(eventToEdit);
             }
-            return View(eventToEdit);
+
+            _db.Entry(eventToEdit).State = EntityState.Modified;
+            _db.SaveChanges();
+
+            //Get Participants
+            var currentEvent = _db.Events
+                .Where(e => e.Id == eventToEdit.Id)
+                .Include(e => e.Participants)
+                .FirstOrDefault();
+
+            if (currentEvent == null)
+            {
+                return View("Error");
+            }
+
+            var participants = currentEvent.Participants.ToList();
+
+            var user = GetUser();
+            var detailsUrl = Url.Action("Details", "Response", new RouteValueDictionary(new { id = currentEvent.Id }), "https");
+            var responseUrl = Url.Action("Details", "Response", new RouteValueDictionary(new { id = currentEvent.Id }), "https");
+
+
+            foreach (var participant in participants)
+            {
+                var pId = participant.Id;
+                var emailInfo = new EmailInformation
+                                {
+                                    CurrentEvent = currentEvent,
+                                    OrganizerName = user.FirstName,
+                                    OrganizerEmail = user.UserName,
+                                    ParticipantId = pId,
+                                    ParticipantEmail = participant.Email,
+                                    EmailSubject = " changes.",
+                                    ResponseUrl = responseUrl,
+                                    EventDetailsUrl = detailsUrl
+                                };
+
+                //Notify Participant using postal
+                PostalEmailManager.SendEmail(emailInfo, new EmailInfoChangeEmail());
+            }
+
+            return RedirectToAction("Index");
         }
 
         #endregion
