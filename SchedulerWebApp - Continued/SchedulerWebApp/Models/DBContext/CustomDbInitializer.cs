@@ -44,10 +44,10 @@ namespace SchedulerWebApp.Models.DBContext
                                   {
                                       Title = "Football tournament",
                                       Description = "Winter indoor tournament is around the conner. Please let us know if you will take part this year!",
-                                      StartDate = new DateTime(2015, 09, 27),
-                                      EndDate = new DateTime(2015, 09, 28),
-                                      ReminderDate = new DateTime(2015, 09, 27),
-                                      ListDate = new DateTime(2015, 09, 28),
+                                      StartDate = new DateTime(2015, 10, 27),
+                                      EndDate = new DateTime(2015, 10, 28),
+                                      ReminderDate = new DateTime(2015, 10, 27),
+                                      ListDate = new DateTime(2015, 10, 28),
                                       Location = "Some football hall"
                                   };
             var newYearParty = new Event
@@ -67,10 +67,10 @@ namespace SchedulerWebApp.Models.DBContext
                                    Description = "Do you have knowledge or want to learn on asp.net? " +
                                                  "asp.net developers will be meeting to exchange ideas, " +
                                                  "Let us know if you will be joining us",
-                                   StartDate = new DateTime(2015, 09, 20),
-                                   EndDate = new DateTime(2015, 09, 20),
-                                   ReminderDate = new DateTime(2015, 09, 10),
-                                   ListDate = new DateTime(2015, 09, 13),
+                                   StartDate = new DateTime(2015, 10, 20),
+                                   EndDate = new DateTime(2015, 10, 20),
+                                   ReminderDate = new DateTime(2015, 10, 10),
+                                   ListDate = new DateTime(2015, 10, 13),
                                    Location = "Developers Hall"
                                }; 
             #endregion
