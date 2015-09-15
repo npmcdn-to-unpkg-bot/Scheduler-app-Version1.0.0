@@ -1,4 +1,4 @@
-﻿namespace SchedulerWebApp.Models
+﻿namespace SchedulerWebApp.Models.HangfireJobs
 {
     public class ScheduledJob
     {

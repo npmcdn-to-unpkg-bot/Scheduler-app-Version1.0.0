@@ -191,9 +191,11 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Contact.cs" />
+    <Compile Include="Models\HangfireJobs\JobManager.cs" />
     <Compile Include="Models\PostalEmail\EmailInformation.cs" />
     <Compile Include="Models\PostalEmail\ParticipantListEmail.cs" />
     <Compile Include="Models\PostalEmail\PostalEmailManager.cs" />
+    <Compile Include="Models\HangfireJobs\ScheduledJob.cs" />
     <Compile Include="Models\Validation\InvitedOnceAttribute.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\DBContext\CustomDbInitializer.cs" />

@@ -5,9 +5,11 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Hangfire;
 using Microsoft.AspNet.Identity;
 using SchedulerWebApp.Models;
 using SchedulerWebApp.Models.DBContext;
+using SchedulerWebApp.Models.HangfireJobs;
 using SchedulerWebApp.Models.PostalEmail;
 
 namespace SchedulerWebApp.Controllers
@@ -181,11 +183,17 @@ namespace SchedulerWebApp.Controllers
             _db.Entry(eventToEdit).State = EntityState.Modified;
             _db.SaveChanges();
 
+            //Remove scheduled jobs of this event
+            JobManager.RemoveScheduledJobs(eventToEdit);
+
+            //Schedule new emails for edited Job
+
+
             //Get Participants
             var currentEvent = _db.Events
-                .Where(e => e.Id == eventToEdit.Id)
-                .Include(e => e.Participants)
-                .FirstOrDefault();
+                                  .Where(e => e.Id == eventToEdit.Id)
+                                  .Include(e => e.Participants)
+                                  .FirstOrDefault();
 
             if (currentEvent == null)
             {
@@ -195,19 +203,20 @@ namespace SchedulerWebApp.Controllers
             var participants = currentEvent.Participants.ToList();
 
             var user = GetUser();
-            var detailsUrl = Url.Action("Details", "Response", new RouteValueDictionary(new { id = currentEvent.Id }), "https");
-            var responseUrl = Url.Action("Details", "Response", new RouteValueDictionary(new { id = currentEvent.Id }), "https");
 
-
+            EmailInformation emailInfo = null;
             foreach (var participant in participants)
             {
-                var pId = participant.Id;
-                var emailInfo = new EmailInformation
+                var participantId = participant.Id;
+                var detailsUrl = Url.Action("Details", "Response", new RouteValueDictionary(new { id = currentEvent.Id }), "https");
+                var responseUrl = Url.Action("Response", "Response", new RouteValueDictionary(new { id = currentEvent.Id, pId = participantId }), "https");
+
+                emailInfo = new EmailInformation
                                 {
                                     CurrentEvent = currentEvent,
                                     OrganizerName = user.FirstName,
                                     OrganizerEmail = user.UserName,
-                                    ParticipantId = pId,
+                                    ParticipantId = participantId,
                                     ParticipantEmail = participant.Email,
                                     EmailSubject = " changes.",
                                     ResponseUrl = responseUrl,
@@ -218,8 +227,13 @@ namespace SchedulerWebApp.Controllers
                 PostalEmailManager.SendEmail(emailInfo, new EmailInfoChangeEmail());
             }
 
+            JobManager.ScheduleRemainderEmail(emailInfo);
+            JobManager.ScheduleParticipantListEmail(emailInfo);
+            JobManager.AddJobsIntoEvent(eventToEdit.Id);
+
             return RedirectToAction("Index");
         }
+
 
         #endregion
 
@@ -262,19 +276,23 @@ namespace SchedulerWebApp.Controllers
                 }
                 var participants = currentEvent.Participants.ToList();
 
+
                 foreach (var participant in participants)
                 {
                     var emailInfo = new EmailInformation
-                                    {
-                                        CurrentEvent = @event,
-                                        OrganizerEmail = user.UserName,
-                                        OrganizerName = user.FirstName,
-                                        EmailSubject = " cancellation",
-                                        ParticipantEmail = participant.Email,
-                                        ParticipantId = participant.Id
-                                    };
+                                                 {
+                                                     CurrentEvent = @event,
+                                                     OrganizerEmail = user.UserName,
+                                                     OrganizerName = user.FirstName,
+                                                     EmailSubject = " cancellation",
+                                                     ParticipantEmail = participant.Email,
+                                                     ParticipantId = participant.Id
+                                                 };
                     PostalEmailManager.SendEmail(emailInfo, new CancellationEmail());
                 }
+
+                //Remove Scheduled emails for deleted Event
+                JobManager.RemoveScheduledJobs(currentEvent);
             }
 
             _db.Events.Remove(@event);
@@ -282,14 +300,14 @@ namespace SchedulerWebApp.Controllers
             return RedirectToAction("Index");
         }
 
+        #endregion
+
         private SchedulerUser GetUser()
         {
             var userId = User.Identity.GetUserId();
             var user = _db.Users.Find(userId);
             return user;
         }
-
-        #endregion
 
         public List<Event> GetUserEvents()
         {

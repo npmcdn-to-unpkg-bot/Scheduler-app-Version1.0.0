@@ -1,5 +1,6 @@
 using System.Data.Entity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using SchedulerWebApp.Models.HangfireJobs;
 
 namespace SchedulerWebApp.Models.DBContext
 {

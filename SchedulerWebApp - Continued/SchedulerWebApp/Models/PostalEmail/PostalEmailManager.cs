@@ -12,14 +12,6 @@ namespace SchedulerWebApp.Models.PostalEmail
     {
         static readonly SchedulerDbContext Db = new SchedulerDbContext();
 
-        //create invitation Email 
-
-        public static void SendEmail(EmailInformation emailInfo, object newEmailObject)
-        {
-            var email = ComposeEmail(emailInfo, newEmailObject);
-            SendCorespondingEmail(email);
-        }
-
         private static Email ComposeEmail(EmailInformation emailInfo, object newEmailObject)
         {
             Email email = null;
@@ -84,11 +76,19 @@ namespace SchedulerWebApp.Models.PostalEmail
             return email;
         }
 
+        public static void SendEmail(EmailInformation emailInfo, object newEmailObject)
+        {
+            var email = ComposeEmail(emailInfo, newEmailObject);
+            SendCorespondingEmail(email);
+        }
+
         public static void SendListEmail(EmailInformation emailInfo, object emailObject)
         {
             Email email = null;
 
-            var currentEvent = Db.Events.Where(e => e.Id == emailInfo.CurrentEvent.Id).Include(e => e.Participants).FirstOrDefault();
+            var currentEvent = Db.Events.Where(e => e.Id == emailInfo.CurrentEvent.Id)
+                                        .Include(e => e.Participants)
+                                        .FirstOrDefault();
             
             if (currentEvent == null) return;
 

@@ -8,6 +8,7 @@ using System.Web.Routing;
 using Microsoft.AspNet.Identity;
 using SchedulerWebApp.Models;
 using SchedulerWebApp.Models.DBContext;
+using SchedulerWebApp.Models.HangfireJobs;
 using SchedulerWebApp.Models.PostalEmail;
 using SchedulerWebApp.Models.ViewModels;
 
@@ -49,8 +50,9 @@ namespace SchedulerWebApp.Controllers
             // get event from database
             var eventForInvitation = _db.Events.Find(id);
 
-            //Check if there are invited Participants already
+            //Check if there is Participants
             var noInvitation = !eventForInvitation.Participants.ToList().Any();
+            
 
             //Check if invitations can still be sent
             var notPassed = EventHasNotPassed(eventForInvitation);
@@ -108,19 +110,19 @@ namespace SchedulerWebApp.Controllers
                                     ResponseUrl = responseUrl,
                                     RemainderDate = eventForInvitation.ReminderDate,
                                     ListDate = eventForInvitation.ListDate,
-                                    EventDetailsUrl = detailsUrl
+                                    EventDetailsUrl = detailsUrl,
+                                    EmailSubject = " Invitation"
                                 };
 
                 //Send Invitation Email
                 PostalEmailManager.SendEmail(emailInfo, new InvitationEmail());
 
                 #endregion
-
-
+                
+                //after sending email its time to save unsaved contacts
                 var contactEmails = _contactsController.GetUserContacts(GetUserId());
                 allSaved = contactEmails.Any(c => c.Email == participantEmail);
 
-                //after sending email its time to save unsaved contacts
                 if (allSaved)
                 {
                     continue;
@@ -130,23 +132,20 @@ namespace SchedulerWebApp.Controllers
                 unsavedContacts.Contacts = contacts;
             }
 
-            #region Scheduling should be done when the event is Created to avoid multple scheduling on every invitation
-
-            //To avoid m Scheduling, 
-            //Check for Participants in the DB if there is no any then schedule Otherwise don't
+            #region Scheduling emails
+            
             if (noInvitation)
             {
+                
                 //organizer wants to send remainders
                 if (model.SendRemainder)
                 {
-                    BackgroundJob.Schedule(() => PostalEmailManager.SendRemainder(emailInfo, new RemainderEmail()),
-                        TimeSpan.FromMinutes(2));
+                    JobManager.ScheduleRemainderEmail(emailInfo);
                 }
-
-
+                
                 // start participant list summary scheduler
-                BackgroundJob.Schedule(() => PostalEmailManager.SendListEmail(emailInfo, new ParticipantListEmail()),
-                    TimeSpan.FromMinutes(3));
+                JobManager.ScheduleParticipantListEmail(emailInfo);
+                JobManager.AddJobsIntoEvent(id);
             }
 
             #endregion
@@ -162,6 +161,8 @@ namespace SchedulerWebApp.Controllers
             TempData["model"] = unsavedContacts;           //Pass list to SaveEmails action
             return RedirectToAction("SaveEmails");
         }
+
+        
 
         #endregion
 
