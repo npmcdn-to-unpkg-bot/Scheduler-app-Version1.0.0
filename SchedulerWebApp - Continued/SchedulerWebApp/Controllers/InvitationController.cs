@@ -169,7 +169,7 @@ namespace SchedulerWebApp.Controllers
         private static bool EventHasNotPassed(Event eventForInvitation)
         {
             var todayDate = DateTime.UtcNow.Date;
-            var eventEndDate = eventForInvitation.EndDate.Date;
+            var eventEndDate = eventForInvitation.StartDate.Date;
 
             //check if event has happened
             bool notPassed = todayDate <= eventEndDate;

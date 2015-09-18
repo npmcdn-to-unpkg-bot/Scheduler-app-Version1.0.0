@@ -205,13 +205,18 @@ namespace SchedulerWebApp.Controllers
             var user = GetUser();
 
             EmailInformation emailInfo = null;
-            foreach (var participant in participants)
-            {
-                var participantId = participant.Id;
-                var detailsUrl = Url.Action("Details", "Response", new RouteValueDictionary(new { id = currentEvent.Id }), "https");
-                var responseUrl = Url.Action("Response", "Response", new RouteValueDictionary(new { id = currentEvent.Id, pId = participantId }), "https");
 
-                emailInfo = new EmailInformation
+            if (participants.Count != 0)
+            {
+                foreach (var participant in participants)
+                {
+                    var participantId = participant.Id;
+                    var detailsUrl = Url.Action("Details", "Response",
+                        new RouteValueDictionary(new {id = currentEvent.Id}), "https");
+                    var responseUrl = Url.Action("Response", "Response",
+                        new RouteValueDictionary(new {id = currentEvent.Id, pId = participantId}), "https");
+
+                    emailInfo = new EmailInformation
                                 {
                                     CurrentEvent = currentEvent,
                                     OrganizerName = user.FirstName,
@@ -223,13 +228,14 @@ namespace SchedulerWebApp.Controllers
                                     EventDetailsUrl = detailsUrl
                                 };
 
-                //Notify Participant using postal
-                PostalEmailManager.SendEmail(emailInfo, new EmailInfoChangeEmail());
-            }
+                    //Notify Participant using postal
+                    PostalEmailManager.SendEmail(emailInfo, new EmailInfoChangeEmail());
+                }
 
-            JobManager.ScheduleRemainderEmail(emailInfo);
-            JobManager.ScheduleParticipantListEmail(emailInfo);
-            JobManager.AddJobsIntoEvent(eventToEdit.Id);
+                JobManager.ScheduleRemainderEmail(emailInfo);
+                JobManager.ScheduleParticipantListEmail(emailInfo);
+                JobManager.AddJobsIntoEvent(eventToEdit.Id);
+            }
 
             return RedirectToAction("Index");
         }
@@ -325,7 +331,7 @@ namespace SchedulerWebApp.Controllers
         private bool EventHasNotOccured(Event @event)
         {
             var todayDate = DateTime.UtcNow.Date;
-            var eventEndDate = @event.EndDate.Date;
+            var eventEndDate = @event.StartDate.Date;
             var hasNotOccured = todayDate <= eventEndDate;
             return hasNotOccured;
         }

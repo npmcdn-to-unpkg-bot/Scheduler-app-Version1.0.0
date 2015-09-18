@@ -45,9 +45,9 @@ namespace SchedulerWebApp.Models.DBContext
                                       Title = "Football tournament",
                                       Description = "Winter indoor tournament is around the conner. Please let us know if you will take part this year!",
                                       StartDate = new DateTime(2015, 10, 27),
-                                      EndDate = new DateTime(2015, 10, 28),
-                                      ReminderDate = new DateTime(2015, 10, 27),
-                                      ListDate = new DateTime(2015, 10, 28),
+                                      //EndDate = new DateTime(2015, 10, 28),
+                                      ReminderDate = new DateTime(2015, 10, 25),
+                                      ListDate = new DateTime(2015, 10, 26),
                                       Location = "Some football hall"
                                   };
             var newYearParty = new Event
@@ -55,8 +55,8 @@ namespace SchedulerWebApp.Models.DBContext
                                     Title = "New year party",
                                     Description = "Please join us for new year part at my house",
                                     StartDate = new DateTime(2015, 12, 31),
-                                    EndDate = new DateTime(2016, 01, 01),
-                                    ReminderDate = new DateTime(2015, 12, 27),
+                                    //EndDate = new DateTime(2016, 01, 01),
+                                    ReminderDate = new DateTime(2015, 12, 25),
                                     ListDate = new DateTime(2015, 12, 28),
                                     Location = "Street 123, City"
                                 };
@@ -68,7 +68,7 @@ namespace SchedulerWebApp.Models.DBContext
                                                  "asp.net developers will be meeting to exchange ideas, " +
                                                  "Let us know if you will be joining us",
                                    StartDate = new DateTime(2015, 10, 20),
-                                   EndDate = new DateTime(2015, 10, 20),
+                                   //EndDate = new DateTime(2015, 10, 20),
                                    ReminderDate = new DateTime(2015, 10, 10),
                                    ListDate = new DateTime(2015, 10, 13),
                                    Location = "Developers Hall"
@@ -126,7 +126,7 @@ namespace SchedulerWebApp.Models.DBContext
             context.Events.Add(newYearParty);
             context.Events.Add(footballTournament);
             context.Events.Add(aspNetCoding);
-
+            
             context.Contacts.Add(firstContact);
             context.Contacts.Add(secondContact);
 

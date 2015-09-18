@@ -32,6 +32,12 @@ namespace SchedulerWebApp
             bundles.Add(new ScriptBundle("~/bundles/tagIt").Include(
                      "~/Scripts/tag-it.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/fooTable").Include(
+                "~/Scripts/footable-bootstrap.v3.0.1/footable.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/custom").Include(
+                "~/Scripts/App/customscript.js"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                 "~/Content/bootstrap.css",
                 /*"~/Content/datepicker.css",*/
@@ -40,8 +46,11 @@ namespace SchedulerWebApp
                 /*"~/Content/business-casual.css"*/));
 
             bundles.Add(new StyleBundle("~/Content/tagIt").Include(
-                "~/Content/jquery-ui-flick-themes.css", 
+                "~/Content/jquery-ui-flick-themes.css",
                 "~/Content/jquery.tagit.css"));
+
+            bundles.Add(new StyleBundle("~/Content/fooTable").Include(
+                "~/Content/footable-bootstrap.v3.0.1/footable.bootstrap.css"));
 
         }
     }
