@@ -44,6 +44,14 @@ function linkThreeDatesElements(maxDateElementId, dateElementId) {
         $(date).data("DateTimePicker").minDate(todaysDate);
         $(date).data("DateTimePicker").maxDate(e.date);
     });
+}
 
-
+//DataTable functions
+function makeTableResponsive(tableClass) {
+    var selector = '.' + tableClass;
+    $(selector).DataTable({
+        responsive: true,
+        searching: false,
+        "pagingType": "simple"
+    });
 }

@@ -1,67 +1,69 @@
 ﻿@model IEnumerable<SchedulerWebApp.Models.Contact>
 
+@section styles
+{
+    @Styles.Render("~/Content/dataTables")
+}
+
 @{
     ViewBag.Title = "Index";
 }
 
 <h2>Index</h2>
-@section styles
-{
-    @Styles.Render("~/Content/fooTable")
-}
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table footable">
+<table class="table footable display nowrap" cellspacing="0" width="100%">
     <thead>
         <tr>
-            <th data-title="F.Name">
+            <th>
                 @Html.DisplayNameFor(model => model.FirstName)
             </th>
-            <th data-title="L.Name">
+            <th>
                 @Html.DisplayNameFor(model => model.LastName)
             </th>
-            <th data-breakpoints="xs">
+            <th>
                 @Html.DisplayNameFor(model => model.Email)
             </th>
-            <th data-breakpoints="xs" data-title="Phone">
+            <th>
                 @Html.DisplayNameFor(model => model.PhoneNumber)
             </th>
-            <th data-breakpoints="xs"></th>
+            <th></th>
         </tr>
     </thead>
 
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhoneNumber)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ContactId }) |
-                @Html.ActionLink("Details", "Details", new { id = item.ContactId }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.ContactId }) |
-                <a href="">test</a>
-            </td>
-        </tr>
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PhoneNumber)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.ContactId }) |
+            @Html.ActionLink("Details", "Details", new { id = item.ContactId }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.ContactId }) |
+            <a href="">test</a>
+        </td>
+    </tr>
     }
 
 </table>
 @section Scripts{
-    @Scripts.Render("~/bundles/fooTable");
-    
+    @Scripts.Render("~/bundles/dataTables");
+    @Scripts.Render("~/bundles/custom")
+
     <script type="text/javascript">
-        $(function() {
-            $('.footable').footable();
+        $(function () {
+            makeTableResponsive("footable");
         });
     </script>
 }

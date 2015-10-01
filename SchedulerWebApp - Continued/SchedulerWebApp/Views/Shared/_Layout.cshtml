@@ -5,13 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Scheduleasy.com</title>
     @Styles.Render("~/Content/css")
-    @Styles.Render("~/Content/Custom.css")
+    <link href='https://fonts.googleapis.com/css?family=Oxygen:400,700,300' rel='stylesheet' type='text/css'>
     @RenderSection("styles", false)
+    @Styles.Render("~/Content/customStyle")
     @Scripts.Render("~/bundles/modernizr")
     <link rel="shortcut icon" type="image/ico" href="~/Images/favicon.ico">
 
 </head>
 <body>
+
+
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -34,11 +37,22 @@
             </div>
         </div>
     </div>
+
+
     <div class="container body-content">
         <div class="body-div">
-            <div class="row body-firstRow">
-                @RenderBody()
+            <div class="row">
+                <div class="col-lg-1 col-sm-2 col-xs-1"></div>
+                <div class="col-lg-10 col-sm-8 col-xs-10 body-firstRow">
+                    @RenderBody()
+                </div>
+                <div class="col-lg-1  col-sm-2 col-xs-1"></div>
             </div>
+            <!--
+                <div class="row body-firstRow">
+
+                </div>
+                -->
         </div>
         <hr />
         <footer>

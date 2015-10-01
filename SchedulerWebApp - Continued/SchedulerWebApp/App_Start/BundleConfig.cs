@@ -7,8 +7,9 @@ namespace SchedulerWebApp
         // For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
+            #region Script Bundles
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                "~/Scripts/jquery-{version}.js"));
+                    "~/Scripts/jquery-{version}.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                 "~/Scripts/jquery.validate*"));
@@ -35,15 +36,19 @@ namespace SchedulerWebApp
             bundles.Add(new ScriptBundle("~/bundles/fooTable").Include(
                 "~/Scripts/footable-bootstrap.v3.0.1/footable.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/dataTables").Include(
+                "~/Scripts/DataTables/jquery.dataTables.js",
+                "~/Scripts/DataTables/dataTables.responsive.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/custom").Include(
                 "~/Scripts/App/customscript.js"));
 
+            #endregion
+
+            #region Style Bundles
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                "~/Content/bootstrap.css",
-                /*"~/Content/datepicker.css",*/
-                "~/Content/site.css",
-                "~/Content/bootstrap-datetimepicker.css"
-                /*"~/Content/business-casual.css"*/));
+                    "~/Content/bootstrap.css",
+                    "~/Content/bootstrap-datetimepicker.css"));
 
             bundles.Add(new StyleBundle("~/Content/tagIt").Include(
                 "~/Content/jquery-ui-flick-themes.css",
@@ -52,6 +57,16 @@ namespace SchedulerWebApp
             bundles.Add(new StyleBundle("~/Content/fooTable").Include(
                 "~/Content/footable-bootstrap.v3.0.1/footable.bootstrap.css"));
 
+            bundles.Add(new StyleBundle("~/Content/dataTables").Include(
+                "~/Content/DataTables/css/dataTables.bootstrap.css",
+                "~/Content/DataTables/css/jquery.dataTables.css",
+                "~/Content/DataTables/css/responsive.dataTables.css"
+                ));
+            bundles.Add(new StyleBundle("~/Content/customStyle").Include(
+                "~/Content/Custom.css"
+                ));
+
+            #endregion
         }
     }
 }

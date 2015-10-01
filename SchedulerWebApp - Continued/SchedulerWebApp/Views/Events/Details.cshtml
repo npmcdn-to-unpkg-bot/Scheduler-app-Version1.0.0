@@ -1,4 +1,8 @@
 ﻿@model SchedulerWebApp.Models.Event
+@section styles
+{
+    @Styles.Render("~/Content/dataTables")
+}
 
 @{
     ViewBag.Title = Model.Title + " Details";
@@ -6,15 +10,26 @@
 
 <div class="col-md-8 col-md-offset-2">
     <h2>@Model.Title details</h2>
-    <hr/>
+    <hr />
     @Html.Partial("_Details")
 
     <table class="table borderless margin-top">
         <tr>
-            <td class="col-sm-3">@Html.ActionLink("Edit", "Edit", new {id = Model.Id}, new {@class = "btn btn-primary btn-block"})</td>
-            <td class="col-sm-3">@Html.ActionLink("Delete", "Delete", new {id = Model.Id}, new {@class = "btn btn-primary btn-block"})</td>
-            <td class="col-sm-3">@Html.ActionLink("Invite", "SendEventsInvitation", "Invitation", new {id = Model.Id}, new {@class = "btn btn-primary btn-block"})</td>
-            <td class="col-sm-3">@Html.ActionLink("Events", "Index", new {id = Model.Id}, new {@class = "btn btn-primary btn-block"})</td>
+            <td class="col-sm-3">@Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-primary btn-block" })</td>
+            <td class="col-sm-3">@Html.ActionLink("Delete", "Delete", new { id = Model.Id }, new { @class = "btn btn-primary btn-block" })</td>
+            <td class="col-sm-3">@Html.ActionLink("Invite", "SendEventsInvitation", "Invitation", new { id = Model.Id }, new { @class = "btn btn-primary btn-block" })</td>
+            <td class="col-sm-3">@Html.ActionLink("Events", "Index", new { id = Model.Id }, new { @class = "btn btn-primary btn-block" })</td>
         </tr>
     </table>
 </div>
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/dataTables")
+    @Scripts.Render("~/bundles/custom")
+    <script type="text/javascript">
+        $(function () {
+            makeTableResponsive("detailsTable");
+        });
+    </script>
+}
