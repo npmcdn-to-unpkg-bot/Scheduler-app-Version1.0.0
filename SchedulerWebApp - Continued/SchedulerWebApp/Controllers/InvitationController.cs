@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
-using Hangfire;
 using System.Web.Routing;
 using Microsoft.AspNet.Identity;
 using SchedulerWebApp.Models;
@@ -52,7 +51,7 @@ namespace SchedulerWebApp.Controllers
 
             //Check if there is Participants
             var noInvitation = !eventForInvitation.Participants.ToList().Any();
-            
+
 
             //Check if invitations can still be sent
             var notPassed = EventHasNotPassed(eventForInvitation);
@@ -118,7 +117,7 @@ namespace SchedulerWebApp.Controllers
                 PostalEmailManager.SendEmail(emailInfo, new InvitationEmail());
 
                 #endregion
-                
+
                 //after sending email its time to save unsaved contacts
                 var contactEmails = _contactsController.GetUserContacts(GetUserId());
                 allSaved = contactEmails.Any(c => c.Email == participantEmail);
@@ -133,18 +132,19 @@ namespace SchedulerWebApp.Controllers
             }
 
             #region Scheduling emails
-            
+
             if (noInvitation)
             {
-                
+                var remanderDate = Service.GetRemanderDate(eventForInvitation);
+                var listDate = Service.GetListDate(eventForInvitation);
                 //organizer wants to send remainders
                 if (model.SendRemainder)
                 {
-                    JobManager.ScheduleRemainderEmail(emailInfo);
+                    JobManager.ScheduleRemainderEmail(emailInfo, remanderDate);
                 }
-                
+
                 // start participant list summary scheduler
-                JobManager.ScheduleParticipantListEmail(emailInfo);
+                JobManager.ScheduleParticipantListEmail(emailInfo, listDate);
                 JobManager.AddJobsIntoEvent(id);
             }
 
@@ -162,7 +162,7 @@ namespace SchedulerWebApp.Controllers
             return RedirectToAction("SaveEmails");
         }
 
-        
+
 
         #endregion
 

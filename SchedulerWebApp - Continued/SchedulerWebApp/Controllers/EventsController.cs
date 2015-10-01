@@ -183,6 +183,9 @@ namespace SchedulerWebApp.Controllers
             _db.Entry(eventToEdit).State = EntityState.Modified;
             _db.SaveChanges();
 
+            var remanderDate = Service.GetRemanderDate(eventToEdit);
+            var listDate = Service.GetListDate(eventToEdit);
+
             //Remove scheduled jobs of this event
             JobManager.RemoveScheduledJobs(eventToEdit);
 
@@ -232,16 +235,15 @@ namespace SchedulerWebApp.Controllers
                     PostalEmailManager.SendEmail(emailInfo, new EmailInfoChangeEmail());
                 }
 
-                JobManager.ScheduleRemainderEmail(emailInfo);
-                JobManager.ScheduleParticipantListEmail(emailInfo);
+                JobManager.ScheduleRemainderEmail(emailInfo,listDate);
+                JobManager.ScheduleParticipantListEmail(emailInfo,remanderDate);
                 JobManager.AddJobsIntoEvent(eventToEdit.Id);
             }
 
             return RedirectToAction("Index");
         }
 
-
-        #endregion
+       #endregion
 
         #region Delete Event
 

@@ -3,9 +3,23 @@
 @{
     ViewBag.Title = Model.Title + " details";
 }
-
+@section styles
+{
+    @Styles.Render("~/Content/dataTables")
+}
 <div class="col-md-8 col-md-offset-2">
     <h1>@Model.Title details</h1>
-    <hr/>
+    <hr />
     @Html.Partial("_Details")
 </div>
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/dataTables")
+    @Scripts.Render("~/bundles/custom")
+    <script type="text/javascript">
+        $(function () {
+            makeTableResponsive("detailsTable");
+        });
+    </script>
+}
