@@ -30,6 +30,11 @@
                         @Html.ActionLink("Invite", "SendEventsInvitation", "Invitation", new { id = Model.Id }, new { @class = "btn btn-primary btn-block" })
                     </td>
                 </tr>
+                <tr>
+                    <td>
+                        @Html.ActionLink("Copy", "CopyEvent", "Events", new { id = Model.Id }, new { @class = "btn btn-primary btn-block" })
+                    </td>
+                </tr>
             </table>
         </div>
     </div>

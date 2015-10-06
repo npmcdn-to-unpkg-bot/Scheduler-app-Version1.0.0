@@ -126,7 +126,7 @@ namespace SchedulerWebApp.Controllers
 
         #endregion
 
-        #region Create Event
+        #region Create/Copy Event
 
         public ActionResult Create()
         {
@@ -142,9 +142,33 @@ namespace SchedulerWebApp.Controllers
             {
                 return View(@event);
             }
+            SaveEvent(@event);
+            return RedirectToAction("SendEventsInvitation", "Invitation", new { id = @event.Id });
+        }
+
+        public ActionResult CopyEvent(int id)
+        {
+            var eventToCopy = GetUserEvents().Find(e => e.Id == id);
+            return View("Create", eventToCopy);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CopyEvent(
+            [Bind(Include = "Title,Location,Description,StartDate,EndDate,ReminderDate,ListDate")] Event @event)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(@event);
+            }
+            SaveEvent(@event);
+            return RedirectToAction("SendEventsInvitation", "Invitation", new { id = @event.Id });
+        }
+
+        private void SaveEvent(Event @event)
+        {
             GetUserEvents().Add(@event);
             _db.SaveChanges();
-            return RedirectToAction("SendEventsInvitation", "Invitation", new { id = @event.Id });
         }
 
         #endregion
@@ -215,9 +239,9 @@ namespace SchedulerWebApp.Controllers
                 {
                     var participantId = participant.Id;
                     var detailsUrl = Url.Action("Details", "Response",
-                        new RouteValueDictionary(new {id = currentEvent.Id}), "https");
+                        new RouteValueDictionary(new { id = currentEvent.Id }), "https");
                     var responseUrl = Url.Action("Response", "Response",
-                        new RouteValueDictionary(new {id = currentEvent.Id, pId = participantId}), "https");
+                        new RouteValueDictionary(new { id = currentEvent.Id, pId = participantId }), "https");
 
                     emailInfo = new EmailInformation
                                 {
@@ -235,15 +259,15 @@ namespace SchedulerWebApp.Controllers
                     PostalEmailManager.SendEmail(emailInfo, new EmailInfoChangeEmail());
                 }
 
-                JobManager.ScheduleRemainderEmail(emailInfo,listDate);
-                JobManager.ScheduleParticipantListEmail(emailInfo,remanderDate);
+                JobManager.ScheduleRemainderEmail(emailInfo, listDate);
+                JobManager.ScheduleParticipantListEmail(emailInfo, remanderDate);
                 JobManager.AddJobsIntoEvent(eventToEdit.Id);
             }
 
             return RedirectToAction("Index");
         }
 
-       #endregion
+        #endregion
 
         #region Delete Event
 
