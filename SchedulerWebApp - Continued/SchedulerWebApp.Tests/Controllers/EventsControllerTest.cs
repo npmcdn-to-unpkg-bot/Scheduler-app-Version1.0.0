@@ -33,7 +33,7 @@ namespace SchedulerWebApp.Tests.Controllers
             Assert.IsNotNull(result);
         }
 
-        [TestMethod]
+        /*[TestMethod]
         public void Create_Should_Redirect_To_SendInvitation_In_Invitation_Controller()
         {
             //arrange
@@ -45,9 +45,9 @@ namespace SchedulerWebApp.Tests.Controllers
             //Assert
             Assert.AreEqual("SendEventsInvitation", result.RouteValues["Action"]);
             Assert.AreEqual("Invitation", result.RouteValues["Controller"]);
-        }
+        }*/
 
-        [TestMethod]
+        /*[TestMethod]
         public void GetUserEvents_Should_Get_All_User_Events()
         {
             //arrange
@@ -73,7 +73,7 @@ namespace SchedulerWebApp.Tests.Controllers
             //assert
             Assert.IsNotNull(result);
             Assert.IsInstanceOfType(result.ViewData.Model,typeof(Event));
-        }
+        }*/
         
 /*        [TestMethod]
         public void Edit_Should_Redirect_To_Index()

@@ -63,7 +63,7 @@ namespace SchedulerWebApp.Tests.Controllers
             Assert.AreEqual("_CantRespond", result.ViewName);
         }
 
-        [TestMethod]
+        /*[TestMethod]
         public void Response_Should_Return_Model_OfType_ResponseViewModel()
         {
             //arrange
@@ -81,7 +81,7 @@ namespace SchedulerWebApp.Tests.Controllers
 
             //Assert
             Assert.IsInstanceOfType(result.ViewData.Model,typeof(ResponseViewModel));
-        }
+        }*/
 
         [TestMethod]
         public void Details_Should_Return_HttpNotFound()
