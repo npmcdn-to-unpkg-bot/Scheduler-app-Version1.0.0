@@ -1,0 +1,10 @@
+diff a/SchedulerWebApp - Continued/SchedulerWebApp.Tests/Controllers/EventsControllerTest.cs b/SchedulerWebApp - Continued/SchedulerWebApp.Tests/Controllers/EventsControllerTest.cs	(rejected hunks)
+@@ -75,7 +75,7 @@
+             Assert.IsInstanceOfType(result.ViewData.Model,typeof(Event));
+         }*/
+         
+-/*        [TestMethod]
++        /*[TestMethod]
+         public void Edit_Should_Redirect_To_Index()
+         {
+             var controller = Arrange_Event_Controller();
