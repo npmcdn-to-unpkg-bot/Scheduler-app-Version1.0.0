@@ -5,7 +5,6 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Hangfire;
 using Microsoft.AspNet.Identity;
 using SchedulerWebApp.Models;
 using SchedulerWebApp.Models.DBContext;
@@ -233,36 +232,38 @@ namespace SchedulerWebApp.Controllers
 
             EmailInformation emailInfo = null;
 
-            if (participants.Count != 0)
+            if (participants.Count == 0)
             {
-                foreach (var participant in participants)
-                {
-                    var participantId = participant.Id;
-                    var detailsUrl = Url.Action("Details", "Response",
-                        new RouteValueDictionary(new { id = currentEvent.Id }), "https");
-                    var responseUrl = Url.Action("Response", "Response",
-                        new RouteValueDictionary(new { id = currentEvent.Id, pId = participantId }), "https");
-
-                    emailInfo = new EmailInformation
-                                {
-                                    CurrentEvent = currentEvent,
-                                    OrganizerName = user.FirstName,
-                                    OrganizerEmail = user.UserName,
-                                    ParticipantId = participantId,
-                                    ParticipantEmail = participant.Email,
-                                    EmailSubject = " changes.",
-                                    ResponseUrl = responseUrl,
-                                    EventDetailsUrl = detailsUrl
-                                };
-
-                    //Notify Participant using postal
-                    PostalEmailManager.SendEmail(emailInfo, new EmailInfoChangeEmail());
-                }
-
-                JobManager.ScheduleRemainderEmail(emailInfo, listDate);
-                JobManager.ScheduleParticipantListEmail(emailInfo, remanderDate);
-                JobManager.AddJobsIntoEvent(eventToEdit.Id);
+                return RedirectToAction("Index");
             }
+
+            foreach (var participant in participants)
+            {
+                var participantId = participant.Id;
+                var detailsUrl = Url.Action("Details", "Response",
+                    new RouteValueDictionary(new { id = currentEvent.Id }), "https");
+                var responseUrl = Url.Action("Response", "Response",
+                    new RouteValueDictionary(new { id = currentEvent.Id, pId = participantId }), "https");
+
+                emailInfo = new EmailInformation
+                            {
+                                CurrentEvent = currentEvent,
+                                OrganizerName = user.FirstName,
+                                OrganizerEmail = user.UserName,
+                                ParticipantId = participantId,
+                                ParticipantEmail = participant.Email,
+                                EmailSubject = " changes.",
+                                ResponseUrl = responseUrl,
+                                EventDetailsUrl = detailsUrl
+                            };
+
+                //Notify Participant using postal
+                PostalEmailManager.SendEmail(emailInfo, new EmailInfoChangeEmail());
+            }
+
+            JobManager.ScheduleRemainderEmail(emailInfo, remanderDate);
+            JobManager.ScheduleParticipantListEmail(emailInfo, listDate);
+            JobManager.AddJobsIntoEvent(eventToEdit.Id);
 
             return RedirectToAction("Index");
         }

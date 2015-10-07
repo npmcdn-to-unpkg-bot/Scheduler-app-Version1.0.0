@@ -7,12 +7,12 @@ var todaysDate = moment(new Date());
 
 function elementsInitialization() {
     $('#datePickerStart').datetimepicker({
-        format: "DD.MM.YYYY",
+        format: "DD.MM.YYYY HH:mm",
         minDate: todaysDate.subtract(0, 'days').startOf('day')
     });
 
     $('#datePickerList').datetimepicker({
-        format: "DD.MM.YYYY"
+        format: "DD.MM.YYYY HH:mm"
     });
 }
 
@@ -37,7 +37,7 @@ function linkThreeDatesElements(maxDateElementId, dateElementId) {
     var maxDate = '#' + maxDateElementId, date = '#' + dateElementId;
 
     $(date).datetimepicker({
-        format: "DD.MM.YYYY"
+        format: "DD.MM.YYYY HH:mm"
     });
 
     $(maxDate).on("dp.change", function (e) {

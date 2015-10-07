@@ -79,13 +79,13 @@ namespace SchedulerWebApp.Models.PostalEmail
         public static void SendEmail(EmailInformation emailInfo, object newEmailObject)
         {
             var email = ComposeEmail(emailInfo, newEmailObject);
+            var emailAttachment = Service.CreateAttachment(emailInfo);
+            email.Attach(emailAttachment);
             SendCorespondingEmail(email);
         }
 
         public static void SendListEmail(EmailInformation emailInfo, object emailObject)
         {
-            Email email = null;
-
             var currentEvent = Db.Events.Where(e => e.Id == emailInfo.CurrentEvent.Id)
                                         .Include(e => e.Participants)
                                         .FirstOrDefault();
@@ -99,19 +99,19 @@ namespace SchedulerWebApp.Models.PostalEmail
             var attendingParticipant = participants.Count(p => p.Availability);
             var notAttendingParticipant = allParticipant - attendingParticipant;
 
-            email = new ParticipantListEmail
-                        {
-                            EventTitle = emailInfo.CurrentEvent.Title,
-                            SenderEmail = "test@email.com",
-                            ReceiverEmail = emailInfo.OrganizerEmail,
-                            OrganizerName = emailInfo.OrganizerName,
-                            AllParticipants = allParticipant,
-                            ParticipantAttending = attendingParticipant,
-                            ParticipantNotAttending = notAttendingParticipant,
-                            ParticipantsResponded = respondedParticipants,
-                            EmailSubject = "Participants summary" + " " + emailInfo.CurrentEvent.Title,
-                            EventDetailsUrl = emailInfo.EventDetailsUrl
-                        };
+            Email email = new ParticipantListEmail
+                          {
+                              EventTitle = emailInfo.CurrentEvent.Title,
+                              SenderEmail = "test@email.com",
+                              ReceiverEmail = emailInfo.OrganizerEmail,
+                              OrganizerName = emailInfo.OrganizerName,
+                              AllParticipants = allParticipant,
+                              ParticipantAttending = attendingParticipant,
+                              ParticipantNotAttending = notAttendingParticipant,
+                              ParticipantsResponded = respondedParticipants,
+                              EmailSubject = "Participants summary" + " " + emailInfo.CurrentEvent.Title,
+                              EventDetailsUrl = emailInfo.EventDetailsUrl
+                          };
 
             SendCorespondingEmail(email);
         }

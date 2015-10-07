@@ -18,6 +18,8 @@ namespace SchedulerWebApp.Models.HangfireJobs
             JobIds.Add(listJobId);
         }
 
+
+        //testing attachments to be sent in one minute
         public static void ScheduleRemainderEmail(EmailInformation emailInfo, DateTime listDate)
         {
             var remainderJobId = BackgroundJob.Schedule(() => PostalEmailManager.SendRemainder(emailInfo, new RemainderEmail()), listDate);

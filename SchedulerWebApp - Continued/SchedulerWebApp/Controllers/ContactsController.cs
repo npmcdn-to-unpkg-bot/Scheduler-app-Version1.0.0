@@ -96,7 +96,8 @@ namespace SchedulerWebApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Contact contact = _db.Contacts.Find(id);
+
+            var contact = _db.Contacts.Find(id);
             if (contact == null)
             {
                 return HttpNotFound();
@@ -111,13 +112,15 @@ namespace SchedulerWebApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "ContactId,FirstName,LastName,Email,PhoneNumber,SchedulerUserId")] Contact contact)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                _db.Entry(contact).State = EntityState.Modified;
-                _db.SaveChanges();
-                return RedirectToAction("Index");
+                return View(contact);
             }
-            return View(contact);
+
+            contact.SchedulerUserId = GetCurrentUserId();
+            _db.Entry(contact).State = EntityState.Modified;
+            _db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
         // GET: Contacts/Delete/5
