@@ -12,14 +12,12 @@ namespace SchedulerWebApp.Models
         public static DateTime GetRemanderDate(Event eventToEdit)
         {
             var remanderDate = eventToEdit.ReminderDate;
-            //var remainderDateUtc = DateTime.SpecifyKind(remanderDate, DateTimeKind.Utc);
             return remanderDate;
         }
 
         public static DateTime GetListDate(Event eventToEdit)
         {
             var listDate = eventToEdit.ListDate;
-            //var listDateUtc = DateTime.SpecifyKind(listDate, DateTimeKind.Utc);
             return listDate;
         }
 
