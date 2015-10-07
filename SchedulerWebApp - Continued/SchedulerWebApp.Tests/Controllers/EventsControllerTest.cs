@@ -75,7 +75,7 @@ namespace SchedulerWebApp.Tests.Controllers
             Assert.IsInstanceOfType(result.ViewData.Model,typeof(Event));
         }*/
         
-/*        [TestMethod]
+        /*[TestMethod]
         public void Edit_Should_Redirect_To_Index()
         {
             var controller = Arrange_Event_Controller();
