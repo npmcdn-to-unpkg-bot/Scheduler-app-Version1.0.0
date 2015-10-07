@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using SchedulerWebApp.Models.Validation;
+using SchedulerWebApp.Models.ValidationAttributes;
 
 namespace SchedulerWebApp.Models
 {

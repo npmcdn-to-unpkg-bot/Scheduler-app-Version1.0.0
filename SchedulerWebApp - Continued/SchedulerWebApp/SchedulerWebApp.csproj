@@ -16,8 +16,7 @@
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>
-    </IISExpressSSLPort>
+    <IISExpressSSLPort>44303</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -198,7 +197,7 @@
     <Compile Include="Models\PostalEmail\PostalEmailManager.cs" />
     <Compile Include="Models\HangfireJobs\ScheduledJob.cs" />
     <Compile Include="Models\Service.cs" />
-    <Compile Include="Models\Validation\InvitedOnceAttribute.cs" />
+    <Compile Include="Models\ValidationAttributes\InvitedOnceAttribute.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\DBContext\CustomDbInitializer.cs" />
     <Compile Include="Models\Event.cs" />
@@ -208,10 +207,10 @@
     <Compile Include="Models\ViewModels\ManageViewModels.cs" />
     <Compile Include="Models\Participant.cs" />
     <Compile Include="Models\DBContext\SchedulerDbContext.cs" />
-    <Compile Include="Models\Validation\StartDateAttribute.cs" />
-    <Compile Include="Models\Validation\DeadlineDateAttribute.cs" />
-    <Compile Include="Models\Validation\ValidDateAttribute.cs" />
-    <Compile Include="Models\Validation\ValidEmailAttribute.cs" />
+    <Compile Include="Models\ValidationAttributes\StartDateAttribute.cs" />
+    <Compile Include="Models\ValidationAttributes\DeadlineDateAttribute.cs" />
+    <Compile Include="Models\ValidationAttributes\ValidDateAttribute.cs" />
+    <Compile Include="Models\ValidationAttributes\ValidEmailAttribute.cs" />
     <Compile Include="Models\PostalEmail\ContactUsEmail.cs" />
     <Compile Include="Models\PostalEmail\InvitationEmail.cs" />
     <Compile Include="Models\ViewModels\InvitationViewModel.cs" />
@@ -220,6 +219,7 @@
     <Compile Include="Models\ViewModels\ResponseViewModel.cs" />
     <Compile Include="Models\ViewModels\UnsavedContactViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RequireHttpsAttribute.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -560,7 +560,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>26679</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:44302/</IISUrl>
+          <IISUrl>https://localhost:44303/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

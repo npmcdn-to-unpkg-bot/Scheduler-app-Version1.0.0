@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net.Mail;
 
-namespace SchedulerWebApp.Models.Validation
+namespace SchedulerWebApp.Models.ValidationAttributes
 {
     public class ValidEmailAttribute : ValidationAttribute
     {

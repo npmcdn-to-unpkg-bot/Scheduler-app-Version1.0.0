@@ -24,6 +24,8 @@ namespace SchedulerWebApp
                                                     Formatting = Newtonsoft.Json.Formatting.Indented,
                                                     ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
                                                 };
+
+            GlobalFilters.Filters.Add(new RequireHttpsAttribute());
         }
     }
 }

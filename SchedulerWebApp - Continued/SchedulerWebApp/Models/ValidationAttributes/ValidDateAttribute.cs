@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 
-namespace SchedulerWebApp.Models.Validation
+namespace SchedulerWebApp.Models.ValidationAttributes
 {
     public class ValidDateAttribute : ValidationAttribute
     {

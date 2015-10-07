@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Reflection;
 
-namespace SchedulerWebApp.Models.Validation
+namespace SchedulerWebApp.Models.ValidationAttributes
 {
     public class DeadlineDateAttribute : ValidationAttribute
     {

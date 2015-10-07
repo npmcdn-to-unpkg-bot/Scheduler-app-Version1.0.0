@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using SchedulerWebApp.Models.DBContext;
 
-namespace SchedulerWebApp.Models.Validation
+namespace SchedulerWebApp.Models.ValidationAttributes
 {
     public class InvitedOnceAttribute : ValidationAttribute
     {
