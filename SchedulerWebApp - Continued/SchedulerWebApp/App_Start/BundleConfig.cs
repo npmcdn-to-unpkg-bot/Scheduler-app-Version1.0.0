@@ -54,14 +54,12 @@ namespace SchedulerWebApp
                 "~/Content/jquery-ui-flick-themes.css",
                 "~/Content/jquery.tagit.css"));
 
-            bundles.Add(new StyleBundle("~/Content/fooTable").Include(
-                "~/Content/footable-bootstrap.v3.0.1/footable.bootstrap.css"));
-
             bundles.Add(new StyleBundle("~/Content/dataTables").Include(
                 "~/Content/DataTables/css/dataTables.bootstrap.css",
                 "~/Content/DataTables/css/jquery.dataTables.css",
                 "~/Content/DataTables/css/responsive.dataTables.css"
                 ));
+
             bundles.Add(new StyleBundle("~/Content/customStyle").Include(
                 "~/Content/Custom.css"
                 ));
