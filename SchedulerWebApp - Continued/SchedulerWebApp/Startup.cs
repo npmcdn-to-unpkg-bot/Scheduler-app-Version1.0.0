@@ -1,5 +1,6 @@
 ﻿using Hangfire;
 using Microsoft.Owin;
+using Microsoft.Owin.Security.Cookies;
 using Owin;
 using SchedulerWebApp;
 
@@ -14,6 +15,14 @@ namespace SchedulerWebApp
             GlobalConfiguration.Configuration.UseSqlServerStorage("DefaultConnection");
             app.UseHangfireDashboard();
             app.UseHangfireServer();
+
+            var provider = new CookieAuthenticationProvider {OnException = context => { }};
+
+            app.UseCookieAuthentication(new CookieAuthenticationOptions
+            {
+                Provider = provider
+            });
+
             ConfigureAuth(app);
         }
     }

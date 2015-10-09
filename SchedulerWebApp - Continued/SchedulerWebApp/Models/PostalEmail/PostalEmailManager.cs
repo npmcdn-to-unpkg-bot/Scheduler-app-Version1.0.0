@@ -1,8 +1,10 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Web.Hosting;
 using System.Web.Mvc;
+using Elmah;
 using Postal;
 using SchedulerWebApp.Models.DBContext;
 
@@ -88,7 +90,9 @@ namespace SchedulerWebApp.Models.PostalEmail
         public static void SendListEmail(EmailInformation emailInfo, object emailObject)
         {
             var currentEvent = GetCurrentEvent(emailInfo);
-            
+
+            //ErrorLog.GetDefault(System.Web.HttpContext.Current).Log(new Error(new Exception("Testing")));
+
             if (currentEvent == null) return;
 
             var participants = currentEvent.Participants.ToList();
