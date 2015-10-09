@@ -84,11 +84,10 @@ namespace SchedulerWebApp.Models.PostalEmail
             SendCorespondingEmail(email);
         }
 
+
         public static void SendListEmail(EmailInformation emailInfo, object emailObject)
         {
-            var currentEvent = Db.Events.Where(e => e.Id == emailInfo.CurrentEvent.Id)
-                                        .Include(e => e.Participants)
-                                        .FirstOrDefault();
+            var currentEvent = GetCurrentEvent(emailInfo);
             
             if (currentEvent == null) return;
 
@@ -116,9 +115,10 @@ namespace SchedulerWebApp.Models.PostalEmail
             SendCorespondingEmail(email);
         }
 
+
         public static void SendRemainder(EmailInformation emailInfo, object emailObject)
         {
-            var @event = Db.Events.Where(e => e.Id == emailInfo.CurrentEvent.Id).Include(e => e.Participants).FirstOrDefault();
+            var @event = GetCurrentEvent(emailInfo);
             var noResponseParticipants = @event.Participants
                                          .Where(p => p.Responce == false).ToList();
 
@@ -154,6 +154,13 @@ namespace SchedulerWebApp.Models.PostalEmail
             var emailService = new Postal.EmailService(engines);
 
             emailService.Send(email);
+        }
+
+        private static Event GetCurrentEvent(EmailInformation emailInfo)
+        {
+            return Db.Events.Where(e => e.Id == emailInfo.CurrentEvent.Id)
+                .Include(e => e.Participants)
+                .FirstOrDefault();
         }
     }
 }

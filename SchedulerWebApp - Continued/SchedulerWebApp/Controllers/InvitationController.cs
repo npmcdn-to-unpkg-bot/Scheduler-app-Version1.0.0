@@ -118,7 +118,8 @@ namespace SchedulerWebApp.Controllers
 
                 #endregion
 
-                //after sending email its time to save unsaved contacts
+                #region after sending email its time to save unsaved contacts
+
                 var contactEmails = _contactsController.GetUserContacts(GetUserId());
                 allSaved = contactEmails.Any(c => c.Email == participantEmail);
 
@@ -126,9 +127,12 @@ namespace SchedulerWebApp.Controllers
                 {
                     continue;
                 }
-                var contact = new Contact { Email = participantEmail };
+                var contact = new Contact {Email = participantEmail};
                 contacts.Add(contact);
                 unsavedContacts.Contacts = contacts;
+
+                #endregion
+
             }
 
             #region Scheduling emails
