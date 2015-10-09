@@ -13,8 +13,8 @@ namespace SchedulerWebApp.Models.PostalEmail
         public int ParticipantId { get; set; }
 
         public string SenderName { get; set; }
-        public string SenderEmail { get; set; }
-        public string ReceiverEmail { get; set; }
+        public string From { get; set; }
+        public string To { get; set; }
         public string EmailSubject { get; set; }
 
         public string OrganizerName { get; set; }

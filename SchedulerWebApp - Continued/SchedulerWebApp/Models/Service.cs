@@ -44,7 +44,7 @@ namespace SchedulerWebApp.Models
             stringBuilder.AppendLine(string.Format("X-ALT-DESC;FMTTYPE=text/html:{0}", eventToSend.Description));
             stringBuilder.AppendLine(string.Format("SUMMARY:{0}", eventToSend.Description));
             stringBuilder.AppendLine(string.Format("ORGANIZER:MAILTO:{0}", emailInformation.OrganizerEmail));
-            //stringBuilder.AppendLine(string.Format("ATTENDEE;CN=\"{0}\";RSVP=TRUE:mailto:{1}", email.SenderLastName, email.SenderEmail));
+            //stringBuilder.AppendLine(string.Format("ATTENDEE;CN=\"{0}\";RSVP=TRUE:mailto:{1}", email.SenderLastName, email.From));
             stringBuilder.AppendLine("BEGIN:VALARM");
             stringBuilder.AppendLine("TRIGGER:-PT15M");
             stringBuilder.AppendLine("ACTION:DISPLAY");

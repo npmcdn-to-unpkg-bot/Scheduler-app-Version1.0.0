@@ -19,7 +19,7 @@ namespace SchedulerWebApp.Models.PostalEmail
         [EmailAddress]
         [DataType(DataType.EmailAddress)]
         [Display(Name = "Your email")]
-        public string SenderEmail { get; set; }
+        public string From { get; set; }
 
         [Required]
         [Display(Name = "Subject")]
@@ -30,6 +30,6 @@ namespace SchedulerWebApp.Models.PostalEmail
         [Display(Name = "Message")]
         public string EmailBody { get; set; }
 
-        public string ReceiverEmail { get; set; }
+        public string To { get; set; }
     }
 }

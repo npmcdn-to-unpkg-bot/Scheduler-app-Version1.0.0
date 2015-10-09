@@ -28,10 +28,10 @@ namespace SchedulerWebApp.Models.PostalEmail
                            StartDate = emailInfo.CurrentEvent.StartDate,
                            GetListDate = emailInfo.CurrentEvent.ListDate,
                            ParticipantId = emailInfo.ParticipantId,
-                           ReceiverEmail = emailInfo.ParticipantEmail,
+                           To = emailInfo.ParticipantEmail,
                            OrganizerName = emailInfo.OrganizerName,
                            OrganizerEmail = emailInfo.OrganizerEmail,
-                           SenderEmail = "aim_ahmad@hotmail.com",
+                           From = "aim_ahmad@hotmail.com",
                            EmailSubject = emailInfo.CurrentEvent.Title + emailInfo.EmailSubject,
                            ResponseUrl = emailInfo.ResponseUrl
                        };
@@ -47,10 +47,10 @@ namespace SchedulerWebApp.Models.PostalEmail
                             StartDate = emailInfo.CurrentEvent.StartDate,
                             GetListDate = emailInfo.CurrentEvent.ListDate,
                             ParticipantId = emailInfo.ParticipantId,
-                            ReceiverEmail = emailInfo.ParticipantEmail,
+                            To = emailInfo.ParticipantEmail,
                             OrganizerName = emailInfo.OrganizerName,
                             OrganizerEmail = emailInfo.OrganizerEmail,
-                            SenderEmail = "aim_ahmad@hotmail.com",
+                            From = "aim_ahmad@hotmail.com",
                             EmailSubject = emailInfo.CurrentEvent.Title + emailInfo.EmailSubject,
                             ResponseUrl = emailInfo.ResponseUrl,
                             EventDetailsUrl = emailInfo.EventDetailsUrl
@@ -66,10 +66,10 @@ namespace SchedulerWebApp.Models.PostalEmail
                             StartDate = emailInfo.CurrentEvent.StartDate,
                             GetListDate = emailInfo.CurrentEvent.ListDate,
                             ParticipantId = emailInfo.ParticipantId,
-                            ReceiverEmail = emailInfo.ParticipantEmail,
+                            To = emailInfo.ParticipantEmail,
                             OrganizerName = emailInfo.OrganizerName,
                             OrganizerEmail = emailInfo.OrganizerEmail,
-                            SenderEmail = "aim_ahmad@hotmail.com",
+                            From = "aim_ahmad@hotmail.com",
                             EmailSubject = emailInfo.CurrentEvent.Title + emailInfo.EmailSubject
                         };
             }
@@ -91,7 +91,7 @@ namespace SchedulerWebApp.Models.PostalEmail
         {
             var currentEvent = GetCurrentEvent(emailInfo);
 
-            //ErrorLog.GetDefault(System.Web.HttpContext.Current).Log(new Error(new Exception("Testing")));
+            ErrorLog.GetDefault(System.Web.HttpContext.Current).Log(new Error(new Exception("Testing")));
 
             if (currentEvent == null) return;
 
@@ -105,8 +105,8 @@ namespace SchedulerWebApp.Models.PostalEmail
             Email email = new ParticipantListEmail
                           {
                               EventTitle = emailInfo.CurrentEvent.Title,
-                              SenderEmail = "test@email.com",
-                              ReceiverEmail = emailInfo.OrganizerEmail,
+                              From = "test@email.com",
+                              To = emailInfo.OrganizerEmail,
                               OrganizerName = emailInfo.OrganizerName,
                               AllParticipants = allParticipant,
                               ParticipantAttending = attendingParticipant,
@@ -135,8 +135,8 @@ namespace SchedulerWebApp.Models.PostalEmail
                                   EventLocation = emailInfo.CurrentEvent.Location,
                                   StartDate = emailInfo.CurrentEvent.StartDate,
                                   GetListDate = emailInfo.CurrentEvent.ListDate,
-                                  ReceiverEmail = participant.Email,
-                                  SenderEmail = "no-reply@scheduleasy.com",
+                                  To = participant.Email,
+                                  From = "no-reply@scheduleasy.com",
                                   EmailSubject = "Remainder for" + " " + emailInfo.CurrentEvent.Title,
                                   ResponseUrl = emailInfo.ResponseUrl
                               };
