@@ -40,6 +40,7 @@ namespace SchedulerWebApp.Controllers
         public ActionResult SendEventsInvitation([Bind(Include = "ParticipantsEmails,EventId,SendRemainder")] InvitationViewModel model)
         {
             var id = model.EventId;
+
             //check input values
             if (!ModelState.IsValid)
             {
@@ -51,8 +52,7 @@ namespace SchedulerWebApp.Controllers
 
             //Check if there is Participants
             var noInvitation = !eventForInvitation.Participants.ToList().Any();
-
-
+            
             //Check if invitations can still be sent
             var notPassed = EventHasNotPassed(eventForInvitation);
             if (!notPassed)
@@ -132,7 +132,6 @@ namespace SchedulerWebApp.Controllers
                 unsavedContacts.Contacts = contacts;
 
                 #endregion
-
             }
 
             #region Scheduling emails
@@ -165,9 +164,7 @@ namespace SchedulerWebApp.Controllers
             TempData["model"] = unsavedContacts;           //Pass list to SaveEmails action
             return RedirectToAction("SaveEmails");
         }
-
-
-
+        
         #endregion
 
         private static bool EventHasNotPassed(Event eventForInvitation)

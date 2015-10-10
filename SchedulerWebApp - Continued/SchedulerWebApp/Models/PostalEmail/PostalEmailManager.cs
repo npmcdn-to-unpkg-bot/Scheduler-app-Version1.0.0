@@ -78,15 +78,6 @@ namespace SchedulerWebApp.Models.PostalEmail
             return email;
         }
 
-        public static void SendEmail(EmailInformation emailInfo, object newEmailObject)
-        {
-            var email = ComposeEmail(emailInfo, newEmailObject);
-            var emailAttachment = Service.CreateAttachment(emailInfo);
-            email.Attach(emailAttachment);
-            SendCorespondingEmail(email);
-        }
-
-
         public static void SendListEmail(EmailInformation emailInfo, object emailObject)
         {
             var currentEvent = GetCurrentEvent(emailInfo);
@@ -119,7 +110,6 @@ namespace SchedulerWebApp.Models.PostalEmail
             SendCorespondingEmail(email);
         }
 
-
         public static void SendRemainder(EmailInformation emailInfo, object emailObject)
         {
             var @event = GetCurrentEvent(emailInfo);
@@ -144,6 +134,14 @@ namespace SchedulerWebApp.Models.PostalEmail
             }
         }
 
+        public static void SendEmail(EmailInformation emailInfo, object newEmailObject)
+        {
+            var email = ComposeEmail(emailInfo, newEmailObject);
+            var emailAttachment = Service.CreateAttachment(emailInfo);
+            email.Attach(emailAttachment);
+            SendCorespondingEmail(email);
+        }
+
         public static void SendContactUsEmail(ContactUsEmail email)
         {
             SendCorespondingEmail(email);
@@ -155,16 +153,18 @@ namespace SchedulerWebApp.Models.PostalEmail
             var viewpath = Path.GetFullPath(HostingEnvironment.MapPath(@"~/Views/Emails"));
             var engines = new ViewEngineCollection();
             engines.Add(new FileSystemRazorViewEngine(viewpath));
-            var emailService = new Postal.EmailService(engines);
-
+            var emailService = new Postal.EmailService(engines); 
+     
             emailService.Send(email);
         }
 
         private static Event GetCurrentEvent(EmailInformation emailInfo)
         {
-            return Db.Events.Where(e => e.Id == emailInfo.CurrentEvent.Id)
+            var currentEvent = Db.Events.Where(e => e.Id == emailInfo.CurrentEvent.Id)
                 .Include(e => e.Participants)
                 .FirstOrDefault();
+
+            return currentEvent;
         }
     }
 }
