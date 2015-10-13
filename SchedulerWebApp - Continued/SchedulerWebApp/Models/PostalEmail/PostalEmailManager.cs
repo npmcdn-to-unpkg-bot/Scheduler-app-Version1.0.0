@@ -160,7 +160,7 @@ namespace SchedulerWebApp.Models.PostalEmail
 
         private static Event GetCurrentEvent(EmailInformation emailInfo)
         {
-            var currentEvent = Db.Events.Where(e => e.Id == emailInfo.CurrentEvent.Id)
+           var currentEvent = Db.Events.Where(e => e.Id == emailInfo.CurrentEvent.Id)
                 .Include(e => e.Participants)
                 .FirstOrDefault();
 
