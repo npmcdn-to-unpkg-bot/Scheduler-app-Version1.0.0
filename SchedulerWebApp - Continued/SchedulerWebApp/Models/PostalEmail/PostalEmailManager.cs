@@ -139,7 +139,7 @@ namespace SchedulerWebApp.Models.PostalEmail
             var email = ComposeEmail(emailInfo, newEmailObject);
             var emailAttachment = Service.CreateAttachment(emailInfo);
             email.Attach(emailAttachment);
-            SendCorespondingEmail(email);
+            SendCorespondingEmail(email); 
         }
 
         public static void SendContactUsEmail(ContactUsEmail email)

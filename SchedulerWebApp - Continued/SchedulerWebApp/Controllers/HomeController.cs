@@ -27,7 +27,7 @@ namespace SchedulerWebApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult Contact([Bind(Include = "SenderFistName,SenderLastName,SenderEmail,EmailSubject,EmailBody")]
+        public ActionResult Contact([Bind(Include = "SenderFistName,SenderLastName,From,EmailSubject,EmailBody")]
             ContactUsEmail model)
         {
             if (!ModelState.IsValid) return View(model);
