@@ -108,3 +108,27 @@ body {
 input,
 select,
 textarea { max-width: 280px; }
+
+.element-red {
+    color: red;
+}
+
+.element-gray {
+    color: gray;
+}
+
+.element-green {
+    color: green;
+}
+
+a + a {
+    margin-left: 15px;
+}
+
+.red-badge {
+    background: red;
+}
+
+.green-badge {
+    background: green;
+}

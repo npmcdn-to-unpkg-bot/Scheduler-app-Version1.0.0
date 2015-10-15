@@ -13,11 +13,21 @@
                     </tr>
                     <tr>
                         <td class="col-sm-3"><label>When?</label></td>
-                        <td class="col-sm-9">@Model.StartDate.DayOfWeek , @Model.StartDate.Date.ToString("MMM", CultureInfo.InvariantCulture) @Model.StartDate.Day</td>
+                        <td class="col-sm-9">@Model.StartDate.ToString("D", new CultureInfo("en-GB"))</td>
                     </tr>
                     <tr>
                         <td class="col-sm-3"><label>Envitees:</label></td>
                         <td class="col-sm-9"><span class="badge">@Model.Participants.Count</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="col-sm-3"><label>Attending:</label></td>
+                        <td class="col-sm-9"><span class="badge green-badge">@Model.Participants.Where(p => p.Availability).ToList().Count</span></td>
+                    </tr>
+
+                    <tr>
+                        <td class="col-sm-3"><label>Absent:</label></td>
+                        <td class="col-sm-9"><span class="badge red-badge">@Model.Participants.Where(p => !(p.Availability)).ToList().Count</span></td>
                     </tr>
                 </tbody>
             </table>
