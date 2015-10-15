@@ -73,10 +73,17 @@ namespace SchedulerWebApp.Controllers
 
             foreach (var participantEmail in emailList)
             {
+                var email = participantEmail;
+
+                if (participantEmail.Contains("["))
+                {
+                    email = participantEmail.Split('[', ']')[1];
+                }
+
                 //create new participant 
                 var invitedParticipant = new Participant
                                          {
-                                             Email = participantEmail,
+                                             Email = email,
                                              Responce = false,
                                              Availability = false
                                          };
@@ -91,7 +98,7 @@ namespace SchedulerWebApp.Controllers
                 var organizerEmail = user.Email;
 
                 var participantId = eventForInvitation.Participants
-                                                       .Where(p => p.Email == participantEmail)
+                                                       .Where(p => p.Email == email)
                                                        .Select(p => p.Id)
                                                        .FirstOrDefault();
 
@@ -105,7 +112,7 @@ namespace SchedulerWebApp.Controllers
                                     OrganizerEmail = organizerEmail,
                                     OrganizerName = organizerFirstName,
                                     ParticipantId = participantId,
-                                    ParticipantEmail = participantEmail,
+                                    ParticipantEmail = email,
                                     ResponseUrl = responseUrl,
                                     RemainderDate = eventForInvitation.ReminderDate,
                                     ListDate = eventForInvitation.ListDate,
@@ -121,13 +128,13 @@ namespace SchedulerWebApp.Controllers
                 #region after sending email its time to save unsaved contacts
 
                 var contactEmails = _contactsController.GetUserContacts(GetUserId());
-                allSaved = contactEmails.Any(c => c.Email == participantEmail);
+                allSaved = contactEmails.Any(c => c.Email == email);
 
                 if (allSaved)
                 {
                     continue;
                 }
-                var contact = new Contact {Email = participantEmail};
+                var contact = new Contact {Email = email};
                 contacts.Add(contact);
                 unsavedContacts.Contacts = contacts;
 
@@ -196,13 +203,13 @@ namespace SchedulerWebApp.Controllers
 
         public JsonResult CheckParticipantEmail(string participantsEmails, int eventId)
         {
-            List<string> emails = participantsEmails.Split(',').ToList();
-            Event _event = _db.Events.Find(eventId);
-            bool isNotyetInvited = false;
+            var emails = participantsEmails.Split(',').ToList();
+            var _event = _db.Events.Find(eventId);
+            var isNotyetInvited = false;
 
-            foreach (string email in emails)
+            foreach (var email in emails)
             {
-                string thisEmail = email;
+                var thisEmail = email;
                 isNotyetInvited = _event.Participants.All(p => p.Email != thisEmail);
 
                 if (!isNotyetInvited)

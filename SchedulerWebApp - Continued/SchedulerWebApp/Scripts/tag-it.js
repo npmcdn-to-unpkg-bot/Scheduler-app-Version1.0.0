@@ -283,6 +283,10 @@
                         that.createTag(ui.item.value);
                         // Preventing the tag input to be updated with the chosen value.
                         return false;
+                    },
+                    focus: function (event, ui) {
+                        event.preventDefault();
+                        that.tagInput.val(ui.item.label);
                     }
                 };
                 $.extend(autocompleteOptions, this.options.autocomplete);

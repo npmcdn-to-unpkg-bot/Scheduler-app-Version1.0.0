@@ -162,7 +162,7 @@ namespace SchedulerWebApp.Controllers
                 .Where(c => (c.FirstName.ToLower().Contains(t) || c.LastName.ToLower().Contains(t) || c.Email.ToLower().Contains(t)))
                                     .Select(c => new
                                          {
-                                             label = (c.FirstName + " " + c.LastName + " <" + c.Email + ">"),
+                                             label = (c.FirstName + " " + c.LastName + " [" + c.Email + "]"),
                                              value = c.Email
                                          });
 

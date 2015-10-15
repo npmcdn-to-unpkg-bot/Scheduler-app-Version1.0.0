@@ -540,6 +540,9 @@
     <Content Include="Views\Emails\ParticipantList.cshtml" />
     <Content Include="Views\Emails\Remainder.cshtml" />
     <Content Include="Views\Emails\ContactUs.cshtml" />
+    <Content Include="Scripts\tag-it.min.js.map">
+      <DependentUpon>tag-it.min.js</DependentUpon>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
