@@ -29,7 +29,8 @@
     @Scripts.Render("~/bundles/custom")
     <script type="text/javascript">
         $(function () {
-            makeTableResponsive("detailsTable");
+            makeTableResponsive("detailsTable", 1);
+            grayOutAbsentees();
         });
     </script>
 }

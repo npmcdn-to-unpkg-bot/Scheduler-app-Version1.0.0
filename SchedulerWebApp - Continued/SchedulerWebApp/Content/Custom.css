@@ -132,3 +132,14 @@ a + a {
 .green-badge {
     background: green;
 }
+
+.event-thumbnail {
+    background: lightcyan;
+    -webkit-box-shadow: 3px 3px 3px 3px;
+    -ms-box-shadow: 3px 3px 3px 3px;
+    box-shadow: 3px 3px 3px 3px;
+}
+
+tr:contains("Absent") {
+    color: lightsteelblue
+}

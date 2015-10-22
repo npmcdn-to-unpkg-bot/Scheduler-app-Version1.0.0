@@ -2,7 +2,7 @@
 
 <h3>Invitees</h3>
 
-<table class="table table-responsive table-condensed detailsTable display nowrap" cellspacing="0" width="100%">
+<table id="participantTable" class="table table-responsive table-condensed detailsTable display" cellspacing="0" width="100%">
     <thead>
         <tr>
             <th class="col-sm-3">
@@ -23,10 +23,10 @@
     @foreach (var item in Model)
     {
         <tr>
-            <td>
+            <td class="participantRow">
                 @Html.DisplayFor(modelItem => item.Email)
             </td>
-            <td>
+            <td class="availabilityRow">
                 @(item.Availability ? "Attending" : "Absent")
             </td>
             <td>

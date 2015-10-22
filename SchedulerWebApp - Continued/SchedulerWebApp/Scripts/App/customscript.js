@@ -47,11 +47,22 @@ function linkThreeDatesElements(maxDateElementId, dateElementId) {
 }
 
 //DataTable functions
-function makeTableResponsive(tableClass) {
+function makeTableResponsive(tableClass, columnIndexForOrdering) {
     var selector = '.' + tableClass;
     $(selector).DataTable({
+        "order": [[ columnIndexForOrdering, "desc" ]],
         responsive: true,
         searching: false,
-        "pagingType": "simple"
+        "pagingType": "simple",
+        "bLengthChange": false
+    });
+}
+
+
+function grayOutAbsentees() {
+    $('#participantTable').each(function () {
+        $('tr:contains("Absent")').each(function() {
+            $(this).css('color', '#E0C5D1');
+        });       
     });
 }

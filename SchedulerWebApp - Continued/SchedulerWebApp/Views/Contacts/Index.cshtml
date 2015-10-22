@@ -34,25 +34,25 @@
 
     @foreach (var item in Model)
     {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.FirstName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.LastName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Email)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PhoneNumber)
-        </td>
-        <td>
-            <a class="element-gray" href="@Url.Action("Details", "Contacts", new { id = item.ContactId })"><i title="Details" class="fa fa-info-circle"></i></a> 
-            <a class="element-gray" href="@Url.Action("Edit","Contacts",new {id=item.ContactId})"><i title="Edit" class="fa fa-pencil"></i></a> 
-            <a class="element-red" href="@Url.Action("Delete", "Contacts", new { id = item.ContactId })"><i title="Delete" class="fa fa-trash-o"></i></a> 
-        </td>
-    </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+            <td>
+                <a class="element-gray" href="@Url.Action("Details", "Contacts", new { id = item.ContactId })"><i title="Details" class="fa fa-info-circle"></i></a>
+                <a class="element-gray" href="@Url.Action("Edit","Contacts",new {id=item.ContactId})"><i title="Edit" class="fa fa-pencil"></i></a>
+                <a class="element-red" href="@Url.Action("Delete", "Contacts", new { id = item.ContactId })"><i title="Delete" class="fa fa-trash-o"></i></a>
+            </td>
+        </tr>
     }
 
 </table>
@@ -62,7 +62,7 @@
 
     <script type="text/javascript">
         $(function () {
-            makeTableResponsive("footable");
+            makeTableResponsive("footable", 0);
         });
     </script>
 }

@@ -2,7 +2,7 @@
 @model SchedulerWebApp.Models.Event
 
 <div class="col-sm-4 event-div">
-    <div class="thumbnail">
+    <div class="thumbnail event-thumbnail">
         <div class="caption">
             <h5 class="text-center">@Model.Title.ToUpper()</h5>
             <table class="borderless table table-condensed centered">
@@ -13,7 +13,7 @@
                     </tr>
                     <tr>
                         <td class="col-sm-3"><label>When?</label></td>
-                        <td class="col-sm-9">@Model.StartDate.ToString("D", new CultureInfo("en-GB"))</td>
+                        <td class="col-sm-9">@Model.StartDate.ToString("d", new CultureInfo("de-CH"))</td>
                     </tr>
                     <tr>
                         <td class="col-sm-3"><label>Envitees:</label></td>
