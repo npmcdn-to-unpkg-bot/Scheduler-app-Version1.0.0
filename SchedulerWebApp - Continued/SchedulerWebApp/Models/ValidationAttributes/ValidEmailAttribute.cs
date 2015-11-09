@@ -10,25 +10,17 @@ namespace SchedulerWebApp.Models.ValidationAttributes
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            string enteredEmails;
-            if (value != null) enteredEmails = value.ToString();
-            else enteredEmails = string.Empty;
+            string enteredEmails = value != null ? value.ToString() : string.Empty;
 
             //split entered values
             string[] enteredValues = enteredEmails.Split(',');
-            var emails= new List<string>();
+            var emails = new List<string>();
 
-            foreach (var e in enteredValues)
+            foreach (string e in enteredValues)
             {
-                var email1 = e;
-
-                if (email1.Contains("["))
-                {
-                    email1 = e.Split('[', ']')[1];
-                }
-                emails.Add(email1);
+                string enteredEmail = Service.RemoveBrackets(e);
+                emails.Add(enteredEmail);
             }
-            
 
             if (emails.Any(email => !IsValid(email)))
             {
@@ -54,6 +46,5 @@ namespace SchedulerWebApp.Models.ValidationAttributes
                 return false;
             }
         }
-
     }
 }

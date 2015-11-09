@@ -35,15 +35,15 @@ namespace SchedulerWebApp.Models
             stringBuilder.AppendLine("VERSION:2.0");
             stringBuilder.AppendLine("METHOD:REQUEST");
             stringBuilder.AppendLine("BEGIN:VEVENT");
-            stringBuilder.AppendLine(string.Format("DTSTART:{0:yyyyMMddTHHmmssZ}", startDate));     //Verify if the time is local time
-            stringBuilder.AppendLine(string.Format("DTSTAMP:{0:yyyyMMddTHHmmssZ}", DateTime.UtcNow));
-            stringBuilder.AppendLine(string.Format("DTEND:{0:yyyyMMddTHHmmssZ}", endDate));
-            stringBuilder.AppendLine(string.Format("LOCATION: {0}", eventToSend.Location));
-            stringBuilder.AppendLine(string.Format("UID:{0}", Guid.NewGuid()));
-            stringBuilder.AppendLine(string.Format("DESCRIPTION:{0}", eventToSend.Description));
-            stringBuilder.AppendLine(string.Format("X-ALT-DESC;FMTTYPE=text/html:{0}", eventToSend.Description));
-            stringBuilder.AppendLine(string.Format("SUMMARY:{0}", eventToSend.Description));
-            stringBuilder.AppendLine(string.Format("ORGANIZER:MAILTO:{0}", emailInformation.OrganizerEmail));
+            stringBuilder.AppendLine(String.Format("DTSTART:{0:yyyyMMddTHHmmssZ}", startDate));     //Verify if the time is local time
+            stringBuilder.AppendLine(String.Format("DTSTAMP:{0:yyyyMMddTHHmmssZ}", DateTime.UtcNow));
+            stringBuilder.AppendLine(String.Format("DTEND:{0:yyyyMMddTHHmmssZ}", endDate));
+            stringBuilder.AppendLine(String.Format("LOCATION: {0}", eventToSend.Location));
+            stringBuilder.AppendLine(String.Format("UID:{0}", Guid.NewGuid()));
+            stringBuilder.AppendLine(String.Format("DESCRIPTION:{0}", eventToSend.Description));
+            stringBuilder.AppendLine(String.Format("X-ALT-DESC;FMTTYPE=text/html:{0}", eventToSend.Description));
+            stringBuilder.AppendLine(String.Format("SUMMARY:{0}", eventToSend.Description));
+            stringBuilder.AppendLine(String.Format("ORGANIZER:MAILTO:{0}", emailInformation.OrganizerEmail));
             //stringBuilder.AppendLine(string.Format("ATTENDEE;CN=\"{0}\";RSVP=TRUE:mailto:{1}", email.SenderLastName, email.From));
             stringBuilder.AppendLine("BEGIN:VALARM");
             stringBuilder.AppendLine("TRIGGER:-PT15M");
@@ -64,7 +64,7 @@ namespace SchedulerWebApp.Models
 
             var contentType = new ContentType("text/calender");
             contentType.Parameters.Add("method", "REQUEST");
-            contentType.Parameters.Add("name", string.Format("{0}'s_Invitation.ics", eventToSend.Title));
+            contentType.Parameters.Add("name", String.Format("{0}'s_Invitation.ics", eventToSend.Title));
 
             //create attachment
             var attachment = new Attachment(stream, contentType);
@@ -72,6 +72,15 @@ namespace SchedulerWebApp.Models
             //return Attachment
             return attachment;
 
+        }
+
+        public static string RemoveBrackets( string email)
+        {
+            if (email.Contains("["))
+            {
+                email = email.Split('[', ']')[1];
+            }
+            return email;
         }
     }
 }

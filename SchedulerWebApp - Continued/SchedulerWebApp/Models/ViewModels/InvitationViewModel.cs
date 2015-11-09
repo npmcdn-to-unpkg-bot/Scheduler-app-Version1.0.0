@@ -20,11 +20,12 @@ namespace SchedulerWebApp.Models.ViewModels
         public DateTime EventDate { get; set; }
 
         [Required]
+        [InvitedOnce("EventId")]
         [ValidEmail]
         [Display(Name = "Email(s)")]
-        [InvitedOnce("EventId")]
-        [Remote("CheckParticipantEmail", "Invitation", ErrorMessage = "This participant is already invited.",
-            AdditionalFields = "EventId")]
+        [Remote("CheckParticipantEmail", "Invitation", 
+                 ErrorMessage = "This participant is already invited.",
+                 AdditionalFields = "EventId")]
         public string ParticipantsEmails { get; set; }
 
         public bool SendRemainder { get; set; }

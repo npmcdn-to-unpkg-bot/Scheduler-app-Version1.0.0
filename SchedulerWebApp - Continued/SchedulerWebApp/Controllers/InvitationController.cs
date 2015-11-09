@@ -73,12 +73,7 @@ namespace SchedulerWebApp.Controllers
 
             foreach (var participantEmail in emailList)
             {
-                var email = participantEmail;
-
-                if (participantEmail.Contains("["))
-                {
-                    email = participantEmail.Split('[', ']')[1];
-                }
+                var email = Service.RemoveBrackets(participantEmail);
 
                 //create new participant 
                 var invitedParticipant = new Participant
@@ -209,7 +204,8 @@ namespace SchedulerWebApp.Controllers
 
             foreach (var email in emails)
             {
-                var thisEmail = email;
+                var thisEmail = Service.RemoveBrackets(email);
+
                 isNotyetInvited = _event.Participants.All(p => p.Email != thisEmail);
 
                 if (!isNotyetInvited)

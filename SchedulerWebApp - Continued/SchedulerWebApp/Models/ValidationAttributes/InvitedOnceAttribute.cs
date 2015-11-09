@@ -21,7 +21,6 @@ namespace SchedulerWebApp.Models.ValidationAttributes
             if (value != null)
             {
                 enteredEmails = value.ToString();
-                //get event from db and look its invites emails;
             }
             else
             {
@@ -29,7 +28,6 @@ namespace SchedulerWebApp.Models.ValidationAttributes
             }
             List<string> emails = enteredEmails.Split(',').ToList();
 
-            Event currentEvent;
             PropertyInfo propertyInfo = validationContext.ObjectType.GetProperty(EventId);
             object currentEventId = propertyInfo.GetValue(validationContext.ObjectInstance);
 
@@ -45,9 +43,11 @@ namespace SchedulerWebApp.Models.ValidationAttributes
 
             using (var dbContext = new SchedulerDbContext())
             {
-                currentEvent = dbContext.Events.Find(id);
-                foreach (var email in emails)
+                Event currentEvent = dbContext.Events.Find(id);
+                foreach (var e in emails)
                 {
+                    var email = Service.RemoveBrackets(e);
+
                     bool isNotYetInvited = currentEvent.Participants.All(p => p.Email != email);
 
                     if (!isNotYetInvited)
@@ -57,9 +57,6 @@ namespace SchedulerWebApp.Models.ValidationAttributes
                     }
                 }
             }
-
-
-
             return ValidationResult.Success;
         }
     }
