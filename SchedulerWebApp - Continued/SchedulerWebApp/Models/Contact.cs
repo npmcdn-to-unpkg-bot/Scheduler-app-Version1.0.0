@@ -22,8 +22,7 @@ namespace SchedulerWebApp.Models
         public string Email { get; set; }
 
         [DataType(DataType.PhoneNumber)]
-        //[RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Entered mobile is not valid.")]
-        [RegularExpression(@"^(?:\+\d{1,3}|0\d{1,3}|00\d{1,2})?(?:\s?\(\d+\))?(?:[-\/\s.]|\d)+$", ErrorMessage = "Entered mobile is not valid.")]
+        [RegularExpression(@"^([0][2-7]{1}[1-9]{1}|(\+[4][1])?[ ]?[7][1-9]{1})?[ ]?(\d{3})?[ ]?(\d{2})?[ ]?(\d{2})$", ErrorMessage = "Entered mobile is not valid.")]
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
 
