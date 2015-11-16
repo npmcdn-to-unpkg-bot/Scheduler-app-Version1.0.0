@@ -13,7 +13,7 @@
                     </tr>
                     <tr>
                         <td class="col-sm-3"><label>When?</label></td>
-                        <td class="col-sm-9">@Model.StartDate.ToString("d", new CultureInfo("de-CH"))</td>
+                        <td class="col-sm-9">@Model.StartDate.GetValueOrDefault().ToString("d", new CultureInfo("de-CH"))</td>
                     </tr>
                     <tr>
                         <td class="col-sm-3"><label>Envitees:</label></td>

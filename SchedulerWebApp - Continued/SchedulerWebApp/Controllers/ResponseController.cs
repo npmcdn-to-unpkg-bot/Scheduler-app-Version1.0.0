@@ -45,7 +45,7 @@ namespace SchedulerWebApp.Controllers
                             Comments = participant.Comments,
                             EventsTitle = eventToAttend.Title,
                             EventsLocation = eventToAttend.Location,
-                            EventDate = eventToAttend.StartDate
+                            EventDate = (DateTime) eventToAttend.StartDate
                         };
             return View(model);
         }
@@ -62,7 +62,7 @@ namespace SchedulerWebApp.Controllers
             var eventId = model.EventId;
             var @event = _db.Events.Find(eventId);
             var dateToday = DateTime.UtcNow.Date;
-            var listDate = @event.ListDate.Date;
+            var listDate = @event.ListDate.GetValueOrDefault().Date;
             bool canStillRespond = dateToday <= listDate;
 
             if (!canStillRespond)

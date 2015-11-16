@@ -12,20 +12,20 @@ namespace SchedulerWebApp.Models
         public static DateTime GetRemanderDate(Event eventToEdit)
         {
             var remanderDate = eventToEdit.ReminderDate;
-            return remanderDate;
+            return (DateTime) remanderDate;
         }
 
         public static DateTime GetListDate(Event eventToEdit)
         {
             var listDate = eventToEdit.ListDate;
-            return listDate;
+            return (DateTime) listDate;
         }
 
         public static Attachment CreateAttachment(EmailInformation emailInformation)
         {
             var eventToSend = emailInformation.CurrentEvent;
 
-            var startDate = eventToSend.StartDate.ToUniversalTime();
+            var startDate = eventToSend.StartDate.GetValueOrDefault().ToUniversalTime();
             var endDate = startDate.Add(TimeSpan.FromHours(4));
 
             //Build attachment

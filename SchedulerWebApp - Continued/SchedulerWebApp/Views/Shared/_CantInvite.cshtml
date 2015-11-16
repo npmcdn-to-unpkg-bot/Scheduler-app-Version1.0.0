@@ -8,7 +8,7 @@
 
     <div class="alert alert-danger" role="alert">
         <p>
-            You can't invite participant to this event anymore. It already took place on @Model.StartDate.Day/@Model.StartDate.Month/@Model.StartDate.Year <br />
+            You can't invite participant to this event anymore. It already took place on @Model.StartDate.GetValueOrDefault().ToString("g") <br />
             See click the button below for more event details
         </p>
         <br />

@@ -5,30 +5,29 @@
 
 var todaysDate = moment(new Date());
 
-function elementsInitialization() {
-    $('#datePickerStart').datetimepicker({
+function elementsInitialization(elementId) {
+    var id = '#' + elementId;
+    $(id).datetimepicker({
         format: "DD.MM.YYYY HH:mm",
         minDate: todaysDate.subtract(0, 'days').startOf('day')
     });
-
-    $('#datePickerList').datetimepicker({
-        format: "DD.MM.YYYY HH:mm"
-    });
 }
 
-function linkStartAndListDates() {
-    $('#datePickerStart').on("dp.change", function (e) {
-        $('#datePickerList').data("DateTimePicker").minDate(todaysDate);
-        $('#datePickerList').data("DateTimePicker").maxDate(e.date);
+function linkTwoDateElements(startDateElementId, endDateEmelementId) {
+    var startDateId = '#' + startDateElementId, endDateId = '#' + endDateEmelementId;
+
+    $(startDateId).on("dp.change", function (e) {
+        $(endDateId).data("DateTimePicker").minDate(todaysDate);
+        $(endDateId).data("DateTimePicker").maxDate(e.date);
     });
 
-    $('#datePickerList').on("dp.change", function (e) {
+    $(endDateId).on("dp.change", function (e) {
         var originalMaxDate = e.date;
         var newMax = new Date(originalMaxDate);
         newMax.setDate(newMax.getDate() + 365);
         var startMaxDate = newMax;
 
-        $('#datePickerStart').data("DateTimePicker").maxDate(startMaxDate);
+        $(startDateId).data("DateTimePicker").maxDate(startMaxDate);
     });
 }
 
@@ -50,7 +49,7 @@ function linkThreeDatesElements(maxDateElementId, dateElementId) {
 function makeTableResponsive(tableClass, columnIndexForOrdering) {
     var selector = '.' + tableClass;
     $(selector).DataTable({
-        "order": [[ columnIndexForOrdering, "desc" ]],
+        "order": [[columnIndexForOrdering, "desc"]],
         responsive: true,
         searching: false,
         "pagingType": "simple",
@@ -61,8 +60,19 @@ function makeTableResponsive(tableClass, columnIndexForOrdering) {
 
 function grayOutAbsentees() {
     $('#participantTable').each(function () {
-        $('tr:contains("Absent")').each(function() {
+        $('tr:contains("Absent")').each(function () {
             $(this).css('color', '#E0C5D1');
-        });       
+        });
     });
+}
+
+function setDatesInCorrectFormat() {
+    $.validator.addMethod('date', function (value, element) {
+        var d = new Date();
+        return this.optional(element) || !/Invalid|NaN/.test(new Date(d.toLocaleDateString(value)));
+    });
+}
+
+function AllowValidationOnHiddenInputs() {
+    $.validator.setDefaults({ ignore: null });
 }

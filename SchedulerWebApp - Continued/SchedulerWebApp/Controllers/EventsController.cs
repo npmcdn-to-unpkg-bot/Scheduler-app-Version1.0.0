@@ -135,7 +135,7 @@ namespace SchedulerWebApp.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(
-            [Bind(Include = "Title,Location,Description,StartDate,EndDate,ReminderDate,ListDate")] Event @event)
+            [Bind(Include = "Title,Location,Description,StartDate,EndDate")] Event @event)
         {
             if (!ModelState.IsValid)
             {
@@ -154,13 +154,15 @@ namespace SchedulerWebApp.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CopyEvent(
-            [Bind(Include = "Title,Location,Description,StartDate,EndDate,ReminderDate,ListDate")] Event @event)
+            [Bind(Include = "Title,Location,Description,StartDate,EndDate")] Event @event)
         {
             if (!ModelState.IsValid)
             {
-                return View(@event);
+                return View("Create", @event);
             }
+
             SaveEvent(@event);
+
             return RedirectToAction("SendEventsInvitation", "Invitation", new { id = @event.Id });
         }
 
@@ -358,7 +360,7 @@ namespace SchedulerWebApp.Controllers
         private bool EventHasNotOccured(Event @event)
         {
             var todayDate = DateTime.UtcNow.Date;
-            var eventEndDate = @event.StartDate.Date;
+            var eventEndDate = @event.StartDate.GetValueOrDefault().Date;
             var hasNotOccured = todayDate <= eventEndDate;
             return hasNotOccured;
         }

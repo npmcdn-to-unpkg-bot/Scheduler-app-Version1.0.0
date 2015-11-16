@@ -18,6 +18,7 @@
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                 @Html.HiddenFor(model => model.EventId)
+                @Html.HiddenFor(model => model.EventDate)
                 <div class="table-responsive">
                     <table class="table borderless table-responsive">
                         <colgroup>
@@ -38,6 +39,44 @@
                                 <td>@Html.DisplayFor(model => model.EventDate)</td>
                             </tr>
 
+                            @* <div class="form-group">
+                                    @Html.LabelFor(model => model.ListDate, new { @class = "control-label col-md-2" })
+                                    <div class="col-md-10">
+
+                                    </div>
+                                </div>
+
+                                                           <div class="form-group">
+                                        @Html.LabelFor(model => model.ReminderDate, new { @class = "control-label col-md-2" })
+                                        <div class="col-md-10">
+
+                                        </div>
+                                    </div>*@
+
+                            <tr>
+                                <td class="title-label">
+                                    @Html.DisplayNameFor(model => model.ListDate) :
+                                </td>
+                                <td>
+                                    <div id="listDateContainer">
+                                        @Html.EditorFor(model => model.ListDate, new { htmlAttributes = new { @class = "form-control datepicker", id = "datePickerList" } })
+                                        @Html.ValidationMessageFor(model => model.ListDate, "", new { @class = "text-danger" })
+                                    </div>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="title-label">
+                                    @Html.DisplayNameFor(model => model.ReminderDate) :
+                                </td>
+                                <td>
+                                    <div id="remeinderDateContainer">
+                                        @Html.EditorFor(model => model.ReminderDate, new { htmlAttributes = new { @class = "form-control datepicker ", id = "datePickerRemainder" } })
+                                        @Html.ValidationMessageFor(model => model.ReminderDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </td>
+                            </tr>
+
                             <tr>
                                 <td class="title-label">
                                     @Html.DisplayNameFor(model => model.ParticipantsEmails) :
@@ -52,7 +91,7 @@
                                     @Html.LabelFor(model => model.SendRemainder)
                                 </td>
                                 <td>
-                                    @Html.CheckBoxFor(model=>model.SendRemainder)
+                                    @Html.CheckBoxFor(model => model.SendRemainder)
                                 </td>
                             </tr>
 
@@ -78,10 +117,34 @@
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/jqueryui")
     @Scripts.Render("~/bundles/tagIt")
+    @Scripts.Render("~/bundles/dateTimePicker")
+    @Scripts.Render("~/bundles/custom")
+
+
+
 
     <script type="text/javascript">
 
         $(function () {
+
+            initTagIt();
+
+
+            inputInit('datePickerList');
+        });
+
+        function inputInit(elementId) {
+
+            var todaysDate = moment(new Date());
+            var element = '#' + elementId;
+
+            $(element).datetimepicker({
+                format: "DD.MM.YYYY HH:mm",
+                minDate: todaysDate.subtract(0, 'days').startOf('day')
+            });
+        }
+
+        function initTagIt() {
             $("#ParticipantsEmails").tagit({
                 placeholderText: " separate by comma.. ",
                 autocomplete: ({
@@ -97,7 +160,11 @@
                     }
                 })
             });
-        });
+        }
+
+        setDatesInCorrectFormat();
+
+        AllowValidationOnHiddenInputs();
 
     </script>
 }

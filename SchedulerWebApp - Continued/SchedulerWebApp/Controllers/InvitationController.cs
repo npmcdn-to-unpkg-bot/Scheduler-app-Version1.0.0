@@ -33,11 +33,12 @@ namespace SchedulerWebApp.Controllers
                 return View("_NoAccess");
             }
             bool hasPassed = EventHasNotPassed(@event);
+            var listDate = @event.ListDate.GetValueOrDefault();
             return !hasPassed ? View("_CantInvite", @event) : View(ReturnInvitationModel(id));
         }
 
         [HttpPost]
-        public ActionResult SendEventsInvitation([Bind(Include = "ParticipantsEmails,EventId,SendRemainder")] InvitationViewModel model)
+        public ActionResult SendEventsInvitation([Bind(Include = "ParticipantsEmails,EventDate,EventId,SendRemainder,ReminderDate,ListDate")] InvitationViewModel model)
         {
             var id = model.EventId;
 
@@ -49,6 +50,9 @@ namespace SchedulerWebApp.Controllers
 
             // get event from database
             var eventForInvitation = _db.Events.Find(id);
+
+            eventForInvitation.ListDate = model.ListDate;
+            eventForInvitation.ReminderDate = model.ReminderDate;
 
             //Check if there is Participants
             var noInvitation = !eventForInvitation.Participants.ToList().Any();
@@ -109,8 +113,8 @@ namespace SchedulerWebApp.Controllers
                                     ParticipantId = participantId,
                                     ParticipantEmail = email,
                                     ResponseUrl = responseUrl,
-                                    RemainderDate = eventForInvitation.ReminderDate,
-                                    ListDate = eventForInvitation.ListDate,
+                                    RemainderDate = (DateTime) eventForInvitation.ReminderDate,
+                                    ListDate = (DateTime) eventForInvitation.ListDate,
                                     EventDetailsUrl = detailsUrl,
                                     EmailSubject = " Invitation"
                                 };
@@ -172,7 +176,7 @@ namespace SchedulerWebApp.Controllers
         private static bool EventHasNotPassed(Event eventForInvitation)
         {
             var todayDate = DateTime.UtcNow.Date;
-            var eventEndDate = eventForInvitation.StartDate.Date;
+            var eventEndDate = eventForInvitation.StartDate.GetValueOrDefault().Date;
 
             //check if event has happened
             bool notPassed = todayDate <= eventEndDate;
@@ -233,7 +237,7 @@ namespace SchedulerWebApp.Controllers
                                       {
                                           EventId = @event.Id,
                                           EventTitle = @event.Title,
-                                          EventDate = @event.StartDate,
+                                          EventDate = (DateTime) @event.StartDate,
                                           EventLocation = @event.Location,
                                           SendRemainder = true
                                       };
