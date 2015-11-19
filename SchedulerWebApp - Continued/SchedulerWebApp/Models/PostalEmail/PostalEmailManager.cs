@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.IO;
 using System.Linq;
@@ -25,8 +26,8 @@ namespace SchedulerWebApp.Models.PostalEmail
                            EventsId = emailInfo.CurrentEvent.Id,
                            EventTitle = emailInfo.CurrentEvent.Title,
                            EventLocation = emailInfo.CurrentEvent.Location,
-                           StartDate = (DateTime) emailInfo.CurrentEvent.StartDate,
-                           GetListDate = (DateTime) emailInfo.CurrentEvent.ListDate,
+                           StartDate = emailInfo.CurrentEvent.StartDate.GetValueOrDefault(),
+                           GetListDate = emailInfo.CurrentEvent.ListDate.GetValueOrDefault(),
                            ParticipantId = emailInfo.ParticipantId,
                            To = emailInfo.ParticipantEmail,
                            OrganizerName = emailInfo.OrganizerName,
@@ -44,8 +45,8 @@ namespace SchedulerWebApp.Models.PostalEmail
                             EventsId = emailInfo.CurrentEvent.Id,
                             EventTitle = emailInfo.CurrentEvent.Title,
                             EventLocation = emailInfo.CurrentEvent.Location,
-                            StartDate = (DateTime) emailInfo.CurrentEvent.StartDate,
-                            GetListDate = (DateTime) emailInfo.CurrentEvent.ListDate,
+                            StartDate = emailInfo.CurrentEvent.StartDate.GetValueOrDefault(),
+                            GetListDate = emailInfo.CurrentEvent.ListDate.GetValueOrDefault(),
                             ParticipantId = emailInfo.ParticipantId,
                             To = emailInfo.ParticipantEmail,
                             OrganizerName = emailInfo.OrganizerName,
@@ -63,8 +64,8 @@ namespace SchedulerWebApp.Models.PostalEmail
                             EventsId = emailInfo.CurrentEvent.Id,
                             EventTitle = emailInfo.CurrentEvent.Title,
                             EventLocation = emailInfo.CurrentEvent.Location,
-                            StartDate = (DateTime) emailInfo.CurrentEvent.StartDate,
-                            GetListDate = (DateTime) emailInfo.CurrentEvent.ListDate,
+                            StartDate = emailInfo.CurrentEvent.StartDate.GetValueOrDefault(),
+                            GetListDate = emailInfo.CurrentEvent.ListDate.GetValueOrDefault(),
                             ParticipantId = emailInfo.ParticipantId,
                             To = emailInfo.ParticipantEmail,
                             OrganizerName = emailInfo.OrganizerName,
@@ -82,9 +83,14 @@ namespace SchedulerWebApp.Models.PostalEmail
         {
             var currentEvent = GetCurrentEvent(emailInfo);
 
+
+            //Testing Elmah Error
             ErrorLog.GetDefault(System.Web.HttpContext.Current).Log(new Error(new Exception("Testing")));
 
-            if (currentEvent == null) return;
+            if (currentEvent == null)
+            {
+                return;
+            }
 
             var participants = currentEvent.Participants.ToList();
 
@@ -110,28 +116,36 @@ namespace SchedulerWebApp.Models.PostalEmail
             SendCorespondingEmail(email);
         }
 
-        public static void SendRemainder(EmailInformation emailInfo, object emailObject)
+        public static void SendRemainder(List<EmailInformation> emails, object emailObject)
         {
+            var emailInfo = emails.First();
+
             var @event = GetCurrentEvent(emailInfo);
             var noResponseParticipants = @event.Participants
                                          .Where(p => p.Responce == false).ToList();
 
             foreach (var participant in noResponseParticipants)
             {
+                var p = participant;
+                var responseUrl = emails.Where(e => e.ParticipantId == p.Id)
+                                        .Select(e => e.ResponseUrl)
+                                        .FirstOrDefault();
+
                 //create email
                 Email email = new RemainderEmail
                               {
                                   EventTitle = emailInfo.CurrentEvent.Title,
                                   EventLocation = emailInfo.CurrentEvent.Location,
-                                  StartDate = (DateTime) emailInfo.CurrentEvent.StartDate,
-                                  GetListDate = (DateTime) emailInfo.CurrentEvent.ListDate,
+                                  StartDate = emailInfo.CurrentEvent.StartDate.GetValueOrDefault(),
+                                  GetListDate = emailInfo.CurrentEvent.ListDate.GetValueOrDefault(),
                                   To = participant.Email,
                                   From = "no-reply@scheduleasy.com",
                                   EmailSubject = "Remainder for" + " " + emailInfo.CurrentEvent.Title,
-                                  ResponseUrl = emailInfo.ResponseUrl
+                                  ResponseUrl = responseUrl
                               };
                 SendCorespondingEmail(email);
             }
+
         }
 
         public static void SendEmail(EmailInformation emailInfo, object newEmailObject)
@@ -139,7 +153,7 @@ namespace SchedulerWebApp.Models.PostalEmail
             var email = ComposeEmail(emailInfo, newEmailObject);
             var emailAttachment = Service.CreateAttachment(emailInfo);
             email.Attach(emailAttachment);
-            SendCorespondingEmail(email); 
+            SendCorespondingEmail(email);
         }
 
         public static void SendContactUsEmail(ContactUsEmail email)
@@ -153,16 +167,16 @@ namespace SchedulerWebApp.Models.PostalEmail
             var viewpath = Path.GetFullPath(HostingEnvironment.MapPath(@"~/Views/Emails"));
             var engines = new ViewEngineCollection();
             engines.Add(new FileSystemRazorViewEngine(viewpath));
-            var emailService = new Postal.EmailService(engines); 
-     
+            var emailService = new Postal.EmailService(engines);
+
             emailService.Send(email);
         }
 
         private static Event GetCurrentEvent(EmailInformation emailInfo)
         {
-           var currentEvent = Db.Events.Where(e => e.Id == emailInfo.CurrentEvent.Id)
-                .Include(e => e.Participants)
-                .FirstOrDefault();
+            var currentEvent = Db.Events.Where(e => e.Id == emailInfo.CurrentEvent.Id)
+                 .Include(e => e.Participants)
+                 .FirstOrDefault();
 
             return currentEvent;
         }

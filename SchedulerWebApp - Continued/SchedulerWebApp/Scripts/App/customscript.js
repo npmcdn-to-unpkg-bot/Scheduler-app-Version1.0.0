@@ -13,24 +13,6 @@ function elementsInitialization(elementId) {
     });
 }
 
-function linkTwoDateElements(startDateElementId, endDateEmelementId) {
-    var startDateId = '#' + startDateElementId, endDateId = '#' + endDateEmelementId;
-
-    $(startDateId).on("dp.change", function (e) {
-        $(endDateId).data("DateTimePicker").minDate(todaysDate);
-        $(endDateId).data("DateTimePicker").maxDate(e.date);
-    });
-
-    $(endDateId).on("dp.change", function (e) {
-        var originalMaxDate = e.date;
-        var newMax = new Date(originalMaxDate);
-        newMax.setDate(newMax.getDate() + 365);
-        var startMaxDate = newMax;
-
-        $(startDateId).data("DateTimePicker").maxDate(startMaxDate);
-    });
-}
-
 function linkThreeDatesElements(maxDateElementId, dateElementId) {
 
     var maxDate = '#' + maxDateElementId, date = '#' + dateElementId;

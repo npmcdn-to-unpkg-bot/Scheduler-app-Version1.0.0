@@ -33,7 +33,6 @@ namespace SchedulerWebApp.Controllers
                 return View("_NoAccess");
             }
             bool hasPassed = EventHasNotPassed(@event);
-            var listDate = @event.ListDate.GetValueOrDefault();
             return !hasPassed ? View("_CantInvite", @event) : View(ReturnInvitationModel(id));
         }
 
@@ -56,7 +55,7 @@ namespace SchedulerWebApp.Controllers
 
             //Check if there is Participants
             var noInvitation = !eventForInvitation.Participants.ToList().Any();
-            
+
             //Check if invitations can still be sent
             var notPassed = EventHasNotPassed(eventForInvitation);
             if (!notPassed)
@@ -71,6 +70,7 @@ namespace SchedulerWebApp.Controllers
             EmailInformation emailInfo = null;
             var allSaved = false;
             var contacts = new List<Contact>();
+            var emails = new List<EmailInformation>();
 
             //loop through emails
             var emailList = model.ParticipantsEmails.Split(',').ToList();
@@ -113,11 +113,13 @@ namespace SchedulerWebApp.Controllers
                                     ParticipantId = participantId,
                                     ParticipantEmail = email,
                                     ResponseUrl = responseUrl,
-                                    RemainderDate = (DateTime) eventForInvitation.ReminderDate,
-                                    ListDate = (DateTime) eventForInvitation.ListDate,
+                                    RemainderDate = eventForInvitation.ReminderDate.GetValueOrDefault(),
+                                    ListDate = eventForInvitation.ListDate.GetValueOrDefault(),
                                     EventDetailsUrl = detailsUrl,
                                     EmailSubject = " Invitation"
                                 };
+
+                emails.Add(emailInfo);
 
                 //Send Invitation Email
                 PostalEmailManager.SendEmail(emailInfo, new InvitationEmail());
@@ -133,29 +135,31 @@ namespace SchedulerWebApp.Controllers
                 {
                     continue;
                 }
-                var contact = new Contact {Email = email};
+                var contact = new Contact { Email = email };
                 contacts.Add(contact);
                 unsavedContacts.Contacts = contacts;
 
                 #endregion
+
             }
 
-            #region Scheduling emails
+            #region Scheduling remainder emails
+
+            var remanderDate = Service.GetRemanderDate(eventForInvitation);
 
             if (noInvitation)
             {
-                var remanderDate = Service.GetRemanderDate(eventForInvitation);
-                var listDate = Service.GetListDate(eventForInvitation);
                 //organizer wants to send remainders
                 if (model.SendRemainder)
                 {
-                    JobManager.ScheduleRemainderEmail(emailInfo, remanderDate);
+                    JobManager.ScheduleRemainderEmail(emails, remanderDate);
                 }
-
-                // start participant list summary scheduler
-                JobManager.ScheduleParticipantListEmail(emailInfo, listDate);
-                JobManager.AddJobsIntoEvent(id);
             }
+
+            // start participant list summary scheduler
+            var listDate = Service.GetListDate(eventForInvitation);
+            JobManager.ScheduleParticipantListEmail(emailInfo, listDate);
+            JobManager.AddJobsIntoEvent(id);
 
             #endregion
 
@@ -170,7 +174,7 @@ namespace SchedulerWebApp.Controllers
             TempData["model"] = unsavedContacts;           //Pass list to SaveEmails action
             return RedirectToAction("SaveEmails");
         }
-        
+
         #endregion
 
         private static bool EventHasNotPassed(Event eventForInvitation)
@@ -233,12 +237,21 @@ namespace SchedulerWebApp.Controllers
         public InvitationViewModel ReturnInvitationModel(int? id)
         {
             var @event = GetUserEvents().Find(e => e.Id == id);
+
+            var eventListDate = @event.ListDate;
+            var listDate = Service.SetCorectDate(eventListDate);
+
+            var eventRemainderDate = @event.ReminderDate;
+            var remainderDate = Service.SetCorectDate(eventRemainderDate);
+
             var invitationViewModel = new InvitationViewModel
                                       {
                                           EventId = @event.Id,
                                           EventTitle = @event.Title,
-                                          EventDate = (DateTime) @event.StartDate,
+                                          EventDate = @event.StartDate,
                                           EventLocation = @event.Location,
+                                          ListDate = listDate,
+                                          ReminderDate = remainderDate,
                                           SendRemainder = true
                                       };
             return invitationViewModel;

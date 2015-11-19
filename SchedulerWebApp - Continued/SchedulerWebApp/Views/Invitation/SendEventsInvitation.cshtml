@@ -39,20 +39,6 @@
                                 <td>@Html.DisplayFor(model => model.EventDate)</td>
                             </tr>
 
-                            @* <div class="form-group">
-                                    @Html.LabelFor(model => model.ListDate, new { @class = "control-label col-md-2" })
-                                    <div class="col-md-10">
-
-                                    </div>
-                                </div>
-
-                                                           <div class="form-group">
-                                        @Html.LabelFor(model => model.ReminderDate, new { @class = "control-label col-md-2" })
-                                        <div class="col-md-10">
-
-                                        </div>
-                                    </div>*@
-
                             <tr>
                                 <td class="title-label">
                                     @Html.DisplayNameFor(model => model.ListDate) :
@@ -129,8 +115,7 @@
 
             initTagIt();
 
-
-            inputInit('datePickerList');
+            linkTwoInputs('datePickerList', 'datePickerRemainder');
         });
 
         function inputInit(elementId) {
@@ -141,6 +126,28 @@
             $(element).datetimepicker({
                 format: "DD.MM.YYYY HH:mm",
                 minDate: todaysDate.subtract(0, 'days').startOf('day')
+            });
+        }
+
+        function linkTwoInputs(firstInput, secondInput) {
+
+            var firstInputId = '#' + firstInput;
+            var secondInputId = '#' + secondInput;
+
+            $(firstInputId).datetimepicker({
+                format: "DD.MM.YYYY HH:mm",
+                minDate: todaysDate.subtract(0, 'days').startOf('day')
+            });
+
+            $(secondInputId).datetimepicker({
+                format: "DD.MM.YYYY HH:mm",
+                useCurrent: false //Important! See issue #1075
+            });
+            $(firstInputId).on("dp.change", function (e) {
+                $(secondInputId).data("DateTimePicker").minDate(e.date);
+            });
+            $(secondInputId).on("dp.change", function (e) {
+                $(firstInputId).data("DateTimePicker").maxDate(e.date);
             });
         }
 
@@ -161,7 +168,7 @@
                 })
             });
         }
-
+        
         setDatesInCorrectFormat();
 
         AllowValidationOnHiddenInputs();

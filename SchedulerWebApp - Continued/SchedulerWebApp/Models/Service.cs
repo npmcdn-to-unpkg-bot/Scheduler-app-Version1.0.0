@@ -12,13 +12,13 @@ namespace SchedulerWebApp.Models
         public static DateTime GetRemanderDate(Event eventToEdit)
         {
             var remanderDate = eventToEdit.ReminderDate;
-            return (DateTime) remanderDate;
+            return remanderDate.GetValueOrDefault();
         }
 
         public static DateTime GetListDate(Event eventToEdit)
         {
             var listDate = eventToEdit.ListDate;
-            return (DateTime) listDate;
+            return listDate.GetValueOrDefault();
         }
 
         public static Attachment CreateAttachment(EmailInformation emailInformation)
@@ -81,6 +81,17 @@ namespace SchedulerWebApp.Models
                 email = email.Split('[', ']')[1];
             }
             return email;
+        }
+
+        public static DateTime? SetCorectDate(DateTime? dateToset)
+        {
+            DateTime? corectDate = null;
+
+            if (dateToset != null)
+            {
+                corectDate = dateToset;
+            }
+            return corectDate;
         }
     }
 }

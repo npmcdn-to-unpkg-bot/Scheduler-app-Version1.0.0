@@ -233,6 +233,7 @@ namespace SchedulerWebApp.Controllers
             var user = GetUser();
 
             EmailInformation emailInfo = null;
+            var emails = new List<EmailInformation>();
 
             if (participants.Count == 0)
             {
@@ -259,11 +260,14 @@ namespace SchedulerWebApp.Controllers
                                 EventDetailsUrl = detailsUrl
                             };
 
+                emails.Add(emailInfo);
+
                 //Notify Participant using postal
                 PostalEmailManager.SendEmail(emailInfo, new EmailInfoChangeEmail());
             }
 
-            JobManager.ScheduleRemainderEmail(emailInfo, remanderDate);
+
+            JobManager.ScheduleRemainderEmail(emails, remanderDate);
             JobManager.ScheduleParticipantListEmail(emailInfo, listDate);
             JobManager.AddJobsIntoEvent(eventToEdit.Id);
 

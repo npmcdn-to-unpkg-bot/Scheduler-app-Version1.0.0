@@ -12,27 +12,25 @@ namespace SchedulerWebApp.Models.HangfireJobs
         static readonly List<string> JobIds = new List<string>();
         static readonly SchedulerDbContext Db = new SchedulerDbContext();
 
-        public static void ScheduleParticipantListEmail(EmailInformation emailInfo, DateTime remanderDate)
+        public static void ScheduleParticipantListEmail(EmailInformation emailInfo, DateTime listDate)
         {
-            var listJobId = BackgroundJob.Schedule(() => PostalEmailManager.SendListEmail(emailInfo, new ParticipantListEmail()), remanderDate);
+            var listJobId = BackgroundJob.Schedule(() => PostalEmailManager.SendListEmail(emailInfo, new ParticipantListEmail()), listDate);
             JobIds.Add(listJobId);
         }
-
-
-        //testing attachments to be sent in one minute
-        public static void ScheduleRemainderEmail(EmailInformation emailInfo, DateTime listDate)
+        
+        public static void ScheduleRemainderEmail(List<EmailInformation> emails, DateTime remainderDate)
         {
-            var remainderJobId = BackgroundJob.Schedule(() => PostalEmailManager.SendRemainder(emailInfo, new RemainderEmail()), listDate);
+            var remainderJobId = BackgroundJob.Schedule(() => PostalEmailManager.SendRemainder(emails, new RemainderEmail()), remainderDate);
             JobIds.Add(remainderJobId);
         }
 
-        public static void AddJobsIntoEvent(int eventID)
+        public static void AddJobsIntoEvent(int eventId)
         {
             foreach (var jobId in JobIds)
             {
                 var scheduledJob = new ScheduledJob
                 {
-                    EventId = eventID,
+                    EventId = eventId,
                     JobId = jobId
                 };
                 Db.ScheduledJobs.Add(scheduledJob);
