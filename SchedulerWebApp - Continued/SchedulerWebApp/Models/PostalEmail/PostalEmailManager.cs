@@ -82,13 +82,12 @@ namespace SchedulerWebApp.Models.PostalEmail
         public static void SendListEmail(EmailInformation emailInfo, object emailObject)
         {
             var currentEvent = GetCurrentEvent(emailInfo);
-
-
-            //Testing Elmah Error
-            ErrorLog.GetDefault(System.Web.HttpContext.Current).Log(new Error(new Exception("Testing")));
-
+            
             if (currentEvent == null)
             {
+                ErrorLog.GetDefault(System.Web.HttpContext.Current).Log(
+                    new Error(new Exception("participant email of an event has not been sent, The event has returned NULL"))
+                    );
                 return;
             }
 
@@ -174,9 +173,18 @@ namespace SchedulerWebApp.Models.PostalEmail
 
         private static Event GetCurrentEvent(EmailInformation emailInfo)
         {
-            var currentEvent = Db.Events.Where(e => e.Id == emailInfo.CurrentEvent.Id)
-                 .Include(e => e.Participants)
-                 .FirstOrDefault();
+            Event currentEvent = null;
+            try
+            {
+                currentEvent = Db.Events.Where(e => e.Id == emailInfo.CurrentEvent.Id)
+                    .Include(e => e.Participants)
+                    .FirstOrDefault();
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+                ErrorLog.GetDefault(System.Web.HttpContext.Current).Log(new Error(new Exception(exception.Message)));
+            }
 
             return currentEvent;
         }

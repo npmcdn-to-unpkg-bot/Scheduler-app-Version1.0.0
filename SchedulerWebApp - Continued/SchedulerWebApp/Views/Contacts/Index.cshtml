@@ -9,10 +9,27 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+@* todo: this is a temporary style and will haave to move to custom style later*@
+
+<style type="text/css">
+    .heading-paragraph {
+        color: gray;
+        font-size: 30px;
+    }
+</style>
+
+<div class="row">
+    <div class="col-sm-9">
+        <p class="heading-paragraph">My Contacts</p>
+    </div>
+    <div class="col-sm-3">
+        <p>
+            @Html.ActionLink("Add Contact", "Create", "Contacts", null, new { @class = "btn btn-default btn-block" })
+        </p>
+    </div>
+</div>
+
+
 <table class="table footable display nowrap" cellspacing="0" width="100%">
     <thead>
         <tr>

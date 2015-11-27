@@ -52,6 +52,12 @@ textarea {
     padding: 40px 80px 40px 80px;
 }
 
+@media (max-width: 480px) {
+    .body-firstRow {
+        padding: 40px 20px 40px 20px;
+    }
+}
+
 .event-div {
     margin-bottom: 30px;
 }
@@ -101,13 +107,17 @@ body {
    will truncate terms that are too long to fit in the left column 
 */
 
-.dl-horizontal dt { white-space: normal; }
+.dl-horizontal dt {
+    white-space: normal;
+}
 
 /* Set width on the form input elements since they're 100% wide by default */
 
 input,
 select,
-textarea { max-width: 280px; }
+textarea {
+    max-width: 280px;
+}
 
 .element-red {
     color: red;
@@ -119,6 +129,10 @@ textarea { max-width: 280px; }
 
 .element-green {
     color: green;
+}
+
+.element-lightBlue {
+    color: #337ab7;
 }
 
 a + a {
@@ -134,12 +148,21 @@ a + a {
 }
 
 .event-thumbnail {
-    background: lightcyan;
+    background: #F0F0F0;
     -webkit-box-shadow: 3px 3px 3px 3px;
     -ms-box-shadow: 3px 3px 3px 3px;
     box-shadow: 3px 3px 3px 3px;
 }
 
+    .event-thumbnail:hover {
+        background: #D8D8D8;
+    }
+
+        .event-thumbnail:hover div p {
+            font-weight: bold;
+            color: white;
+        }
+
 tr:contains("Absent") {
-    color: lightsteelblue
+    color: lightsteelblue;
 }
