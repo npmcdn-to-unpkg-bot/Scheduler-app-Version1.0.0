@@ -119,9 +119,23 @@ namespace SchedulerWebApp.Models.PostalEmail
         {
             var emailInfo = emails.First();
 
+            var noResponseParticipants = new List<Participant>();
+
             var @event = GetCurrentEvent(emailInfo);
-            var noResponseParticipants = @event.Participants
+            try
+            {
+                noResponseParticipants = @event.Participants
                                          .Where(p => p.Responce == false).ToList();
+            }
+            catch (Exception exception)
+            {
+
+                ErrorLog.GetDefault(System.Web.HttpContext.Current).Log(
+                    new Error(
+                        new Exception("participant remainder emails were not sent, The event has returned NULL. " 
+                            +"Error msg is " + exception.Message)));
+            }
+            
 
             foreach (var participant in noResponseParticipants)
             {

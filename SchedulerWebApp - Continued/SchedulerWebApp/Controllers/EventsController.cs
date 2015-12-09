@@ -117,6 +117,10 @@ namespace SchedulerWebApp.Controllers
             if (UserIsAdmin())
             {
                 var @event = _db.Events.Find(id);
+                if (@event == null)
+                {
+                    return View("Error");
+                }
                 return View(@event);
             }
             var userEvent = GetUserEvents().Find(e => e.Id == id);
