@@ -5,8 +5,9 @@
 }
 @Styles.Render("~/Content/tagIt")
 <div class="col-md-8 col-md-offset-2">
-    <h2>@Model.EventTitle</h2>
-    <h4>Add participants</h4>
+
+    <h2 class="text-center-smallScreen">@Model.EventTitle</h2>
+    <h4 class="text-center-smallScreen">Invite participants</h4>
     <hr />
     <div class="row">
         @using (Html.BeginForm())
@@ -86,13 +87,12 @@
                 </div>
 
                 <div class="form-group">
-                    <div class="col-md-offset-2 col-md-7">
-                        <div class="col-md-5 col-md-offset-2">
-                            @Html.ActionLink("Cancel", null, null, null, new { @class = "btn btn-primary btn-block", href = Request.UrlReferrer })
-                        </div>
-                        <div class="col-md-5 ">
-                            <input type="submit" value="Invite" class="btn btn-primary btn-block" />
-                        </div>
+                    <div class="col-sm-4 col-sm-offset-3">
+                        <button type="submit" value="Invite" class="btn btn-default btn-block">Invite</button>
+                    </div>
+                    <br class="hidden-lg hidden-md hidden-sm"/>
+                    <div class="col-sm-4">
+                        @Html.ActionLink("Cancel", null, null, null, new { @class = "btn btn-default btn-block", href = Request.UrlReferrer })
                     </div>
                 </div>
             </div>
@@ -168,7 +168,7 @@
                 })
             });
         }
-        
+
         setDatesInCorrectFormat();
 
         AllowValidationOnHiddenInputs();

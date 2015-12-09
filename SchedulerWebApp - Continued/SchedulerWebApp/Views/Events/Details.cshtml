@@ -9,7 +9,7 @@
 }
 
 <div class="col-md-8 col-md-offset-2">
-    <h2>@Model.Title details</h2>
+    <h2 class="text-center-smallScreen">@Model.Title details</h2>
     <hr />
     @Html.Partial("_Details")
 
@@ -30,6 +30,7 @@
     <script type="text/javascript">
         $(function () {
             makeTableResponsive("detailsTable", 1);
+
             grayOutAbsentees();
         });
     </script>

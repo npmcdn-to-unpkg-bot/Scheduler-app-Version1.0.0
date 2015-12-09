@@ -52,9 +52,20 @@ textarea {
     padding: 40px 80px 40px 80px;
 }
 
+/*reduce padding and put the text to the center
+    on small screenns
+*/
 @media (max-width: 480px) {
     .body-firstRow {
         padding: 40px 20px 40px 20px;
+    }
+
+    .text-center-smallScreen {
+        text-align: center;
+    }
+
+    .saveButton {
+        margin-bottom: 15px;
     }
 }
 
@@ -111,12 +122,11 @@ body {
     white-space: normal;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
-
-input,
-select,
-textarea {
-    max-width: 280px;
+/* Set width on the form input elements 
+   since they're 100% wide by default 
+*/
+input, select, textarea {
+    max-width: 350px;
 }
 
 .element-red {
@@ -165,4 +175,8 @@ a + a {
 
 tr:contains("Absent") {
     color: lightsteelblue;
+}
+
+ul.tagit {
+    max-width: 350px;
 }
