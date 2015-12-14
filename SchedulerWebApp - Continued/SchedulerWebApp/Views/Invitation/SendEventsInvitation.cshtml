@@ -129,7 +129,7 @@
             });
         }
 
-        function linkTwoInputs(firstInput, secondInput) {
+        /*function linkTwoInputs(firstInput, secondInput) {
 
             var firstInputId = '#' + firstInput;
             var secondInputId = '#' + secondInput;
@@ -143,13 +143,14 @@
                 format: "DD.MM.YYYY HH:mm",
                 useCurrent: false //Important! See issue #1075
             });
+
             $(firstInputId).on("dp.change", function (e) {
                 $(secondInputId).data("DateTimePicker").minDate(e.date);
             });
             $(secondInputId).on("dp.change", function (e) {
                 $(firstInputId).data("DateTimePicker").maxDate(e.date);
             });
-        }
+        }*/
 
         function initTagIt() {
             $("#ParticipantsEmails").tagit({

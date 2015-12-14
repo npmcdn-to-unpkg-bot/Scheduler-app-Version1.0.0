@@ -13,7 +13,30 @@ function elementsInitialization(elementId) {
     });
 }
 
-function linkThreeDatesElements(maxDateElementId, dateElementId) {
+function linkTwoInputs(firstInput, secondInput) {
+
+    var firstInputId = '#' + firstInput;
+    var secondInputId = '#' + secondInput;
+
+    $(firstInputId).datetimepicker({
+        format: "DD.MM.YYYY HH:mm",
+        minDate: todaysDate.subtract(0, 'days').startOf('day')
+    });
+
+    $(secondInputId).datetimepicker({
+        format: "DD.MM.YYYY HH:mm",
+        useCurrent: false //Important! See issue #1075
+    });
+
+    $(firstInputId).on("dp.change", function (e) {
+        $(secondInputId).data("DateTimePicker").minDate(e.date);
+    });
+    $(secondInputId).on("dp.change", function (e) {
+        $(firstInputId).data("DateTimePicker").maxDate(e.date);
+    });
+}
+
+/*function linkThreeDatesElements(maxDateElementId, dateElementId) {
 
     var maxDate = '#' + maxDateElementId, date = '#' + dateElementId;
 
@@ -25,7 +48,7 @@ function linkThreeDatesElements(maxDateElementId, dateElementId) {
         $(date).data("DateTimePicker").minDate(todaysDate);
         $(date).data("DateTimePicker").maxDate(e.date);
     });
-}
+}*/
 
 //DataTable functions
 function makeTableResponsive(tableClass, columnIndexForOrdering) {

@@ -91,11 +91,9 @@
 
 
             /*the date picker are not working yet*/
-            elementsInitialization();
+            elementsInitialization('datePickerStart');
 
-            linkStartAndListDates();
-
-            linkThreeDatesElements("datePickerList", "datePickerRemainder");
+            linkTwoInputs("datePickerList", "datePickerRemainder");
         });
 
         $.validator.addMethod('date', function (value, element) {
