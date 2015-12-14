@@ -45,7 +45,7 @@ namespace SchedulerWebApp.Controllers
                             Comments = participant.Comments,
                             EventsTitle = eventToAttend.Title,
                             EventsLocation = eventToAttend.Location,
-                            EventDate = (DateTime) eventToAttend.StartDate
+                            EventDate = eventToAttend.StartDate.GetValueOrDefault()
                         };
             return View(model);
         }
