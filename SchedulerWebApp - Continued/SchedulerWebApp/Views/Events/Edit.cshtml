@@ -19,65 +19,62 @@
             @Html.HiddenFor(model => model.SchedulerUserId)
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Title, new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                @Html.LabelFor(model => model.Title, new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
                     @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", autofocus = "autofocus" } })
                     @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Location, new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                @Html.LabelFor(model => model.Location, new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
                     @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.StartDate, new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                @Html.LabelFor(model => model.StartDate, new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
                     @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control", id = "datePickerStart" } })
                     @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
                 </div>
             </div>
 
-            @*<div class="form-group">
-                    @Html.LabelFor(model => model.EndDate, new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.EndDate, new { htmlAttributes = new { @class = "form-control", id = "datePickerEnd" } })
-                        @Html.ValidationMessageFor(model => model.EndDate, "", new { @class = "text-danger" })
-                    </div>
-                </div>*@
-
             <div class="form-group">
-                @Html.LabelFor(model => model.ListDate, new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                @Html.LabelFor(model => model.ListDate, new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
                     @Html.EditorFor(model => model.ListDate, new { htmlAttributes = new { @class = "form-control", id = "datePickerList" } })
                     @Html.ValidationMessageFor(model => model.ListDate, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.ReminderDate, new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                @Html.LabelFor(model => model.ReminderDate, new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
                     @Html.EditorFor(model => model.ReminderDate, new { htmlAttributes = new { @class = "form-control", id = "datePickerRemainder" } })
                     @Html.ValidationMessageFor(model => model.ReminderDate, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
                     @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
                     @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                <div class="col-md-offset-2 col-md-9 col-xs-12">
-                    <input type="submit" value="Save" class="btn btn-default col-md-3 col-xs-12 saveButton" />
-                    @Html.ActionLink("Cancel", "Details", "Events", new { id = Model.Id }, new { @class = "btn btn-default col-md-3 col-md-offset-1 col-xs-12" })
+                <div class="col-md-9 col-md-offset-3 col-xs-12">
+                    <input type="submit" value="Save" class=" form-control btn btn-default col-xs-12 " />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-3 col-md-9 col-xs-12">
+                    @Html.ActionLink("Cancel", "Details", "Events", new { id = Model.Id }, new { @class = "form-control btn btn-default col-md-11 col-xs-12" })
                 </div>
             </div>
         </div>
@@ -92,6 +89,8 @@
     <script type="text/javascript">
         $(function () {
 
+
+            /*the date picker are not working yet*/
             elementsInitialization();
 
             linkStartAndListDates();

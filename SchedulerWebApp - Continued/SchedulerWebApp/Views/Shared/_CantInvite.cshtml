@@ -6,12 +6,12 @@
     <h2 class="text-center">Event has passed</h2>
     <hr />
 
-    <div class="alert alert-danger" role="alert">
+    <div class="alert alert-danger text-center" role="alert">
         <p>
             You can't invite participant to this event anymore. It already took place on @Model.StartDate.GetValueOrDefault().ToString("g") <br />
             See click the button below for more event details
         </p>
         <br />
-        @Html.ActionLink("Event Details", "Details", "Events", new { id = Model.Id }, new { @class = "btn btn-primary" })
+        @Html.ActionLink("Event Details", "Details", "Events", new { id = Model.Id }, new { @class = "btn btn-default" })
     </div>
 </div>

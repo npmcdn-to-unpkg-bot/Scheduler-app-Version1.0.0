@@ -6,7 +6,7 @@
 <div class="col-md-8 col-md-offset-2">
     <h2 class="text-danger text-center-smallScreen">You are about to delete @Model.Title</h2>
     <p class="text-center-smallScreen">Are you sure?</p>
-    <hr/>
+    <hr />
     <div class="thumbnail">
         <div class="caption">
             <div class="row">
@@ -30,10 +30,6 @@
                                     <td class="col-sm-3">@Html.LabelFor(model => model.StartDate)</td>
                                     <td class="col-sm-9">@Html.DisplayFor(model => model.StartDate)</td>
                                 </tr>
-                               @* <tr>
-                                    <td class="col-sm-3">@Html.LabelFor(model => model.EndDate)</td>
-                                    <td class="col-sm-9">@Html.DisplayFor(model => model.EndDate)</td>
-                                </tr>*@
                             </tbody>
                         </table>
                     </div>
@@ -42,21 +38,26 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-6 col-sm-offset-3">
-            @using (Html.BeginForm())
-            {
-                @Html.AntiForgeryToken()
-                <table class="table borderless centered margin-top">
-                    <tr>
-                        <td class="col-sm-6">
-                            <input type="submit" value="Confirm Delete" class="btn btn-primary btn-block" />
-                        </td>
-                        <td class="col-sm-6">
-                            @Html.ActionLink("Cancel", "Details", "Events", new { id = Model.Id }, new { @class = "btn btn-primary btn-block" })
-                        </td>
-                    </tr>
-                </table>
-            }
-        </div>
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <table class="table borderless centered margin-top">
+                <tr>
+                    <td class="col-sm-6">
+                        <div>
+                            <input type="submit" value="Confirm Delete" class="btn btn-default btn-block" />
+                        </div>
+                    </td>
+                    <td class="col-sm-6">
+                        <div>
+                            @Html.ActionLink("Cancel", "Details", "Events", new { id = Model.Id }, new { @class = "btn btn-default btn-block" })
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        }
+
     </div><!--Buttons table row-->
 </div><!-- Div content-->

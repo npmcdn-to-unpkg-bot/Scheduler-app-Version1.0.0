@@ -45,11 +45,16 @@
                     @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                 </div>
             </div>
+            
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default  form-control  addButtonMargin" />
+                </div>
+            </div>
 
             <div class="form-group">
-                <div class="col-md-offset-2 col-md-9 col-xs-12">
-                    <input type="submit" value="Create" class="btn btn-default col-md-3 col-xs-12 saveButton" />
-                    @Html.ActionLink("Cancel", "Index", "Events", null, new { @class = "btn btn-default col-md-3 col-md-offset-1 col-xs-12" })
+                <div class="col-md-offset-2 col-md-10">
+                    @Html.ActionLink("Cancel", "Index", "Events", null, new { @class = "btn btn-default form-control" })
                 </div>
             </div>
         </div>

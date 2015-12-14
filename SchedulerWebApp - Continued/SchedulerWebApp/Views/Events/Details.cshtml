@@ -12,15 +12,21 @@
     <h2 class="text-center-smallScreen">@Model.Title details</h2>
     <hr />
     @Html.Partial("_Details")
-
-    <table class="table borderless margin-top">
-        <tr>
-            <td class="col-sm-3">@Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-default btn-block" })</td>
-            <td class="col-sm-3">@Html.ActionLink("Delete", "Delete", new { id = Model.Id }, new { @class = "btn btn-default btn-block" })</td>
-            <td class="col-sm-3">@Html.ActionLink("Invite", "SendEventsInvitation", "Invitation", new { id = Model.Id }, new { @class = "btn btn-default btn-block" })</td>
-            <td class="col-sm-3">@Html.ActionLink("Events", "Index", new { id = Model.Id }, new { @class = "btn btn-default btn-block" })</td>
-        </tr>
-    </table>
+    
+    <div class="row">
+        <div class="col-sm-3  col-xs-12">
+            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-default btn-block addButtonMargin" })
+        </div>
+        <div class="col-sm-3  col-xs-12">
+            @Html.ActionLink("Delete", "Delete", new { id = Model.Id }, new { @class = "btn btn-default btn-block addButtonMargin" })
+        </div>
+        <div class="col-sm-3  col-xs-12">
+            @Html.ActionLink("Invite", "SendEventsInvitation", "Invitation", new { id = Model.Id }, new { @class = "btn btn-default btn-block addButtonMargin" })
+        </div>
+        <div class="col-sm-3  col-xs-12">
+            @Html.ActionLink("Events", "Index", new { id = Model.Id }, new { @class = "btn btn-default btn-block addButtonMargin" })
+        </div>
+    </div>
 </div>
 
 @section scripts

@@ -64,7 +64,12 @@ textarea {
         text-align: center;
     }
 
-    .saveButton {
+    
+}
+
+@media (max-width: 768px) {
+
+    .addButtonMargin {
         margin-bottom: 15px;
     }
 }
@@ -125,9 +130,11 @@ body {
 /* Set width on the form input elements 
    since they're 100% wide by default 
 */
+/*
 input, select, textarea {
     max-width: 350px;
 }
+*/
 
 .element-red {
     color: red;
@@ -177,6 +184,8 @@ tr:contains("Absent") {
     color: lightsteelblue;
 }
 
+/*
 ul.tagit {
     max-width: 350px;
 }
+*/

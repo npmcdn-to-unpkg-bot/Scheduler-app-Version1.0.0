@@ -37,18 +37,18 @@ namespace SchedulerWebApp.Models
 
         /*[Required]
         [DataType(DataType.Text)]
-        [Display(Name = "Get list On")]
         [ValidDate(ErrorMessage = "Get list between today and end date")]
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
         [DeadlineDate("StartDate", ErrorMessage = "Get list between today and event's date")]*/
+        [Display(Name = "Get list On")]
         public DateTime? ListDate { get; set; }
 
         /*[Required]
         [DataType(DataType.Text)]
-        [Display(Name = "Remind On")]
         [ValidDate(ErrorMessage = "Remind between today and list date")]
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
         [DeadlineDate("ListDate", ErrorMessage = "Remind between today and list date")]*/
+        [Display(Name = "Remind On")]
         public DateTime? ReminderDate { get; set; }
 
         public virtual string SchedulerUserId { get; set; }
