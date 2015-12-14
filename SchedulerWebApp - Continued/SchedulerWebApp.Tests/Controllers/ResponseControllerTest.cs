@@ -27,6 +27,7 @@ namespace SchedulerWebApp.Tests.Controllers
             //Assert
             Assert.IsNotNull(result);
             Assert.IsInstanceOfType(result.ViewData.Model, typeof(ResponseViewModel));
+
         }
 
         [TestMethod]
