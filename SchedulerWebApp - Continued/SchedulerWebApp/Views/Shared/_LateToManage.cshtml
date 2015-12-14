@@ -8,7 +8,7 @@
 
 <div class="alert alert-danger" role="alert">
     <p>
-        You can no longer manage this event as it has already taken place on @Model.StartDate.Day/@Model.StartDate.Month/@Model.StartDate.Year <br />
+        You can no longer manage this event as it has already taken place on @Model.StartDate.GetValueOrDefault().ToString("d")<br />
         See click the button below for more event details
     </p>
     <br />
