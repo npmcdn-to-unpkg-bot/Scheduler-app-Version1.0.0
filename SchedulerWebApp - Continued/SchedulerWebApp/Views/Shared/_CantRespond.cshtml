@@ -8,7 +8,7 @@
     <hr />
 
     <div class="alert alert-danger text-center" role="alert">
-        <p>You can no more respond to this Event. Responce were accepted till @Model.ListDate.Date/@Model.ListDate.Month/@Model.ListDate.Year.</p>
+        <p>You can no more respond to this Event. Responce were accepted till @Model.ListDate.GetValueOrDefault().ToString("g")</p>
         <p>Please contact the organiser.</p>
     </div>
 </div>
