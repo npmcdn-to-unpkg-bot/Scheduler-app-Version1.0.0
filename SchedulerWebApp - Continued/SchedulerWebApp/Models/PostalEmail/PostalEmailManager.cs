@@ -32,7 +32,7 @@ namespace SchedulerWebApp.Models.PostalEmail
                            To = emailInfo.ParticipantEmail,
                            OrganizerName = emailInfo.OrganizerName,
                            OrganizerEmail = emailInfo.OrganizerEmail,
-                           From = "aim_ahmad@hotmail.com",
+                           From = emailInfo.OrganizerEmail, //this has to schedule easy info email
                            EmailSubject = emailInfo.CurrentEvent.Title + emailInfo.EmailSubject,
                            ResponseUrl = emailInfo.ResponseUrl
                        };
