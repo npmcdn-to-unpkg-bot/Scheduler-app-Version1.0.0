@@ -128,7 +128,7 @@ namespace SchedulerWebApp.Controllers
                 }
                 catch (Exception exception)
                 {
-                    Elmah.ErrorSignal.FromCurrentContext().Raise(exception);
+                    //Elmah.ErrorSignal.FromCurrentContext().Raise(exception);
                     RedirectToAction("Error");
                 }
                 
