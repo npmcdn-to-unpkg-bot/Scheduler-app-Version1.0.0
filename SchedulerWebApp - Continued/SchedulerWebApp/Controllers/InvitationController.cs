@@ -129,6 +129,7 @@ namespace SchedulerWebApp.Controllers
                 catch (Exception exception)
                 {
                     Elmah.ErrorSignal.FromCurrentContext().Raise(exception);
+                    return RedirectToAction("Error");
                 }
                 
 
@@ -210,6 +211,10 @@ namespace SchedulerWebApp.Controllers
             return View("unsavedContacts", viewmodel);
         }
 
+        public ActionResult Error()
+        {
+            return View("Error");
+        }
 
         #region No double Invitation
 
