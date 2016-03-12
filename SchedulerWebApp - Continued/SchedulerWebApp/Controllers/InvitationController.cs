@@ -122,7 +122,16 @@ namespace SchedulerWebApp.Controllers
                 emails.Add(emailInfo);
 
                 //Send Invitation Email
-                PostalEmailManager.SendEmail(emailInfo, new InvitationEmail());
+                try
+                {
+                    PostalEmailManager.SendEmail(emailInfo, new InvitationEmail());
+                }
+                catch (Exception exception)
+                {
+                    Elmah.ErrorSignal.FromCurrentContext().Raise(exception);
+                    RedirectToAction("Error");
+                }
+                
 
                 #endregion
 
@@ -200,6 +209,11 @@ namespace SchedulerWebApp.Controllers
         {
             var viewmodel = (UnsavedContactViewModel)TempData["model"];
             return View("unsavedContacts", viewmodel);
+        }
+
+        public ActionResult Error()
+        {
+            return View("Error");
         }
 
         #region No double Invitation
