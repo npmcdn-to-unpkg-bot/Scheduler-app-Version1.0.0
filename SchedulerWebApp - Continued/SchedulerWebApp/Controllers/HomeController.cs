@@ -33,8 +33,7 @@ namespace SchedulerWebApp.Controllers
             if (!ModelState.IsValid) return View(model);
             
             model.To = "admin@schedule.com";
-            PostalEmailManager.SendContactUsEmail(model);
-
+            PostalEmailManager.SendCorespondingEmail(model);
             return View("MessageSent");
         }
     }

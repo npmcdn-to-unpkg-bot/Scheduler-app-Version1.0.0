@@ -174,15 +174,22 @@ namespace SchedulerWebApp.Models.PostalEmail
             SendCorespondingEmail(email);
         }
 
-        private static void SendCorespondingEmail(Email email)
+        public static void SendCorespondingEmail(Email email)
         {
             // ReSharper disable once AssignNullToNotNullAttribute
-            var viewpath = Path.GetFullPath(HostingEnvironment.MapPath(@"~/Views/Emails"));
+            /*var viewpath = Path.GetFullPath(HostingEnvironment.MapPath(@"~/Views/Emails"));
             var engines = new ViewEngineCollection();
             engines.Add(new FileSystemRazorViewEngine(viewpath));
-            var emailService = new Postal.EmailService(engines);
+            var emailService = new Postal.EmailService(engines);*/
 
-            emailService.Send(email);
+            dynamic email1 = new Email("Test");
+            email1.To = "s.buchumi@gmail.com";
+            email1.From = "admin@me.com";
+            email1.EmailSubject = "Email subject";
+            email1.EmailBody = "testemail from contact";
+            email1.SenderFistName = "Tester 1";
+
+            email1.Send();
         }
 
         private static Event GetCurrentEvent(EmailInformation emailInfo)
