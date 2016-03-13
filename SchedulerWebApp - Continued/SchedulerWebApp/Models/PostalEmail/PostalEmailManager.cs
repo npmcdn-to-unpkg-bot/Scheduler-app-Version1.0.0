@@ -15,7 +15,7 @@ namespace SchedulerWebApp.Models.PostalEmail
     {
         static readonly SchedulerDbContext Db = new SchedulerDbContext();
 
-        private static Email ComposeEmail(EmailInformation emailInfo, object newEmailObject)
+        /*private static Email ComposeEmail(EmailInformation emailInfo, object newEmailObject)
         {
             Email email = null;
 
@@ -77,16 +77,91 @@ namespace SchedulerWebApp.Models.PostalEmail
 
 
             return email;
+        }*/
+
+        private static Email ComposeDynamicEmail(EmailInformation emailInfo, object newEmailObject)
+        {
+            dynamic email = null;
+
+            if (newEmailObject.GetType() == typeof(InvitationEmail))
+            {
+                email = ComposeEmail(emailInfo, "Invitation");
+                #region Old code
+
+                /*email = new Email("Invitation");
+
+                email.To = emailInfo.ParticipantEmail;
+                email.From = emailInfo.OrganizerEmail;
+                email.Subject = emailInfo.CurrentEvent.Title + emailInfo.EmailSubject;
+
+                email.EventTitle = emailInfo.CurrentEvent.Title;
+                email.EventLocation = emailInfo.CurrentEvent.Location;
+                email.EventsId = emailInfo.CurrentEvent.Id;
+
+                email.StartDate = emailInfo.CurrentEvent.StartDate.GetValueOrDefault();
+                email.GetListDate = emailInfo.CurrentEvent.ListDate.GetValueOrDefault();
+
+                email.ParticipantId = emailInfo.ParticipantId;
+                email.OrganizerName = emailInfo.OrganizerName;
+
+                email.ResponseUrl = emailInfo.ResponseUrl;*/
+
+                #endregion
+
+                //Attach a file
+                AddAttachAttachment(email, emailInfo);
+            }
+            else if (newEmailObject.GetType() == typeof(EmailInfoChangeEmail))
+            {
+                //write changed Info email
+                email = ComposeEmail(emailInfo, "EmailInfoChange");
+
+                //Attach a file
+                AddAttachAttachment(email, emailInfo);
+            }
+            else if (newEmailObject.GetType() == typeof(CancellationEmail))
+            {
+                //Write Cancellation Email
+                email = ComposeEmail(emailInfo, "Cancellation");
+
+                #region Old Code
+
+                /*email = new Email("Cancellation");
+
+                email.To = emailInfo.ParticipantEmail;
+                email.From = emailInfo.OrganizerEmail;
+                email.EmailSubject = emailInfo.CurrentEvent.Title + emailInfo.EmailSubject;
+
+                email.EventTitle = emailInfo.CurrentEvent.Title;
+                email.EventLocation = emailInfo.CurrentEvent.Location;
+                email.EventsId = emailInfo.CurrentEvent.Id;
+
+                email.StartDate = emailInfo.CurrentEvent.StartDate.GetValueOrDefault();
+                email.GetListDate = emailInfo.CurrentEvent.ListDate.GetValueOrDefault();
+
+                email.ParticipantId = emailInfo.ParticipantId;
+                email.OrganizerName = emailInfo.OrganizerName;*/
+
+                //email.OrganizerEmail = emailInfo.OrganizerEmail;
+
+                #endregion
+            }
+
+            return email;
         }
 
         public static void SendListEmail(EmailInformation emailInfo, object emailObject)
         {
             var currentEvent = GetCurrentEvent(emailInfo);
-            
+
             if (currentEvent == null)
             {
+                //Elmah log Error manually using Error signal class
+                ErrorSignal.FromCurrentContext().Raise(new Exception("There is an error occured"));
+
+                //using Error log Class
                 ErrorLog.GetDefault(System.Web.HttpContext.Current).Log(
-                    new Error(new Exception("participant email of an event has not been sent, The event has returned NULL"))
+                    new Error(new Exception("Participant email of an event has not been sent, The event has returned NULL"))
                     );
                 return;
             }
@@ -98,19 +173,21 @@ namespace SchedulerWebApp.Models.PostalEmail
             var attendingParticipant = participants.Count(p => p.Availability);
             var notAttendingParticipant = allParticipant - attendingParticipant;
 
-            Email email = new ParticipantListEmail
-                          {
-                              EventTitle = emailInfo.CurrentEvent.Title,
-                              From = "test@email.com",
-                              To = emailInfo.OrganizerEmail,
-                              OrganizerName = emailInfo.OrganizerName,
-                              AllParticipants = allParticipant,
-                              ParticipantAttending = attendingParticipant,
-                              ParticipantNotAttending = notAttendingParticipant,
-                              ParticipantsResponded = respondedParticipants,
-                              EmailSubject = "Participants summary" + " " + emailInfo.CurrentEvent.Title,
-                              EventDetailsUrl = emailInfo.EventDetailsUrl
-                          };
+            dynamic email = new Email("ParticipantList");
+
+            email.To = emailInfo.OrganizerEmail;
+            email.From = "no-reply@scheduleasy.com";
+            email.EmailSubject = "Participants summary" + " " + emailInfo.CurrentEvent.Title;
+
+            email.EventTitle = emailInfo.CurrentEvent.Title;
+
+            email.OrganizerName = emailInfo.OrganizerName;
+
+            email.AllParticipants = allParticipant;
+            email.ParticipantAttending = attendingParticipant;
+            email.ParticipantNotAttending = notAttendingParticipant;
+            email.ParticipantsResponded = respondedParticipants;
+            email.EventDetailsUrl = emailInfo.EventDetailsUrl;
 
             SendCorespondingEmail(email);
         }
@@ -132,10 +209,10 @@ namespace SchedulerWebApp.Models.PostalEmail
 
                 ErrorLog.GetDefault(System.Web.HttpContext.Current).Log(
                     new Error(
-                        new Exception("participant remainder emails were not sent, The event has returned NULL. " 
-                            +"Error msg is " + exception.Message)));
+                        new Exception("participant remainder emails were not sent, The event has returned NULL. "
+                            + "Error msg is " + exception.Message)));
             }
-            
+
 
             foreach (var participant in noResponseParticipants)
             {
@@ -145,17 +222,22 @@ namespace SchedulerWebApp.Models.PostalEmail
                                         .FirstOrDefault();
 
                 //create email
-                Email email = new RemainderEmail
-                              {
-                                  EventTitle = emailInfo.CurrentEvent.Title,
-                                  EventLocation = emailInfo.CurrentEvent.Location,
-                                  StartDate = emailInfo.CurrentEvent.StartDate.GetValueOrDefault(),
-                                  GetListDate = emailInfo.CurrentEvent.ListDate.GetValueOrDefault(),
-                                  To = participant.Email,
-                                  From = "no-reply@scheduleasy.com",
-                                  EmailSubject = "Remainder for" + " " + emailInfo.CurrentEvent.Title,
-                                  ResponseUrl = responseUrl
-                              };
+                dynamic email = new Email("Remainder");
+
+                email.To = participant.Email;
+                email.From = "no-reply@scheduleasy.com";
+                email.EmailSubject = "Remainder for" + " " + emailInfo.CurrentEvent.Title;
+
+                email.EventTitle = emailInfo.CurrentEvent.Title;
+                email.EventLocation = emailInfo.CurrentEvent.Location;
+
+                email.StartDate = emailInfo.CurrentEvent.StartDate.GetValueOrDefault();
+                email.GetListDate = emailInfo.CurrentEvent.ListDate.GetValueOrDefault();
+
+                email.ResponseUrl = responseUrl;
+
+
+                //send email
                 SendCorespondingEmail(email);
             }
 
@@ -163,14 +245,23 @@ namespace SchedulerWebApp.Models.PostalEmail
 
         public static void SendEmail(EmailInformation emailInfo, object newEmailObject)
         {
-            var email = ComposeEmail(emailInfo, newEmailObject);
-            var emailAttachment = Service.CreateAttachment(emailInfo);
-            email.Attach(emailAttachment);
+            var email = ComposeDynamicEmail(emailInfo, newEmailObject);
+
             SendCorespondingEmail(email);
         }
 
-        public static void SendContactUsEmail(ContactUsEmail email)
+        public static void SendContactUsEmail(ContactUsEmail contactUsEmail)
         {
+            dynamic email = new Email("ContactUs");
+
+            email.To = contactUsEmail.To;
+            email.From = contactUsEmail.From;
+            email.EmailSubject = contactUsEmail.EmailSubject;
+
+            email.SenderFistName = contactUsEmail.SenderFistName + " " + contactUsEmail.SenderLastName;
+
+            email.EmailBody = contactUsEmail.EmailBody;
+
             SendCorespondingEmail(email);
         }
 
@@ -182,14 +273,9 @@ namespace SchedulerWebApp.Models.PostalEmail
             engines.Add(new FileSystemRazorViewEngine(viewpath));
             var emailService = new Postal.EmailService(engines);*/
 
-            dynamic email1 = new Email("Test");
-            email1.To = "s.buchumi@gmail.com";
-            email1.From = "admin@me.com";
-            email1.EmailSubject = "Email subject";
-            email1.EmailBody = "testemail from contact";
-            email1.SenderFistName = "Tester 1";
+            email.Send();
 
-            email1.Send();
+            //email.Send();
         }
 
         private static Event GetCurrentEvent(EmailInformation emailInfo)
@@ -208,6 +294,39 @@ namespace SchedulerWebApp.Models.PostalEmail
             }
 
             return currentEvent;
+        }
+
+        private static dynamic ComposeEmail(EmailInformation emailInfo, string emailView)
+        {
+
+            dynamic email = new Email(emailView);
+
+            email.To = emailInfo.ParticipantEmail;
+            email.From = emailInfo.OrganizerEmail;
+            email.Subject = emailInfo.CurrentEvent.Title + emailInfo.EmailSubject;
+
+            email.EventTitle = emailInfo.CurrentEvent.Title;
+            email.EventLocation = emailInfo.CurrentEvent.Location;
+            email.EventsId = emailInfo.CurrentEvent.Id;
+
+            email.StartDate = emailInfo.CurrentEvent.StartDate.GetValueOrDefault();
+            email.GetListDate = emailInfo.CurrentEvent.ListDate.GetValueOrDefault();
+
+            email.ParticipantId = emailInfo.ParticipantId;
+            email.OrganizerName = emailInfo.OrganizerName;
+
+            //email.OrganizerEmail = emailInfo.OrganizerEmail;//todo: why it appears appear twice 
+
+            email.ResponseUrl = emailInfo.ResponseUrl;
+
+            email.EventDetailsUrl = emailInfo.EventDetailsUrl;
+            return email;
+        }
+
+        private static void AddAttachAttachment(dynamic email, EmailInformation emailInfo)
+        {
+            var emailAttachment = Service.CreateAttachment(emailInfo);
+            email.Attach(emailAttachment);
         }
     }
 }

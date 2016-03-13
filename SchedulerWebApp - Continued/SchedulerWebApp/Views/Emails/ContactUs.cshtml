@@ -1,8 +1,6 @@
-﻿@model SchedulerWebApp.Models.PostalEmail.ContactUsEmail
-
-To: @Model.To
-From: @Model.From
-Subject: @Model.EmailSubject
+﻿To: @ViewBag.To
+From: @ViewBag.From
+Subject: @ViewBag.EmailSubject
 
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -1416,7 +1414,7 @@ Subject: @Model.EmailSubject
                                                     <td class="padded" style="padding: 0;vertical-align: top;padding-left: 32px;padding-right: 32px">
 
                                                         <p style="Margin-top: 0;color: #565656;font-family: Georgia,serif;font-size: 16px;line-height: 25px;Margin-bottom: 25px">Hi!</p>
-                                                        <p style="Margin-top: 0;color: #565656;font-family: Georgia,serif;font-size: 16px;line-height: 25px;Margin-bottom: 25px">@Model.EmailBody</p>
+                                                        <p style="Margin-top: 0;color: #565656;font-family: Georgia,serif;font-size: 16px;line-height: 25px;Margin-bottom: 25px">@ViewBag.EmailBody</p>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -1425,7 +1423,7 @@ Subject: @Model.EmailSubject
                                             <tbody>
                                                 <tr>
                                                     <td class="padded" style="padding: 0;vertical-align: top;padding-left: 32px;padding-right: 32px">
-                                                        <p style="Margin-top: 0;color: #565656;font-family: Georgia,serif;font-size: 16px;line-height: 25px;Margin-bottom: 24px">@Model.SenderFistName<br />Thank you.</p>
+                                                        <p style="Margin-top: 0;color: #565656;font-family: Georgia,serif;font-size: 16px;line-height: 25px;Margin-bottom: 24px">Kind Regards.<br />@ViewBag.SenderFistName</p>
                                                     </td>
                                                 </tr>
                                             </tbody>

@@ -1,8 +1,6 @@
-﻿@model SchedulerWebApp.Models.PostalEmail.CancellationEmail
-
-To: @Model.To
-From: @Model.From
-Subject: @Model.EmailSubject
+﻿To: @ViewBag.To
+From: @ViewBag.From
+Subject: @ViewBag.Subject
 
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -1416,8 +1414,8 @@ Subject: @Model.EmailSubject
                                                     <td class="padded" style="padding: 0;vertical-align: top;padding-left: 32px;padding-right: 32px">
 
                                                         <p style="Margin-top: 0;color: #565656;font-family: Georgia,serif;font-size: 16px;line-height: 25px;Margin-bottom: 25px">Hi!</p>
-                                                        <p style="Margin-top: 0;color: #565656;font-family: Georgia,serif;font-size: 16px;line-height: 25px;Margin-bottom: 25px"><strong style="font-weight: bold">@Model.EventTitle&nbsp;</strong>&nbsp;has been cancelled.</p>
-                                                        <p style="Margin-top: 0;color: #565656;font-family: Georgia,serif;font-size: 16px;line-height: 25px;Margin-bottom: 25px">For more information, please contacts <strong style="font-weight: bold">@Model.EventTitle&nbsp;</strong> organizer via <strong style="font-weight: bold">@Model.OrganizerEmail&nbsp;</strong></p>
+                                                        <p style="Margin-top: 0;color: #565656;font-family: Georgia,serif;font-size: 16px;line-height: 25px;Margin-bottom: 25px"><strong style="font-weight: bold">@ViewBag.EventTitle&nbsp;</strong>&nbsp;has been cancelled.</p>
+                                                        <p style="Margin-top: 0;color: #565656;font-family: Georgia,serif;font-size: 16px;line-height: 25px;Margin-bottom: 25px">For more information, please contacts <strong style="font-weight: bold">@ViewBag.EventTitle&nbsp;</strong> organizer via <strong style="font-weight: bold">@ViewBag.From&nbsp;</strong></p>
 
                                                     </td>
                                                 </tr>
