@@ -13,42 +13,97 @@ function elementsInitialization(elementId) {
     });
 }
 
-function linkTwoInputs(firstInput, secondInput) {
+function linkTwoInputs(listDateElementId, remeinderElementId, maxDatetime) {
 
-    var firstInputId = '#' + firstInput;
-    var secondInputId = '#' + secondInput;
+    var listId = '#' + listDateElementId;
+    var remeinderId = '#' + remeinderElementId;
+    var dateToday = todaysDate.subtract(0, 'days').startOf('day');
 
-    $(firstInputId).datetimepicker({
+    $(listId).datetimepicker({
+        format: "DD.MM.YYYY HH:mm",
+        minDate: dateToday,
+        maxDate: maxDatetime
+    });
+
+    $(remeinderId).datetimepicker({
+        format: "DD.MM.YYYY HH:mm",
+        minDate: dateToday,
+        maxDate: maxDatetime,
+        useCurrent: false //Important! See issue #1075
+    });
+
+    $(listId).on("dp.change", function (e) {
+        $(remeinderId).data("DateTimePicker").maxDate(e.date);
+        $(remeinderId).data("DateTimePicker").minDate(dateToday);
+    });
+
+    $(remeinderId).on("dp.change", function (e) {
+        $(listId).data("DateTimePicker").minDate(e.date);
+    });
+}
+
+function linkThreeDatesElements(eventDateElementId, listDateElementId, remainderDateElementId) {
+
+    var eventDate = '#' + eventDateElementId, listDate = '#' + listDateElementId, remainderDate = '#' + remainderDateElementId;
+
+
+    $(eventDate).datetimepicker({
         format: "DD.MM.YYYY HH:mm",
         minDate: todaysDate.subtract(0, 'days').startOf('day')
     });
 
-    $(secondInputId).datetimepicker({
+    $(listDate).datetimepicker({
         format: "DD.MM.YYYY HH:mm",
-        useCurrent: false //Important! See issue #1075
+        minDate: todaysDate.subtract(0, 'days').startOf('day'),
+        useCurrent: false
     });
 
-    $(firstInputId).on("dp.change", function (e) {
-        $(secondInputId).data("DateTimePicker").minDate(e.date);
+    $(remainderDate).datetimepicker({
+        format: "DD.MM.YYYY HH:mm",
+        minDate: todaysDate.subtract(0, 'days').startOf('day'),
+        useCurrent: false
     });
-    $(secondInputId).on("dp.change", function (e) {
-        $(firstInputId).data("DateTimePicker").maxDate(e.date);
+
+    $(eventDate).on("dp.change", function(e) {
+        $(listDate).data("DateTimePicker").maxDate(e.date);
+        $(remainderDate).data("DateTimePicker").maxDate(e.date);
+    });
+
+    $(listDate).on("dp.change", function (e) {
+        $(remainderDate).data("DateTimePicker").maxDate(e.date);
     });
 }
 
-/*function linkThreeDatesElements(maxDateElementId, dateElementId) {
+function convertInputDateToMomentDate(inputElementId) {
+    var id = '#' + inputElementId;
 
-    var maxDate = '#' + maxDateElementId, date = '#' + dateElementId;
+    var startDate = $(id).val();
+    console.log(startDate);
 
-    $(date).datetimepicker({
-        format: "DD.MM.YYYY HH:mm"
-    });
+    var datetimeArray = startDate.split(' ');
 
-    $(maxDate).on("dp.change", function (e) {
-        $(date).data("DateTimePicker").minDate(todaysDate);
-        $(date).data("DateTimePicker").maxDate(e.date);
-    });
-}*/
+    var dateArray = datetimeArray[0].split('\.');
+    var timeArray = datetimeArray[1].split(':');
+
+    var dateTimeArray = $.merge(dateArray, timeArray);
+
+    console.log(dateTimeArray);
+
+    var eDate, eMonth, eYear, eHour, eMinutes;
+
+    eDate = dateTimeArray[0];
+    eMonth = dateTimeArray[1];
+    eYear = dateTimeArray[2];
+    eHour = dateTimeArray[3];
+    eMinutes = dateTimeArray[4];
+    var dateString = eYear + '-' + eMonth + '-' + eDate + ' ' + eHour + ':' + eMinutes;
+    console.log(dateString);
+
+    var maxDate = moment(dateString).toDate();
+    console.log(maxDate);
+
+    return maxDate;
+}
 
 //DataTable functions
 function makeTableResponsive(tableClass, columnIndexForOrdering) {
@@ -61,7 +116,6 @@ function makeTableResponsive(tableClass, columnIndexForOrdering) {
         "bLengthChange": false
     });
 }
-
 
 function grayOutAbsentees() {
     $('#participantTable').each(function () {

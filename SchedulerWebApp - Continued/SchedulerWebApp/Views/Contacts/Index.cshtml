@@ -6,25 +6,16 @@
 }
 
 @{
-    ViewBag.Title = "My Contact";
+    ViewBag.Title = "Contacts";
 }
-
-@* todo: this is a temporary style and will haave to move to custom style later*@
-
-<style type="text/css">
-    .heading-paragraph {
-        color: gray;
-        font-size: 30px;
-    }
-</style>
 
 <div class="row">
     <div class="col-sm-9">
-        <p class="heading-paragraph text-center-smallScreen">My Contacts</p>
+        <p class="heading-paragraph text-center-smallScreen">Contacts</p>
     </div>
     <div class="col-sm-3">
         <p>
-            @Html.ActionLink("Add Contact", "Create", "Contacts", null, new { @class = "btn btn-default btn-block" })
+            @Html.ActionLink("New Contact", "Create", "Contacts", null, new { @class = "btn btn-info btn-block" })
         </p>
     </div>
 </div>

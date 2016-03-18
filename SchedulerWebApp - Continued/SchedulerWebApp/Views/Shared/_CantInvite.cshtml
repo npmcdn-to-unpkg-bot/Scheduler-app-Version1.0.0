@@ -3,15 +3,14 @@
     ViewBag.Title = "_CantRespond";
 }
 <div class="col-md-offset-2 col-md-8">
-    <h2 class="text-center">Event has passed</h2>
+    <h2 class="text-center">Its late..</h2>
     <hr />
 
-    <div class="alert alert-danger text-center" role="alert">
+    <div class="alert alert-danger" role="alert">
         <p>
-            You can't invite participant to this event anymore. It already took place on @Model.StartDate.GetValueOrDefault().ToString("g") <br />
-            See click the button below for more event details
+            You can't invite participant to this event anymore. It already took place on <b>@Model.StartDate.GetValueOrDefault().ToString("g")</b>.
+            To see more details click the button below.
         </p>
-        <br />
-        @Html.ActionLink("Event Details", "Details", "Events", new { id = Model.Id }, new { @class = "btn btn-default" })
     </div>
+    @Html.ActionLink("Event Details", "Details", "Events", new { id = Model.Id }, new { @class = "btn btn-info btn-block" })
 </div>

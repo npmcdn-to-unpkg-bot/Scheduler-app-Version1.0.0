@@ -184,6 +184,11 @@ tr:contains("Absent") {
     color: lightsteelblue;
 }
 
+.heading-paragraph {
+        color: gray;
+        font-size: 30px;
+    }
+
 /*
 ul.tagit {
     max-width: 350px;

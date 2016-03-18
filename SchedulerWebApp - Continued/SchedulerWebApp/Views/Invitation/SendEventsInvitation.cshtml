@@ -2,7 +2,10 @@
 
 @{
     ViewBag.Title = "Invite Participant";
+
 }
+
+
 @Styles.Render("~/Content/tagIt")
 <div class="col-md-8 col-md-offset-2">
 
@@ -19,7 +22,7 @@
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                 @Html.HiddenFor(model => model.EventId)
-                @Html.HiddenFor(model => model.EventDate)
+                @Html.EditorFor(model => model.EventDate, new { htmlAttributes = new { @class = "hidden", id = "HiddenDatePickerList" } })
                 <div class="table-responsive">
                     <table class="table borderless table-responsive">
                         <colgroup>
@@ -37,7 +40,7 @@
                             </tr>
                             <tr>
                                 <td class="title-label">@Html.DisplayNameFor(model => model.EventDate): </td>
-                                <td>@Html.DisplayFor(model => model.EventDate)</td>
+                                <td>@Html.DisplayFor(model => model.EventDate )</td>
                             </tr>
 
                             <tr>
@@ -88,11 +91,11 @@
 
                 <div class="form-group">
                     <div class="col-sm-4 col-sm-offset-3">
-                        <button type="submit" value="Invite" class="btn btn-default btn-block">Invite</button>
+                        <button type="submit" value="Invite" class="btn btn-info btn-block">Invite</button>
                     </div>
                     <br class="hidden-lg hidden-md hidden-sm"/>
                     <div class="col-sm-4">
-                        @Html.ActionLink("Cancel", null, null, null, new { @class = "btn btn-default btn-block", href = Request.UrlReferrer })
+                        @Html.ActionLink("Cancel", null, null, null, new { @class = "btn btn-danger btn-block", href = Request.UrlReferrer })
                     </div>
                 </div>
             </div>
@@ -115,7 +118,9 @@
 
             initTagIt();
 
-            linkTwoInputs('datePickerList', 'datePickerRemainder');
+            var maxDate = convertInputDateToMomentDate("HiddenDatePickerList");
+           
+            linkTwoInputs('datePickerList', 'datePickerRemainder',maxDate);
         });
 
         function inputInit(elementId) {
@@ -128,29 +133,6 @@
                 minDate: todaysDate.subtract(0, 'days').startOf('day')
             });
         }
-
-        /*function linkTwoInputs(firstInput, secondInput) {
-
-            var firstInputId = '#' + firstInput;
-            var secondInputId = '#' + secondInput;
-
-            $(firstInputId).datetimepicker({
-                format: "DD.MM.YYYY HH:mm",
-                minDate: todaysDate.subtract(0, 'days').startOf('day')
-            });
-
-            $(secondInputId).datetimepicker({
-                format: "DD.MM.YYYY HH:mm",
-                useCurrent: false //Important! See issue #1075
-            });
-
-            $(firstInputId).on("dp.change", function (e) {
-                $(secondInputId).data("DateTimePicker").minDate(e.date);
-            });
-            $(secondInputId).on("dp.change", function (e) {
-                $(firstInputId).data("DateTimePicker").maxDate(e.date);
-            });
-        }*/
 
         function initTagIt() {
             $("#ParticipantsEmails").tagit({
