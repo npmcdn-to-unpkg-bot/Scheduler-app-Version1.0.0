@@ -153,13 +153,10 @@ namespace SchedulerWebApp.Models.PostalEmail
 
             if (currentEvent == null)
             {
-                //Elmah log Error manually using Error signal class
-                ErrorSignal.FromCurrentContext().Raise(new Exception("There is an error occured"));
-
                 //using Error log Class
-                ErrorLog.GetDefault(System.Web.HttpContext.Current).Log(
-                    new Error(new Exception("Participant email of an event has not been sent, The event has returned NULL"))
-                    );
+                const string errorMessage = "Event returned null, no list of participants have been sent to the Organizer";
+                ErrorLog.GetDefault(System.Web.HttpContext.Current).Log(new Error(new Exception(errorMessage)));
+
                 return;
             }
 

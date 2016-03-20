@@ -257,12 +257,13 @@ namespace SchedulerWebApp.Controllers
 
             var eventRemainderDate = @event.ReminderDate;
             var remainderDate = Service.SetCorectDate(eventRemainderDate);
+            var eventDate = @event.StartDate ?? DateTime.Now;
 
             var invitationViewModel = new InvitationViewModel
                                       {
                                           EventId = @event.Id,
                                           EventTitle = @event.Title,
-                                          EventDate = @event.StartDate,
+                                          EventDate =eventDate,
                                           EventLocation = @event.Location,
                                           ListDate = listDate,
                                           ReminderDate = remainderDate,

@@ -16,14 +16,15 @@ namespace SchedulerWebApp.Models.ViewModels
         public string EventLocation { get; set; }
 
         [Display(Name = "Date")]
-        [DataType(DataType.Date)]
-        public DateTime? EventDate { get; set; }
+        [DataType(DataType.Text)]
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy HH:mm}",ApplyFormatInEditMode = true)]
+        public DateTime EventDate { get; set; }
 
         [Required]
         [DataType(DataType.Text)]
         [Display(Name = "List Date")]
         [ValidDate(ErrorMessage = "Get list between today and end date")]
-        [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy HH:mm}", ApplyFormatInEditMode = true)]
         [DeadlineDate("EventDate", ErrorMessage = "Get list between today and event's date")]
         public DateTime? ListDate { get; set; }
 
@@ -31,7 +32,7 @@ namespace SchedulerWebApp.Models.ViewModels
         [DataType(DataType.Text)]
         [Display(Name = "Reminder(s)")]
         [ValidDate(ErrorMessage = "Remind between today and list date")]
-        [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy HH:mm}", ApplyFormatInEditMode = true)]
         [DeadlineDate("ListDate", ErrorMessage = "Remind between today and list date")]
         public DateTime? ReminderDate { get; set; }
 

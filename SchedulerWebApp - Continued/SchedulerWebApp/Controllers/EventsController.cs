@@ -218,9 +218,7 @@ namespace SchedulerWebApp.Controllers
             //Remove scheduled jobs of this event
             JobManager.RemoveScheduledJobs(eventToEdit);
 
-            //Schedule new emails for edited Job
-
-
+            #region Send update emails to participants
             //Get Participants
             var currentEvent = _db.Events
                                   .Where(e => e.Id == eventToEdit.Id)
@@ -239,6 +237,7 @@ namespace SchedulerWebApp.Controllers
             EmailInformation emailInfo = null;
             var emails = new List<EmailInformation>();
 
+            //There is no participants
             if (participants.Count == 0)
             {
                 return RedirectToAction("Index");
@@ -268,9 +267,10 @@ namespace SchedulerWebApp.Controllers
 
                 //Notify Participant using postal
                 PostalEmailManager.SendEmail(emailInfo, new EmailInfoChangeEmail());
-            }
+            } 
+            #endregion
 
-
+            //Schedule new emails for edited Job
             JobManager.ScheduleRemainderEmail(emails, remanderDate);
             JobManager.ScheduleParticipantListEmail(emailInfo, listDate);
             JobManager.AddJobsIntoEvent(eventToEdit.Id);
