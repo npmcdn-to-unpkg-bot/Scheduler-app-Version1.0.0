@@ -47,7 +47,7 @@
 
         (function () {
             $(".p-header").each(function () {
-                var header = $(this).text();
+                var header = $.trim($(this).text());
 
                 if (header.length > 15) {
                     $(this).text(header.substr(0, 15) + ". . .");
