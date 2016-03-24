@@ -63,8 +63,6 @@ textarea {
     .text-center-smallScreen {
         text-align: center;
     }
-
-    
 }
 
 @media (max-width: 768px) {
@@ -169,10 +167,15 @@ a + a {
     -webkit-box-shadow: 3px 3px 3px 3px;
     -ms-box-shadow: 3px 3px 3px 3px;
     box-shadow: 3px 3px 3px 3px;
+    color: darkgrey;
 }
 
     .event-thumbnail:hover {
         background: #D8D8D8;
+        -webkit-box-shadow: 3px 3px 3px 3px;
+        -ms-box-shadow: 3px 3px 3px 3px;
+        box-shadow: 3px 3px 3px 3px;
+        color: lightsteelblue;
     }
 
         .event-thumbnail:hover div p {
@@ -185,8 +188,23 @@ tr:contains("Absent") {
 }
 
 .heading-paragraph {
-        color: gray;
-        font-size: 30px;
+    color: gray;
+    font-size: 30px;
+}
+
+.anchor-div {
+    color: inherit;
+    text-decoration: inherit;
+}
+
+    .anchor-div:link {
+        color: inherit;
+        text-decoration: inherit;
+    }
+
+    .anchor-div:hover {
+        color: inherit;
+        text-decoration: inherit;
     }
 
 /*

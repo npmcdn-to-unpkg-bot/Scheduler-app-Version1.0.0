@@ -1,64 +1,59 @@
 ﻿@using System.Globalization
 @model SchedulerWebApp.Models.Event
 
-<style type="text/css">
-    .eventPageIcons {
-        font-size: 1.5em;
-    }
 
-    p {
-        font-size: 16px;
-    }
-</style>
 
 <div class="col-md-4 event-div">
     <div class="thumbnail event-thumbnail">
         <div class="caption">
-            <p class="text-center p-header">@Model.Title.ToUpper()</p>
-            <table class="borderless table table-condensed centered">
-                <tbody>
-                    <tr>
-                        <td class="col-sm-3"><label>Where?</label></td>
-                        <td class="col-sm-9">@Model.Location</td>
-                    </tr>
-                    <tr>
-                        <td class="col-sm-3"><label>When?</label></td>
-                        <td class="col-sm-9">@Model.StartDate.GetValueOrDefault().ToString("d", new CultureInfo("de-CH"))</td>
-                    </tr>
-                    <tr>
-                        <td class="col-sm-3"><label>Envitees:</label></td>
-                        <td class="col-sm-9"><span class="badge">@Model.Participants.Count</span></td>
-                    </tr>
+            <a class="anchor-div" href=@Url.Action("Details", "Events", new { id = Model.Id })>
+                <p class="text-center p-header">@Model.Title.ToUpper()</p>
+                <table class="borderless table table-condensed centered">
+                    <tbody>
+                        <tr>
+                            <td class="col-sm-3"><label>Where?</label></td>
+                            <td class="col-sm-9">@Model.Location</td>
+                        </tr>
+                        <tr>
+                            <td class="col-sm-3"><label>When?</label></td>
+                            <td class="col-sm-9">@Model.StartDate.GetValueOrDefault().ToString("d", new CultureInfo("de-CH"))</td>
+                        </tr>
+                        <tr>
+                            <td class="col-sm-3"><label>Envitees:</label></td>
+                            <td class="col-sm-9"><span class="badge">@Model.Participants.Count</span></td>
+                        </tr>
 
-                    <tr>
-                        <td class="col-sm-3"><label>Attending:</label></td>
-                        <td class="col-sm-9"><span class="badge green-badge">@Model.Participants.Where(p => p.Availability).ToList().Count</span></td>
-                    </tr>
+                        <tr>
+                            <td class="col-sm-3"><label>Attending:</label></td>
+                            <td class="col-sm-9"><span class="badge green-badge">@Model.Participants.Where(p => p.Availability).ToList().Count</span></td>
+                        </tr>
 
-                    <tr>
-                        <td class="col-sm-3"><label>Absent:</label></td>
-                        <td class="col-sm-9"><span class="badge red-badge">@Model.Participants.Where(p => !(p.Availability)).ToList().Count</span></td>
-                    </tr>
-                </tbody>
-            </table>
+                        <tr>
+                            <td class="col-sm-3"><label>Absent:</label></td>
+                            <td class="col-sm-9"><span class="badge red-badge">@Model.Participants.Where(p => !(p.Availability)).ToList().Count</span></td>
+                        </tr>
+                    </tbody>
+                </table>
 
-            <div class="row">
-                <div class="col-md-4 col-sm-4 col-xs-12">
-                    <p class="text-center">
-                        <a class="element-lightBlue eventPageIcons" href="@Url.Action( "Details", "Events", new { id = Model.Id })"><i title="Details" class="fa fa-info-circle"></i></a>
-                    </p>
+                <div class="row">
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <p class="text-center">
+                            <a class="element-lightBlue eventPageIcons" href="@Url.Action( "Details", "Events", new { id = Model.Id })"><i title="Details" class="fa fa-info-circle"></i></a>
+                        </p>
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <p class="text-center">
+                            <a class="element-lightBlue eventPageIcons" href="@Url.Action("SendEventsInvitation", "Invitation", new { id = Model.Id })"><i title="Invite" class="fa fa-share-alt"></i></a>
+                        </p>
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <p class="text-center">
+                            <a class="element-lightBlue eventPageIcons" href="@Url.Action("CopyEvent", "Events", new { id = Model.Id })"><i title="copy" class="fa fa-files-o"></i></a>
+                        </p>
+                    </div>
                 </div>
-                <div class="col-md-4 col-sm-4 col-xs-12">
-                    <p class="text-center">
-                        <a class="element-lightBlue eventPageIcons" href="@Url.Action("SendEventsInvitation", "Invitation", new { id = Model.Id })"><i title="Invite" class="fa fa-share-alt"></i></a>
-                    </p>
-                </div>
-                <div class="col-md-4 col-sm-4 col-xs-12">
-                    <p class="text-center">
-                        <a class="element-lightBlue eventPageIcons" href="@Url.Action("CopyEvent", "Events", new { id = Model.Id })"><i title="copy" class="fa fa-files-o"></i></a>
-                    </p>
-                </div>
-            </div>
+            </a>
+
         </div>
     </div>
 </div>

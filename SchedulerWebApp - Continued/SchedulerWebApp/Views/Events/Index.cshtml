@@ -4,6 +4,16 @@
     ViewBag.Title = "Index";
 }
 
+<style type="text/css">
+    .eventPageIcons {
+        font-size: 1.5em;
+    }
+
+    p {
+        font-size: 16px;
+    }
+</style>
+
 
 <ul class="nav nav-tabs" id="myTab">
     <li class="active"><a href="#upcomingEvent">Upcoming Events</a></li>
@@ -46,11 +56,12 @@
 
 
         (function () {
+
             $(".p-header").each(function () {
                 var header = $.trim($(this).text());
 
                 if (header.length > 15) {
-                    $(this).text(header.substr(0, 15) + ". . .");
+                    $(this).text(header.substr(0, 15) + " . . .");
                 }
             });
         })();
