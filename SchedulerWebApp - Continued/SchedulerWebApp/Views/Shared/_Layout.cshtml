@@ -12,6 +12,7 @@
     @Scripts.Render("~/bundles/modernizr")
     <link rel="shortcut icon" type="image/ico" href="~/Images/favicon.ico">
 
+
 </head>
 <body>
 
@@ -50,10 +51,14 @@
                 <div class="col-lg-1  col-sm-2 col-xs-1"></div>
             </div>
         </div>
-        <hr />
-        <footer>
-            <p class="text-muted text-right">&copy; @DateTime.Now.Year - Schedule easy</p>
-        </footer>
+
+        <div class="navbar navbar-inverse navbar-fixed-bottom" role="navigation">
+            <div class="container">
+                <div class="navbar-text pull-left">
+                    <p>&copy; @DateTime.Now.Year - Schedule easy</p>
+                </div>
+            </div>
+        </div>
     </div>
 
     @Scripts.Render("~/bundles/jquery")
