@@ -120,7 +120,7 @@ function makeTableResponsive(tableClass, columnIndexForOrdering) {
 function grayOutAbsentees() {
     $('#participantTable').each(function () {
         $('tr:contains("Absent")').each(function () {
-            $(this).css('color', 'rgb(220, 161, 161)');
+            $(this).css('color', 'rgb(247, 167, 167)');
         });
     });
 }
