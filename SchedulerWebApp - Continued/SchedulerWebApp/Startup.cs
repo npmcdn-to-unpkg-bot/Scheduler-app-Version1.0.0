@@ -42,10 +42,6 @@ namespace SchedulerWebApp
             app.UseHangfireDashboard("/hangfire", options);
             app.UseHangfireServer();
 
-            #region Workaround Cookie authentification
-            //var provider = new CookieAuthenticationProvider { OnException = context => { } };
-            //app.UseCookieAuthentication(new CookieAuthenticationOptions { Provider = provider }); 
-            #endregion
 
             ConfigureAuth(app);
         }

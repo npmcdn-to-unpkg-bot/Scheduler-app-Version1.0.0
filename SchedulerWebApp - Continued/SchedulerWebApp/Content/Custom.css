@@ -2,9 +2,9 @@
       border-color: #CC0000;
  }*/
 
-html, body, .container {
+/*html, body, .container {
     height: 100%;
-}
+}*/
 
 .borderless tbody tr td, .borderless thead tr th {
     border: none;
