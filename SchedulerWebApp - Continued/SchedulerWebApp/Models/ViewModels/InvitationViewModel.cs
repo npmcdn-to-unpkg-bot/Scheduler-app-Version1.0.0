@@ -45,6 +45,7 @@ namespace SchedulerWebApp.Models.ViewModels
                  AdditionalFields = "EventId")]
         public string ParticipantsEmails { get; set; }
 
+        [Display(Name = "Send Remainder(s)")]
         public bool SendRemainder { get; set; }
     }
 }

@@ -9,98 +9,91 @@
 @Styles.Render("~/Content/tagIt")
 <div class="col-md-8 col-md-offset-2">
 
-    <h2 class="text-center-smallScreen">@Model.EventTitle</h2>
-    <h4 class="text-center-smallScreen">Invite participants</h4>
-    <hr />
-    <div class="row">
-        @using (Html.BeginForm())
-        {
-            @Html.AntiForgeryToken()
 
-            <div class="form-horizontal">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
 
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-horizontal">
 
-                @Html.HiddenFor(model => model.EventId)
-                @Html.EditorFor(model => model.EventDate, new { htmlAttributes = new { @class = "hidden", id = "HiddenDatePickerList" } })
-                <div class="table-responsive">
-                    <table class="table borderless table-responsive">
-                        <colgroup>
-                            <col class="col-sm-3" />
-                            <col class="col-sm-9" />
-                        </colgroup>
-                        <tbody>
-                            <tr>
-                                <td class="title-label ">@Html.DisplayNameFor(model => model.EventTitle): </td>
-                                <td>@Html.DisplayFor(model => model.EventTitle)</td>
-                            </tr>
-                            <tr>
-                                <td class="title-label ">@Html.DisplayNameFor(model => model.EventLocation): </td>
-                                <td>@Html.DisplayFor(model => model.EventLocation)</td>
-                            </tr>
-                            <tr>
-                                <td class="title-label">@Html.DisplayNameFor(model => model.EventDate): </td>
-                                <td>@Html.DisplayFor(model => model.EventDate )</td>
-                            </tr>
+            <h2 class="text-center-smallScreen">@Model.EventTitle</h2>
+            <h4 class="text-center-smallScreen">Invite participants</h4>
+            <hr />
 
-                            <tr>
-                                <td class="title-label">
-                                    @Html.DisplayNameFor(model => model.ListDate) :
-                                </td>
-                                <td>
-                                    <div id="listDateContainer">
-                                        @Html.EditorFor(model => model.ListDate, new { htmlAttributes = new { @class = "form-control datepicker", id = "datePickerList" } })
-                                        @Html.ValidationMessageFor(model => model.ListDate, "", new { @class = "text-danger" })
-                                    </div>
 
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="title-label">
-                                    @Html.DisplayNameFor(model => model.ReminderDate) :
-                                </td>
-                                <td>
-                                    <div id="remeinderDateContainer">
-                                        @Html.EditorFor(model => model.ReminderDate, new { htmlAttributes = new { @class = "form-control datepicker ", id = "datePickerRemainder" } })
-                                        @Html.ValidationMessageFor(model => model.ReminderDate, "", new { @class = "text-danger" })
-                                    </div>
-                                </td>
-                            </tr>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                            <tr>
-                                <td class="title-label">
-                                    @Html.DisplayNameFor(model => model.ParticipantsEmails) :
-                                </td>
-                                <td>
-                                    @Html.EditorFor(model => model.ParticipantsEmails, new { htmlAttributes = new { @class = "form-control ", placeholder = "Enter Emails separated by comma" } })
-                                    @Html.ValidationMessageFor(model => model.ParticipantsEmails, "", new { @class = "text-danger" })
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="title-label">
-                                    @Html.LabelFor(model => model.SendRemainder)
-                                </td>
-                                <td>
-                                    @Html.CheckBoxFor(model => model.SendRemainder)
-                                </td>
-                            </tr>
+            @Html.HiddenFor(model => model.EventId)
+            @Html.EditorFor(model => model.EventDate, new { htmlAttributes = new { @class = "hidden", id = "HiddenDatePickerList" } })
 
-                        </tbody>
-                    </table>
+            <div class="form-group">
+                @Html.LabelFor(model => model.EventTitle, new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    <p class="form-control-static">@Html.DisplayFor(model => (model.EventTitle))</p>
                 </div>
+            </div>
 
-                <div class="form-group">
-                    <div class="col-sm-4 col-sm-offset-3">
-                        <button type="submit" value="Invite" class="btn btn-info btn-block">Invite</button>
-                    </div>
-                    <br class="hidden-lg hidden-md hidden-sm"/>
-                    <div class="col-sm-4">
-                        @Html.ActionLink("Cancel", null, null, null, new { @class = "btn btn-danger btn-block", href = Request.UrlReferrer })
+            <div class="form-group">
+                @Html.LabelFor(model => model.EventLocation, new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    <p class="form-control-static">@Html.DisplayFor(model => (model.EventLocation))</p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.EventDate, new { @class = "control-label col-md-3" })
+                <div class="col-md-9">
+                    <p class="form-control-static">@Html.DisplayFor(model => (model.EventDate))</p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ListDate, new { @class = "control-label col-md-3 " })
+                <div class="col-md-9">
+                    @Html.EditorFor(model => model.ListDate, new { htmlAttributes = new { @class = "form-control datepicker", id = "datePickerList" } })
+                    @Html.ValidationMessageFor(model => model.ListDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ReminderDate, new { @class = "control-label col-md-3 " })
+                <div class="col-md-9">
+                    @Html.EditorFor(model => model.ReminderDate, new { htmlAttributes = new { @class = "form-control datepicker", id = "datePickerRemainder" } })
+                    @Html.ValidationMessageFor(model => model.ReminderDate, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ParticipantsEmails, new { @class = "control-label col-md-3 " })
+                <div class="col-md-9">
+                    @Html.EditorFor(model => model.ParticipantsEmails, new { htmlAttributes = new { @class = "form-control ", placeholder = "Enter Emails separated by comma" } })
+                    @Html.ValidationMessageFor(model => model.ParticipantsEmails, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-3 col-md-9">
+                    <div class="checkbox">
+                        <label>
+                            @Html.CheckBoxFor(model => model.SendRemainder) @Html.LabelFor(model => model.SendRemainder)
+                        </label>
                     </div>
                 </div>
             </div>
-        }
-    </div>
+
+            <div class="form-group">
+                <div class="col-md-9 col-md-offset-3">
+                    <button type="submit" value="Invite" class="btn btn-info btn-block">Invite</button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-9 col-md-offset-3">
+                    @Html.ActionLink("Cancel", null, null, null, new { @class = "btn btn-danger btn-block", href = Request.UrlReferrer })
+                </div>
+            </div>
+        </div>
+    }
 </div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
@@ -109,9 +102,6 @@
     @Scripts.Render("~/bundles/dateTimePicker")
     @Scripts.Render("~/bundles/custom")
 
-
-
-
     <script type="text/javascript">
 
         $(function () {
@@ -119,8 +109,8 @@
             initTagIt();
 
             var maxDate = convertInputDateToMomentDate("HiddenDatePickerList");
-           
-            linkTwoInputs('datePickerList', 'datePickerRemainder',maxDate);
+
+            linkTwoInputs('datePickerList', 'datePickerRemainder', maxDate);
         });
 
         function inputInit(elementId) {
