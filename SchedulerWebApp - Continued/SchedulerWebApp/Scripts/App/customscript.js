@@ -135,3 +135,24 @@ function setDatesInCorrectFormat() {
 function AllowValidationOnHiddenInputs() {
     $.validator.setDefaults({ ignore: null });
 }
+
+
+function showHidePassword(iconSelector, inputIdSelector) {
+    $(iconSelector).on('click', function () {
+
+        var inputElement = $(inputIdSelector);
+        var inputType = inputElement.attr('type');
+
+        if (inputType == "password") {
+
+            inputElement.attr('type', 'text');
+            console.log(iconSelector + ' > .glyphicon-eye-open');
+            $(iconSelector + ' > .glyphicon-eye-open').removeClass('glyphicon-eye-open').addClass('glyphicon-eye-close');
+
+        } else if (inputType == "text") {
+
+            inputElement.attr('type', 'password');
+            $(iconSelector + ' > .glyphicon-eye-close').removeClass('glyphicon-eye-close').addClass('glyphicon-eye-open');
+        }
+    });
+}
