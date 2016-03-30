@@ -51,6 +51,7 @@ namespace SchedulerWebApp.Models.ViewModels
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$", ErrorMessage = "Password should contain at least 1 Upper case latter and 1 number")]
         [Display(Name = "New password")]
         public string NewPassword { get; set; }
 

@@ -146,7 +146,7 @@ function showHidePassword(iconSelector, inputIdSelector) {
         if (inputType == "password") {
 
             inputElement.attr('type', 'text');
-            console.log(iconSelector + ' > .glyphicon-eye-open');
+            //console.log(iconSelector + ' > .glyphicon-eye-open');
             $(iconSelector + ' > .glyphicon-eye-open').removeClass('glyphicon-eye-open').addClass('glyphicon-eye-close');
 
         } else if (inputType == "text") {
