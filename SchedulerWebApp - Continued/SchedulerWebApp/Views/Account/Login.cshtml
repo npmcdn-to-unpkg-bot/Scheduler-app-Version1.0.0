@@ -5,10 +5,28 @@
 }
 
 <h2>@ViewBag.Title.</h2>
+
+<style type="text/css">
+    .img-responsive {
+        margin: 0 auto;
+    }
+</style>
+
 <div class="row">
     <div class="col-md-8">
         <section id="loginForm">
-            @using (Html.BeginForm("Login", "Account", new { ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            
+            <div id="gifModal" class="modal fade" tabindex="-1" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <img class="img-responsive" src="~/Images/loading2.gif" alt="Loading..." />
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+
+            @using (Html.BeginForm("Login", "Account", new { ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "loginForm" }))
             {
                 @Html.AntiForgeryToken()
                 <h4>Use a local account to log in.</h4>
@@ -50,6 +68,7 @@
                     </div>
                 </div>
 
+
                 @* Enable this once you have account confirmation enabled for password reset functionality
                     <p>
                         @Html.ActionLink("Forgot your password?", "ForgotPassword")
@@ -70,6 +89,9 @@
 
     <script type="text/javascript">
         showHidePassword('#passwordIcon', '#password');
+        $('#loginForm').submit(function (e) {
+            $('#gifModal').modal('show');
+        });
     </script>
 
 }
