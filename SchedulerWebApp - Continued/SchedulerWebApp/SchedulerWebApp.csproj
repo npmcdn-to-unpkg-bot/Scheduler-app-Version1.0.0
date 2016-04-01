@@ -378,6 +378,8 @@
     <Content Include="Content\themes\base\tooltip.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Images\loading.gif" />
+    <Content Include="Images\loading2.gif" />
     <Content Include="Images\progressRing.gif" />
     <Content Include="Images\favicon.ico" />
     <Content Include="ApplicationInsights.config" />
