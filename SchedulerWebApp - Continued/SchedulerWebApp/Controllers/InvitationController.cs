@@ -208,6 +208,11 @@ namespace SchedulerWebApp.Controllers
         public ActionResult SaveEmails()
         {
             var viewmodel = (UnsavedContactViewModel)TempData["model"];
+            if (viewmodel == null)
+            {
+                 return RedirectToAction("Index", "Events");
+            }
+
             return View("unsavedContacts", viewmodel);
         }
 

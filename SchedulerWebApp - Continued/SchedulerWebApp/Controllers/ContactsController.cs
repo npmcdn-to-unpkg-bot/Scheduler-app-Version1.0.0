@@ -70,7 +70,6 @@ namespace SchedulerWebApp.Controllers
                 return View("unsavedContacts", model);
             }
             var contacts = model.Contacts;
-
             foreach (var c in contacts)
             {
                 var newContact = new Contact
