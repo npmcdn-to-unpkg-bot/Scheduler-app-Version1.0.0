@@ -397,7 +397,6 @@
     <Content Include="fonts\custom\Oxygen-Bold.woff" />
     <Content Include="fonts\custom\Oxygen-Light.woff" />
     <Content Include="fonts\custom\Oxygen-Regular.woff" />
-    <Content Include="App_Data\rootkey.csv" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
