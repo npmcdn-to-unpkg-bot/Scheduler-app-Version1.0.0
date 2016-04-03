@@ -125,6 +125,7 @@ namespace SchedulerWebApp.Controllers
                 try
                 {
                     PostalEmailManager.SendEmail(emailInfo, new InvitationEmail());
+                    Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("Email sent to " + emailInfo.ParticipantEmail));
                 }
                 catch (Exception exception)
                 {
