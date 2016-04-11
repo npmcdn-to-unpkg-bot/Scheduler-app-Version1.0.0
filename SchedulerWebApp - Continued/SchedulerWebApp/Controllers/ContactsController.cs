@@ -65,10 +65,12 @@ namespace SchedulerWebApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddUnsaved(UnsavedContactViewModel model)
         {
+
             if (!ModelState.IsValid)
             {
                 return View("unsavedContacts", model);
             }
+
             var contacts = model.Contacts;
             foreach (var c in contacts)
             {

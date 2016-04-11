@@ -25,28 +25,13 @@ namespace SchedulerWebApp.Models
         [DataType(DataType.Text)]
         [Display(Name = "Start")]
         [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy HH:mm}")]
-        [ValidDate(ErrorMessage = "You cant create event in past dates")]
+        [ValidDate(ErrorMessage = "You cant create event in past dates / time")]
         public DateTime? StartDate { get; set; }
 
-        //[Required]
-        //[Display(Name = "End")]
-        //[DataType(DataType.Text)]
-        //[DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
-        //[StartDate("StartDate", ErrorMessage = "Events ends before event's start date")]
-        //public DateTime EndDate { get; set; }
-
-        /*[Required]
-        [DataType(DataType.Text)]
-        [ValidDate(ErrorMessage = "Get list between today and end date")]
-        [DeadlineDate("StartDate", ErrorMessage = "Get list between today and event's date")]*/
         [Display(Name = "Get list On")]
         [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy HH:mm}")]
         public DateTime? ListDate { get; set; }
 
-        /*[Required]
-        [DataType(DataType.Text)]
-        [ValidDate(ErrorMessage = "Remind between today and list date")]
-        [DeadlineDate("ListDate", ErrorMessage = "Remind between today and list date")]*/
         [Display(Name = "Remind On")]
         [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy HH:mm}")]
         public DateTime? ReminderDate { get; set; }

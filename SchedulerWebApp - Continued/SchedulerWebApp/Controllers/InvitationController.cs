@@ -132,7 +132,7 @@ namespace SchedulerWebApp.Controllers
                     Elmah.ErrorSignal.FromCurrentContext().Raise(exception);
                     return RedirectToAction("Error");
                 }
-                
+
 
                 #endregion
 
@@ -187,13 +187,25 @@ namespace SchedulerWebApp.Controllers
 
         #endregion
 
+        /// <summary>
+        /// Todo: Refactor this to a service class
+        /// </summary>
+        /// <param name="eventForInvitation"></param>
+        /// <returns></returns>
         private static bool EventHasNotPassed(Event eventForInvitation)
         {
-            var todayDate = DateTime.UtcNow.Date;
-            var eventEndDate = eventForInvitation.StartDate.GetValueOrDefault().Date;
-
             //check if event has happened
-            bool notPassed = todayDate <= eventEndDate;
+
+            /*var todayDate = DateTime.UtcNow.Date;
+            var eventEndDate = eventForInvitation.StartDate.GetValueOrDefault().Date;
+            //notPassed = todayDate <= eventEndDate;*/
+
+
+            var todaysDate = DateTime.UtcNow.ToLocalTime();
+            var compareDates = eventForInvitation.StartDate.GetValueOrDefault().CompareTo(todaysDate);
+
+            bool notPassed = compareDates >= 0;
+
             return notPassed;
         }
 
@@ -202,16 +214,26 @@ namespace SchedulerWebApp.Controllers
             return User.Identity.GetUserId();
         }
 
+        /*public ActionResult RemoveContact(UnsavedContactViewModel viewModel)
+                {
+                    //return View("unsavedContacts", model);
+
+                    //var returnUrl = new UrlHelper(Request.RequestContext).Action();
+                    return Json(new { result = "Redirect", url = Url.Action("SaveEmails", "Invitation", viewModel) }, JsonRequestBehavior.AllowGet);
+                }*/
+
         /// <summary>
-        /// called when there are emaills that are not saved
+        /// Called when there are emaills that are not saved
         /// </summary>
         /// <returns></returns>
         public ActionResult SaveEmails()
         {
             var viewmodel = (UnsavedContactViewModel)TempData["model"];
+
+
             if (viewmodel == null)
             {
-                 return RedirectToAction("Index", "Events");
+                return RedirectToAction("Index", "Events");
             }
 
             return View("unsavedContacts", viewmodel);
@@ -269,7 +291,7 @@ namespace SchedulerWebApp.Controllers
                                       {
                                           EventId = @event.Id,
                                           EventTitle = @event.Title,
-                                          EventDate =eventDate,
+                                          EventDate = eventDate,
                                           EventLocation = @event.Location,
                                           ListDate = listDate,
                                           ReminderDate = remainderDate,

@@ -211,8 +211,24 @@ tr:contains("Absent") {
         text-decoration: inherit;
     }
 
-/*
-ul.tagit {
-    max-width: 350px;
+/*Modal styles*/
+.modal {
+    text-align: center
 }
-*/
+
+@media screen and (min-width : 768px) {
+    .modal:before {
+        display: inline-block;
+        vertical-align: middle;
+        content: '';
+        height: 100%;
+    }
+}
+
+.modal-dialog {
+    display: inline-block;
+    text-align: left;
+    vertical-align: middle
+}
+ 
+/*-----------------------------------------*/

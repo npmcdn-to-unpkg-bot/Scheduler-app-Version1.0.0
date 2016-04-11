@@ -9,12 +9,12 @@ namespace SchedulerWebApp.Models.ValidationAttributes
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             string dateString;
-            if (value != null) dateString = String.Format("{0:d/M/yyyy}", value);
+            if (value != null) dateString = String.Format("{0:g}", value);
             else return new ValidationResult("Date is Required!");
 
-            DateTime dateToday = DateTime.Now.Date;
+            DateTime dateToday = DateTime.UtcNow.ToLocalTime();
             DateTime dateTime;
-            const string format = "d/M/yyyy";
+            const string format = "g";
 
             /*var validDateformat = DateTime.TryParse(dateString, out dateTime);*/
 
@@ -27,7 +27,7 @@ namespace SchedulerWebApp.Models.ValidationAttributes
             {
                 return new ValidationResult("Invalid date format");
             }
-            var enteredDate = dateTime.Date;
+            var enteredDate = dateTime;
 
             if (enteredDate >= dateToday)
             {

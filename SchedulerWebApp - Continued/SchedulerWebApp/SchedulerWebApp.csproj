@@ -550,8 +550,11 @@
       <DependentUpon>tag-it.min.js</DependentUpon>
     </Content>
     <Content Include="Views\Emails\Test.cshtml" />
+    <Content Include="Views\Shared\_UnsavedContacts.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />

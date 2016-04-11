@@ -1,76 +1,114 @@
 ﻿@model SchedulerWebApp.Models.ViewModels.UnsavedContactViewModel
 
+<style type="text/css">
+    @@media (max-width: 480px) {
+        .body-firstRow {
+            padding: 40px 80px 40px 80px;
+        }
+    }
 
-@using (Html.BeginForm("AddUnsaved", "Contacts", FormMethod.Post))
+    @@media (max-width: 768px) {
+        .save-button {
+            margin-bottom: 10px;
+        }
+
+        .cancel-button {
+            margin-top: 10px;
+        }
+    }
+
+    hr {
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border: 0;
+        border-top: 1px solid #5BC0DE;
+    }
+
+    .tooltip.bottom .tooltip-inner {
+        background-color: red;
+    }
+
+    .tooltip.bottom .tooltip-arrow {
+        border-bottom-color: red;
+    }
+
+    .glyphicon-large-size {
+        font-size: 50px;
+    }
+</style>
+
+<div id="sentConfirmation" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="alert alert-success" role="alert">
+                    <div class="row text-center">
+                        <span class="glyphicon glyphicon-ok glyphicon-large-size" aria-hidden="true"></span>
+                    </div>
+
+
+                    <p class="text-center"> All invitations were successfully sent.</p>
+
+                    @if (Model.Contacts.Count != 0)
+                    {
+                        <p class="text-center">You have @Model.Contacts.Count() unsaved contacts. Do you want save them?</p>
+                    }
+                    else
+                    {
+                        <div class="row">
+                            <a class="btn btn-info">Close</a>
+                        </div>
+                    }
+                </div>
+                <div class="row">
+                    <div>
+                        <div class="col-sm-6">
+                            <a data-dismiss="modal" class="btn btn-info btn-block">Yes</a>
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.ActionLink("No", "Details", "Events", new { id = Model.EventId }, new { @class = "btn btn-danger btn-block" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+@Html.EditorFor(m => m.EventId, new { htmlAttributes = new { @class = "hidden" } })
+
+@using (Html.BeginForm("AddUnsaved", "Contacts", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
     var eventId = Model.EventId;
 
-    <div class="row">
-        <table class="table borderless table-condensed">
-            <colgroup>
-                <col class="col-sm-4" />
-                <col class="col-sm-4" />
-                <col class="col-sm-4" />
-            </colgroup>
-            <tr>
-                <td></td>
-                <td>
-                    <div class="alert alert-success" role="alert">
-                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                        Invitations were successfully sent.
-                    </div>
-                </td>
-                <td></td>
-            </tr>
-        </table>
-    </div>
-
     <h4>Save unsaved emails</h4>
 
-    <table class="table borderless table-condensed">
-        <colgroup>
-            <col class="col-sm-3" />
-            <col class="col-sm-3" />
-            <col class="col-sm-3" />
-            <col class="col-sm-3" />
-        </colgroup>
+    Html.RenderPartial("_UnsavedContacts");
 
-        <tbody>
+    <div class="row">
+        <div class="col-sm-6 col-xs-12">
+            <input type="submit" value="Save" class="btn btn-info btn-block" />
+        </div>
+        <div class="col-sm-6 col-xs-12 cancel-button">
+            @Html.ActionLink("Cancel", "Details", "Events", new { id = eventId }, new { @class = "btn btn-danger btn-block" })
+        </div>
+    </div>
+}
 
-            @for (var i = 0; i < Model.Contacts.Count(); i++)
-            {
-                <tr>
-                    <td>
-                        @Html.EditorFor(model => Model.Contacts[i].Email, new { htmlAttributes = new { @class = "form-control", placeholder = "Email" } })
-                        @Html.ValidationMessageFor(model => Model.Contacts[i].Email, "", new { @class = "text-danger" })
-                    </td>
-                    <td>
-                        @Html.EditorFor(model => Model.Contacts[i].FirstName, new { htmlAttributes = new { @class = "form-control", placeholder = "First Name" } })
-                        @Html.ValidationMessageFor(model => Model.Contacts[i].FirstName, "", new { @class = "text-danger" })
-                    </td>
-                    <td>
-                        @Html.EditorFor(model => Model.Contacts[i].LastName, new { htmlAttributes = new { @class = "form-control", placeholder = "Last Name" } })
-                        @Html.ValidationMessageFor(model => Model.Contacts[i].LastName, "", new { @class = "text-danger" })
-                    </td>
-                    <td>
-                        @Html.EditorFor(model => Model.Contacts[i].PhoneNumber, new { htmlAttributes = new { @class = "form-control", placeholder = "Phone Number" } })
-                        @Html.ValidationMessageFor(model => Model.Contacts[i].PhoneNumber, "", new { @class = "text-danger" })
-                    </td>
-                </tr>
-            }
-            <tr>
-                <td></td>
-                <td>@Html.EditorFor(m => m.EventId, new { htmlAttributes = new { @class = "hidden" } })</td>
-                <td>
-                    <input type="submit" value="Save" class="btn btn-info btn-block" />
-                </td>
-                <td>
-                    @Html.ActionLink("Cancel", "Details", "Events", new { id = eventId }, new { @class = "btn btn-danger btn-block" })
-                </td>
-            </tr>
-        </tbody>
-    </table>
+@section scripts
+{
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $('#sentConfirmation').modal('show');
+        });
+
+        $("[data-toggle=tooltip]").tooltip();
+
+        $('.input-group-addon').hover(function () {
+            $(this).children().toggleClass('text-danger');
+        });
+    </script>
 }
