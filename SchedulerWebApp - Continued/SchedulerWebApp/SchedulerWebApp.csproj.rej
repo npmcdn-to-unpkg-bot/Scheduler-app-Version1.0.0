@@ -1,11 +1,9 @@
 diff a/SchedulerWebApp - Continued/SchedulerWebApp/SchedulerWebApp.csproj b/SchedulerWebApp - Continued/SchedulerWebApp/SchedulerWebApp.csproj	(rejected hunks)
-@@ -16,7 +16,8 @@
-     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-     <MvcBuildViews>false</MvcBuildViews>
-     <UseIISExpress>true</UseIISExpress>
--    <IISExpressSSLPort>44302</IISExpressSSLPort>
-+    <IISExpressSSLPort>
-+    </IISExpressSSLPort>
-     <IISExpressAnonymousAuthentication />
-     <IISExpressWindowsAuthentication />
-     <IISExpressUseClassicPipelineMode />
+@@ -397,6 +397,7 @@
+     <Content Include="fonts\custom\Oxygen-Bold.woff" />
+     <Content Include="fonts\custom\Oxygen-Light.woff" />
+     <Content Include="fonts\custom\Oxygen-Regular.woff" />
++    <Content Include="App_Data\rootkey.csv" />
+     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
+     <Content Include="Scripts\bootstrap.js" />
+     <Content Include="Scripts\bootstrap.min.js" />
