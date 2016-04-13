@@ -57,8 +57,7 @@ textarea {
 }
 
 /*reduce padding and put the text to the center
-    on small screenns
-*/
+    on small screen */
 @media (max-width: 480px) {
     .body-firstRow {
         padding: 40px 20px 40px 20px;
