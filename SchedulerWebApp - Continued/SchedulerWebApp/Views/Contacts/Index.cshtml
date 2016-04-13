@@ -11,60 +11,70 @@
 
 
 <div class="row">
-    <div class="col-sm-9">
+    <div class="col-xs-9">
         <p class="heading-paragraph text-center-smallScreen">Contacts</p>
     </div>
-    <div class="col-sm-3">
+    <div class="col-xs-3">
         <p>
-            @Html.ActionLink("New Contact", "Create", "Contacts", null, new { @class = "btn btn-info btn-block" })
+            <a class="element-gray" href="@Url.Action("Create", "Contacts")"><i title="Add contact" class="fa fa-user-plus fa-3x pull-right" aria-hidden="true"></i></a>
         </p>
     </div>
 </div>
 
+@if (Model.ToList().Count == 0)
+{
+    <div class="alert alert-info text-center" role="alert">
+        There are no contact in your list yet. You can add a new contact using the button above.
+    </div>
+}
+else
+{
+    <table class="table footable display nowrap" cellspacing="0" width="100%">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LastName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PhoneNumber)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
 
-<table class="table footable display nowrap" cellspacing="0" width="100%">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PhoneNumber)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+                <td>
+                    <a class="element-gray" href="@Url.Action("Details", "Contacts", new { id = item.ContactId })"><i title="Details" class="fa fa-info-circle"></i></a>
+                    <a class="element-gray" href="@Url.Action("Edit","Contacts",new {id=item.ContactId})"><i title="Edit" class="fa fa-pencil"></i></a>
+                    <a class="element-red" href="@Url.Action("Delete", "Contacts", new { id = item.ContactId })"><i title="Delete" class="fa fa-trash-o"></i></a>
+                </td>
+            </tr>
+        }
 
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PhoneNumber)
-            </td>
-            <td>
-                <a class="element-gray" href="@Url.Action("Details", "Contacts", new { id = item.ContactId })"><i title="Details" class="fa fa-info-circle"></i></a>
-                <a class="element-gray" href="@Url.Action("Edit","Contacts",new {id=item.ContactId})"><i title="Edit" class="fa fa-pencil"></i></a>
-                <a class="element-red" href="@Url.Action("Delete", "Contacts", new { id = item.ContactId })"><i title="Delete" class="fa fa-trash-o"></i></a>
-            </td>
-        </tr>
-    }
+    </table>
+}
 
-</table>
+
 
 @section Scripts{
     @Scripts.Render("~/bundles/dataTables");
