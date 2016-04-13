@@ -227,7 +227,25 @@ tr:contains("Absent") {
 .modal-dialog {
     display: inline-block;
     text-align: left;
-    vertical-align: middle
+    vertical-align: middle;
 }
- 
+
 /*-----------------------------------------*/
+
+/*#region Change Dropdown menu to look as its menu */
+
+.navbar-nav > li > .dropdown-menu > li > a {
+    color: #F5F1F1;
+}
+
+.navbar-nav > li > .dropdown-menu > li > a:hover {
+    background-color: #292828;
+    color: whitesmoke;
+}
+
+.navbar-nav > li > .dropdown-menu {
+    background-color: #080808;
+}
+
+
+/*#endregion */
