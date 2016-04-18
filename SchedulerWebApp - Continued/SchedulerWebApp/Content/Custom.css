@@ -75,6 +75,12 @@ textarea {
     }
 }
 
+@media(max-width: 760px) {
+    .tab-pane {
+        border: 0;
+    }
+}
+
 .event-div {
     margin-bottom: 30px;
 }
@@ -238,10 +244,10 @@ tr:contains("Absent") {
     color: #F5F1F1;
 }
 
-.navbar-nav > li > .dropdown-menu > li > a:hover {
-    background-color: #292828;
-    color: whitesmoke;
-}
+    .navbar-nav > li > .dropdown-menu > li > a:hover {
+        background-color: #292828;
+        color: whitesmoke;
+    }
 
 .navbar-nav > li > .dropdown-menu {
     background-color: #080808;
