@@ -7,52 +7,46 @@
 
 
 <div class="col-md-8 col-md-offset-2">
-    <h2>Details</h2>
+    <h2>@Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName) Details</h2>
     <div>
-        <h4>Contact</h4>
         <hr />
-        <dl class="dl-horizontal">
-            <dt>
-                @Html.DisplayNameFor(model => model.FirstName)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.FirstName)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.LastName)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.LastName)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.Email)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Email)
-            </dd>
-
-            <dt>
-                @Html.DisplayNameFor(model => model.PhoneNumber)
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.PhoneNumber)
-            </dd>
-            <dt></dt>
-            <dd>
-            </dd>
-
-        </dl>
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <table class="table table-condensed borderless">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div><label>Name</label></div>
+                            </td>
+                            <td>
+                                <div>@Html.DisplayFor(model => model.FirstName) @Html.DisplayFor(model => model.LastName)</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="col-xs-6">
+                                <div>@Html.LabelFor(model => model.Email)</div>
+                            </td>
+                            <td class="col-xs-6">
+                                <div>@Html.DisplayFor(model => model.Email)</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>@Html.LabelFor(model => model.PhoneNumber)</div>
+                            </td>
+                            <td>
+                                <div>@Html.DisplayFor(model => model.PhoneNumber)</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>@Html.ActionLink("Edit", "Edit", new { id = Model.ContactId }, new { @class = "btn btn-info btn-block" })</td>
+                            <td>@Html.ActionLink("Go to List", "Index", null, new { @class = "btn btn-block btn-danger" })</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
     </div>
-
-
-    <p>
-        @Html.ActionLink("Edit", "Edit", new { id = Model.ContactId }) |
-        @Html.ActionLink("Back to List", "Index")
-    </p>
 </div>
