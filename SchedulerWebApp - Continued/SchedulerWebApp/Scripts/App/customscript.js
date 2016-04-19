@@ -64,7 +64,7 @@ function linkThreeDatesElements(eventDateElementId, listDateElementId, remainder
         useCurrent: false
     });
 
-    $(eventDate).on("dp.change", function(e) {
+    $(eventDate).on("dp.change", function (e) {
         $(listDate).data("DateTimePicker").maxDate(e.date);
         $(remainderDate).data("DateTimePicker").maxDate(e.date);
     });
@@ -136,7 +136,6 @@ function AllowValidationOnHiddenInputs() {
     $.validator.setDefaults({ ignore: null });
 }
 
-
 function showHidePassword(iconSelector, inputIdSelector) {
     $(iconSelector).on('click', function () {
 
@@ -146,7 +145,6 @@ function showHidePassword(iconSelector, inputIdSelector) {
         if (inputType == "password") {
 
             inputElement.attr('type', 'text');
-            //console.log(iconSelector + ' > .glyphicon-eye-open');
             $(iconSelector + ' > .glyphicon-eye-open').removeClass('glyphicon-eye-open').addClass('glyphicon-eye-close');
 
         } else if (inputType == "text") {
