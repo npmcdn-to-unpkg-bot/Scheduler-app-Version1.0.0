@@ -1,14 +1,22 @@
 ﻿@model SchedulerWebApp.Models.Event
 @{
-    ViewBag.Title = "_CantRespond";
+    ViewBag.Title = "Can't Respond";
 }
 <div class="col-md-offset-2 col-md-8">
-    <h2 class="text-center">Its late..</h2>
+    <h2 class="text-center">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-share-alt fa-stack-1x"></i>
+            <i class="fa fa-ban fa-stack-2x text-danger "></i>
+        </span>
+        Too late..
+    </h2>
     <hr />
 
     <div class="alert alert-danger" role="alert">
         <p>
-            You can't invite participant to this event anymore. It already took place on <b>@Model.StartDate.GetValueOrDefault().ToString("g")</b>.
+            @Model.Title took place on <b>@Model.StartDate.GetValueOrDefault().ToString("g")</b>. Therefore no particippant can be invited. 
+        </p>
+        <p>
             To see more details click the button below.
         </p>
     </div>

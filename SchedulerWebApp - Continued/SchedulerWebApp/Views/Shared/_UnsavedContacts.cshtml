@@ -1,64 +1,63 @@
 ﻿@model SchedulerWebApp.Models.ViewModels.UnsavedContactViewModel
 
 @for (int j = 0; j < Model.Contacts.Count(); j++)
-    {
-<div class="row contact-first-row">
-    <div class="row">
-        <div class="col-md-6">
-            <div class=" form-group">
-                <label class="control-label col-sm-2 hidden-xs"><span title="Email" class="glyphicon glyphicon-envelope"></span></label>
-                <div class="col-sm-10">
-                    
-                    <!--Todo: this have to be fixed for the user to be able to delete a contact thet he dont want to save-->
+{
+    <div class="row contact-first-row">
+        <div class="row">
+            <div class="col-md-6">
+                <div  class=" form-group">
+                    <label class="control-label col-sm-2 hidden-xs"><span data-toggle="tooltip" data-placement="bottom" title="Email" class="glyphicon glyphicon-envelope"></span></label>
+                    <div class="col-sm-10">
 
-                    <!--<div class="input-group">
-                        <div data-toggle="tooltip" data-placement="bottom" title="Delete unsaved contact!" class="input-group-addon red-tooltip">
-                            <i class="glyphicon glyphicon-trash"></i>
-                        </div>-->
-                    @Html.EditorFor(model => Model.Contacts[j].Email, new { htmlAttributes = new { @class = "form-control", placeholder = "Email" } })
-                    <!--</div>-->
-                    @Html.ValidationMessageFor(model => Model.Contacts[j].Email, "", new { @class = "text-danger" })
+                        <!--Todo: this have to be fixed for the user to be able to delete a contact that he dont want to save-->
+                        <!--<div class="input-group">
+                            <div data-toggle="tooltip" data-placement="bottom" title="Delete unsaved contact!" class="input-group-addon red-tooltip">
+                                <i class="glyphicon glyphicon-trash"></i>
+                            </div>-->
+                        @Html.EditorFor(model => Model.Contacts[j].Email, new { htmlAttributes = new { @class = "form-control", placeholder = "Email" } })
+                        <!--</div>-->
+                        @Html.ValidationMessageFor(model => Model.Contacts[j].Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label col-sm-2 hidden-xs"><span title="First Name" class="glyphicon glyphicon-user"></span></label>
+                    <div class="col-sm-10">
+                        @Html.EditorFor(model => Model.Contacts[j].FirstName, new { htmlAttributes = new { @class = "form-control", placeholder = "First Name" } })
+                        @Html.ValidationMessageFor(model => Model.Contacts[j].FirstName, "", new { @class = "text-danger" })
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
-            <div class="form-group">
-                <label class="control-label col-sm-2 hidden-xs"><span title="First Name" class="glyphicon glyphicon-user"></span></label>
-                <div class="col-sm-10">
-                    @Html.EditorFor(model => Model.Contacts[j].FirstName, new { htmlAttributes = new { @class = "form-control", placeholder = "First Name" } })
-                    @Html.ValidationMessageFor(model => Model.Contacts[j].FirstName, "", new { @class = "text-danger" })
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class=" form-group">
+                    <label class="control-label col-sm-2 hidden-xs"><span title="Last Name" class="glyphicon glyphicon-user"></span></label>
+                    <div class="col-sm-10">
+                        @Html.EditorFor(model => Model.Contacts[j].LastName, new { htmlAttributes = new { @class = "form-control", placeholder = "Last Name" } })
+                        @Html.ValidationMessageFor(model => Model.Contacts[j].LastName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class=" form-group">
+                    <label class="control-label col-sm-2 hidden-xs"><span title="phone number" class="glyphicon glyphicon-earphone"></span></label>
+                    <div class="col-sm-10">
+                        @Html.EditorFor(model => Model.Contacts[j].PhoneNumber, new { htmlAttributes = new { @class = "form-control", placeholder = "Phone Number" } })
+                        @Html.ValidationMessageFor(model => Model.Contacts[j].PhoneNumber, "", new { @class = "text-danger" })
+                    </div>
                 </div>
             </div>
         </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <hr />
+            </div>
+        </div>
+
+
     </div>
-
-    <div class="row">
-        <div class="col-md-6">
-            <div class=" form-group">
-                <label class="control-label col-sm-2 hidden-xs"><span title="Last Name" class="glyphicon glyphicon-user"></span></label>
-                <div class="col-sm-10">
-                    @Html.EditorFor(model => Model.Contacts[j].LastName, new { htmlAttributes = new { @class = "form-control", placeholder = "Last Name" } })
-                    @Html.ValidationMessageFor(model => Model.Contacts[j].LastName, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class=" form-group">
-                <label class="control-label col-sm-2 hidden-xs"><span title="phone number" class="glyphicon glyphicon-earphone"></span></label>
-                <div class="col-sm-10">
-                    @Html.EditorFor(model => Model.Contacts[j].PhoneNumber, new { htmlAttributes = new { @class = "form-control", placeholder = "Phone Number" } })
-                    @Html.ValidationMessageFor(model => Model.Contacts[j].PhoneNumber, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-sm-12">
-            <hr />
-        </div>
-    </div>
-
-
-</div>
-    }
+}

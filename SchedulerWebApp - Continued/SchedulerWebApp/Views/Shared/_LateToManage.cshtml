@@ -1,17 +1,32 @@
 ﻿@model SchedulerWebApp.Models.Event
 @{
-    ViewBag.Title = "_CantRespond";
+    ViewBag.Title = "Can't Edit";
 }
 
-<h2 class="text-center">Event has passed</h2>
-<hr />
+<div class="col-md-offset-2 col-md-8">
+    <h2 class="text-center">
+        <span class="fa-stack fa-lg">
+            <i class="fa fa-pencil fa-stack-1x"></i>
+            <i class="fa fa-ban fa-stack-2x fa-flip-horizontal text-danger "></i>
+        </span>
+        Can not be edited
+    </h2>
+    <hr />
 
-<div class="alert alert-danger text-center" role="alert">
-    <p>
-        You can no longer manage this event as it has already taken place on @Model.StartDate.GetValueOrDefault().ToString("d")<br />
-        See click the button below for more event details
-    </p>
-    <br />
-    @Html.ActionLink("Event Details", "Details", "Events", new { id = Model.Id }, new { @class = "btn btn-default" })
-
+    <div class="alert alert-danger" role="alert">
+        <p>
+            @Model.Title took place on <b>@Model.StartDate.GetValueOrDefault().ToString("g")</b>. No more changes can be made.
+        </p>
+        <p>
+            You can either copy this event to a different date or create a new event below.
+        </p>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <a class="btn btn-info btn-block " href="@Url.Action("CopyEvent", "Events", new { id = Model.Id })">Copy</a>
+        </div>
+        <div class="col-sm-6">
+            @Html.ActionLink("Event Details", "Details", "Events", new { id = Model.Id }, new { @class = "btn btn-info btn-block" })
+        </div>
+    </div>    
 </div>

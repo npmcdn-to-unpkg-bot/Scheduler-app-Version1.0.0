@@ -25,11 +25,11 @@
     }
 
     .tooltip.bottom .tooltip-inner {
-        background-color: red;
+        background-color: lightgray;
     }
 
     .tooltip.bottom .tooltip-arrow {
-        border-bottom-color: red;
+        border-bottom-color: lightgray;
     }
 
     .glyphicon-large-size {
@@ -37,13 +37,11 @@
     }
 </style>
 
-
 <div id="sentConfirmation" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
                 <div class="row text-center">
-                    @*<span class="glyphicon glyphicon-ok glyphicon-large-size" aria-hidden="true"></span>*@
                     <i title="Delete" class="fa fa-check-circle-o fa-4x element-green"></i>
                 </div>
 
@@ -116,6 +114,8 @@
 
         });
 
+
+        //Todo: need to add a button to delete contact if the uder do not want to save it
         $("[data-toggle=tooltip]").tooltip();
 
         $('.input-group-addon').hover(function () {
