@@ -54,16 +54,36 @@
             });
         });
 
+        $("[data-toggle=tooltip]").tooltip();
 
         (function () {
 
-            $(".p-header").each(function () {
-                var header = $.trim($(this).text());
+            trimOnSmallScreens();
 
-                if (header.length > 15) {
-                    $(this).text(header.substr(0, 15) + " . . .");
-                }
+            function trimText(elementSelector, maxCharacter) {
+                $(elementSelector).each(function () {
+                    var header = $.trim($(this).text());
+
+                    if (header.length > maxCharacter) {
+                        $(this).text(header.substr(0, maxCharacter) + "...");
+                    }
+                });
+            }
+
+            $(window).resize(function () {
+                trimOnSmallScreens();
             });
+
+            function trimOnSmallScreens() {
+                var width = $(window).width();
+                if (width < 768) {
+                    trimText(".p-header", 10);
+                    trimText(".trim-text", 8);
+                } else {
+                    trimText(".p-header", 15);
+                }
+            }
         })();
+
     </script>
 }
