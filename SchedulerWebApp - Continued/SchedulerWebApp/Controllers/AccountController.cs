@@ -70,7 +70,7 @@ namespace SchedulerWebApp.Controllers
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                    ModelState.AddModelError("", "Log in failed, Please check username and/or password.");
                     return View(model);
             }
         }
@@ -146,8 +146,15 @@ namespace SchedulerWebApp.Controllers
                                LastName = model.LastName
                            };
                 IdentityResult result = await UserManager.CreateAsync(user, model.Password);
-                
+ 
                 // Todo: this will throw an error if the password isn't correct.. hence ViewModel password regex validation
+                if (result.Errors.Any())
+                {
+                    AddErrors(result);
+                    return View(model);
+                }
+                
+               
                 UserManager.AddClaim(user.Id, new Claim(ClaimTypes.GivenName, user.FirstName));
 
                 if (result.Succeeded)
