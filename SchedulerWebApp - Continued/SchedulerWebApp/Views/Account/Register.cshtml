@@ -58,7 +58,10 @@
         </div>
         <div class="form-group">
             <div class="col-md-offset-4 col-md-8">
-                <input type="submit" class="btn btn-info btn-block" value="Register" />
+                <button id="registerButton" type="submit" class="btn btn-info btn-block">
+                    Register
+                </button>
+                @*<input type="submit" class="btn btn-info btn-block" value="Register" />*@
             </div>
         </div>
     }
@@ -69,8 +72,18 @@
     @Scripts.Render("~/bundles/custom")
 
     <script type="text/javascript">
+
         showHidePassword('#passwordIcon', '#password');
         showHidePassword('#confirmPasswordIcon', '#confirmPassword');
+
+        $("form").submit(function (e) {
+            var isValid = $(this).valid();
+            console.log(isValid);
+            if (isValid) {
+                changeButtonText('registerButton', 'Registering');
+            }
+        });
+
     </script>
 }
 
