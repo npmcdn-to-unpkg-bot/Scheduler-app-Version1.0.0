@@ -72,9 +72,9 @@ else
                     @Html.DisplayFor(modelItem => item.PhoneNumber)
                 </td>
                 <td>
-                    <a class="element-gray" href="@Url.Action("Details", "Contacts", new { id = item.ContactId })"><i data-toggle="tooltip" data-placement="bottom" title="Contact details" class="fa fa-lg fa-info-circle"></i></a>
-                    <a class="element-gray" href="@Url.Action("Edit","Contacts",new {id=item.ContactId})"><i data-toggle ="tooltip" data-placement="bottom" title="Edit contact" class="fa fa-lg fa-pencil"></i></a>
-                    <a class="element-red" href="@Url.Action("Delete", "Contacts", new { id = item.ContactId })"><i data-toggle="tooltip" data-placement="bottom" title="Delete contact" class="fa fa-lg fa-trash-o"></i></a>
+                    <a class="element-gray" href="@Url.Action("Details", "Contacts", new { id = item.ContactId })"><i data-toggle="tooltip" data-placement="top" title="Details" class="fa fa-lg fa-info-circle"></i></a>
+                    <a class="element-gray" href="@Url.Action("Edit","Contacts",new {id=item.ContactId})"><i data-toggle ="tooltip" data-placement="top" title="Edit" class="fa fa-lg fa-pencil"></i></a>
+                    <a class="element-red" href="@Url.Action("Delete", "Contacts", new { id = item.ContactId })"><i data-toggle="tooltip" data-placement="top" title="Delete" class="fa fa-lg fa-trash-o"></i></a>
                 </td>
             </tr>
         }
