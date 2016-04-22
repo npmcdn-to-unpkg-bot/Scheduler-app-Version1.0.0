@@ -160,3 +160,13 @@ function changeButtonText(buttonId, newText) {
     var newElement = '<span>' + newText + '.. <i class="fa fa-spinner fa-lg fa-spin fa-fw margin-bottom"></i><span class="sr-only">log in...</span></span>';
     $(id).html(newElement);
 }
+
+function fixContainerHeight() {
+    var windowHeight = $(window).height();
+    var containerHeight = $('.body-div').height();
+    if (containerHeight < windowHeight) {
+        ($('.body-div').css("height", "100%"));
+
+        console.log(containerHeight);
+    }
+}
