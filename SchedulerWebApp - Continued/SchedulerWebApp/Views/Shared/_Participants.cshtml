@@ -5,18 +5,19 @@
 <table id="participantTable" class="table table-responsive table-condensed detailsTable display" cellspacing="0" width="100%">
     <thead>
         <tr>
-            <th class="col-sm-3">
-                @Html.DisplayNameFor(model => model.Email)
+            <th>
+                Email
             </th>
-            <th class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Availability)
+            <th>
+                Status
             </th>
-            <th class="col-sm-4">
-                @Html.DisplayNameFor(model => model.Comments)
+            <th>
+                Response
             </th>
-            <th class="col-sm-2">
-                @Html.DisplayNameFor(model => model.Responce)
+            <th>
+                Comments
             </th>
+
         </tr>
     </thead>
 
@@ -25,16 +26,44 @@
         <tr>
             <td class="participantRow">
                 @Html.DisplayFor(modelItem => item.Email)
+                <span class="hidden colorSpan">@(item.Availability ? "Attending" : "Absent") @(item.Responce ? "Responded" : "No Response")</span>
             </td>
-            <td class="availabilityRow">
-                @(item.Availability ? "Attending" : "Absent")
-            </td>
+
+            @*@(item.Availability ? "attending" : "Absent")*@
+
+            @if (item.Availability)
+            {
+                <td data-order="a" class="availabilityRow text-center">
+                    <i data-toggle="tooltip" data-placement="top" title="attending" class="fa fa-calendar-check-o" aria-hidden="true"></i>
+                </td>
+            }
+            else
+            {
+                <td data-order="b" class="availabilityRow text-center">
+                    <i data-toggle="tooltip" data-placement="top" title="absent" class="fa fa-calendar-times-o" aria-hidden="true"></i>
+                </td>
+
+            }
+
+
+            @*@(item.Responce ? "Responded" : "No Response")*@
+            @if (item.Responce)
+            {
+                <td data-order="a" class="text-center">
+                    <i data-toggle="tooltip" data-placement="top" title="responded" class="fa fa-check-square-o" aria-hidden="true"></i>
+                </td>
+            }
+            else
+            {
+                <td data-order="b" class="text-center">
+                    <i data-toggle="tooltip" data-placement="top" title="no response" class="fa fa-clock-o" aria-hidden="true"></i>
+                </td>
+            }
             <td>
+
                 @Html.DisplayFor(modelItem => item.Comments)
             </td>
-            <td>
-                @(item.Responce ? "Responded" : "No Response")
-            </td>
+
         </tr>
     }
 </table>

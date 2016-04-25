@@ -38,9 +38,12 @@
     @Scripts.Render("~/bundles/custom")
     <script type="text/javascript">
         $(function () {
-            makeTableResponsive("detailsTable", 1);
+            makeTableResponsive("detailsTable", 1,2);
 
             grayOutAbsentees();
+
+            $("[data-toggle=tooltip]").tooltip();
+
         });
     </script>
 }

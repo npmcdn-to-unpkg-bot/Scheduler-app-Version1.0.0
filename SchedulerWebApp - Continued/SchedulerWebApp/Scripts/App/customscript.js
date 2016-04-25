@@ -106,10 +106,10 @@ function convertInputDateToMomentDate(inputElementId) {
 }
 
 //DataTable functions
-function makeTableResponsive(tableClass, columnIndexForOrdering) {
+function makeTableResponsive(tableClass, firstColumnIndexForOrdering, secondColumnIndexForOrdering) {
     var selector = '.' + tableClass;
     $(selector).DataTable({
-        "order": [[columnIndexForOrdering, "desc"]],
+        "order": [[firstColumnIndexForOrdering, "asc"], [secondColumnIndexForOrdering, "asc"]],
         responsive: true,
         searching: false,
         "pagingType": "simple",
@@ -120,7 +120,17 @@ function makeTableResponsive(tableClass, columnIndexForOrdering) {
 function grayOutAbsentees() {
     $('#participantTable').each(function () {
         $('tr:contains("Absent")').each(function () {
-            $(this).css('color', 'rgb(247, 167, 167)');
+            $(this).css('color', 'pink');
+            $(this).find('td .fa-calendar-times-o').addClass('element-red');
+            $(this).find('td .fa-check-square-o').addClass('element-green');
+
+        });
+        $('tr:contains("Attending")').each(function () {
+            $(this).addClass('element-green');
+        });
+
+        $('.colorSpan:contains("Absent No Response")').each(function () {
+            $(this).closest('tr').css('color', 'lightgray');
         });
     });
 }
