@@ -24,7 +24,7 @@
     </div>
     <div class="col-xs-3">
         <p>
-            <a  class="element-gray add-contact" href="@Url.Action("Create", "Contacts")"><i data-toggle="tooltip" data-placement="bottom" title="Add new contact" class="fa fa-user-plus fa-3x pull-right" aria-hidden="true"></i></a>
+            <a class="element-gray add-contact" href="@Url.Action("Create", "Contacts")"><i data-toggle="tooltip" data-placement="bottom" title="Add new contact" class="fa fa-user-plus fa-3x pull-right" aria-hidden="true"></i></a>
         </p>
     </div>
 </div>
@@ -73,7 +73,7 @@ else
                 </td>
                 <td>
                     <a class="element-gray" href="@Url.Action("Details", "Contacts", new { id = item.ContactId })"><i data-toggle="tooltip" data-placement="top" title="Details" class="fa fa-lg fa-info-circle"></i></a>
-                    <a class="element-gray" href="@Url.Action("Edit","Contacts",new {id=item.ContactId})"><i data-toggle ="tooltip" data-placement="top" title="Edit" class="fa fa-lg fa-pencil"></i></a>
+                    <a class="element-gray" href="@Url.Action("Edit","Contacts",new {id=item.ContactId})"><i data-toggle="tooltip" data-placement="top" title="Edit" class="fa fa-lg fa-pencil"></i></a>
                     <a class="element-red" href="@Url.Action("Delete", "Contacts", new { id = item.ContactId })"><i data-toggle="tooltip" data-placement="top" title="Delete" class="fa fa-lg fa-trash-o"></i></a>
                 </td>
             </tr>
@@ -88,7 +88,7 @@ else
 
     <script type="text/javascript">
         $(function () {
-            makeTableResponsive("footable", 0);
+            makeTableResponsive("footable", 0, 0);
         });
 
         $("[data-toggle=tooltip]").tooltip();
