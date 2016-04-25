@@ -67,7 +67,7 @@ namespace SchedulerWebApp.Controllers
 
             if (!canStillRespond)
             {
-                return View("_CantRespond");
+                return View("_CantRespond", @event);
             }
 
             try
