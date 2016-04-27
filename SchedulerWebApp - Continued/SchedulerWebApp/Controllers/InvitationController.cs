@@ -41,7 +41,6 @@ namespace SchedulerWebApp.Controllers
         {
             var id = model.EventId;
 
-            //check input values
             if (!ModelState.IsValid)
             {
                 return View(ReturnInvitationModel(id));
@@ -49,12 +48,11 @@ namespace SchedulerWebApp.Controllers
 
             // get event from database
             var eventForInvitation = _db.Events.Find(id);
-
             eventForInvitation.ListDate = model.ListDate;
             eventForInvitation.ReminderDate = model.ReminderDate;
 
             //Check if there is Participants
-            var noInvitation = !eventForInvitation.Participants.ToList().Any();
+            //var noInvitation = !eventForInvitation.Participants.ToList().Any();
 
             //Check if invitations can still be sent
             var notPassed = EventHasNotPassed(eventForInvitation);
@@ -126,6 +124,13 @@ namespace SchedulerWebApp.Controllers
                 {
                     PostalEmailManager.SendEmail(emailInfo, new InvitationEmail());
                     Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("Email sent to " + emailInfo.ParticipantEmail));
+
+                    if (model.SendRemainder)
+                    {
+                        var remainderDate = Service.GetRemanderDate(eventForInvitation);
+                        JobManager.ScheduleRemainderEmail(emails, remainderDate);
+                        Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("remainder is set at " + remainderDate));
+                    }
                 }
                 catch (Exception exception)
                 {
@@ -136,7 +141,7 @@ namespace SchedulerWebApp.Controllers
 
                 #endregion
 
-                #region after sending email its time to save unsaved contacts
+                #region after sending email, save unsaved contacts
 
                 var contactEmails = _contactsController.GetUserContacts(GetUserId());
                 allSaved = contactEmails.Any(c => c.Email == email);
@@ -155,21 +160,9 @@ namespace SchedulerWebApp.Controllers
 
             #region Scheduling remainder emails
 
-            var remanderDate = Service.GetRemanderDate(eventForInvitation);
-
-            if (noInvitation)
-            {
-                //organizer wants to send remainders
-                if (model.SendRemainder)
-                {
-                    JobManager.ScheduleRemainderEmail(emails, remanderDate);
-                }
-            }
-
             // start participant list summary scheduler
             var listDate = Service.GetListDate(eventForInvitation);
             JobManager.ScheduleParticipantListEmail(emailInfo, listDate);
-            JobManager.AddJobsIntoEvent(id);
 
             #endregion
 

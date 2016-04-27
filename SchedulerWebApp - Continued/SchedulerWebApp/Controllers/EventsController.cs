@@ -273,7 +273,7 @@ namespace SchedulerWebApp.Controllers
             //Schedule new emails for edited Job
             JobManager.ScheduleRemainderEmail(emails, remanderDate);
             JobManager.ScheduleParticipantListEmail(emailInfo, listDate);
-            JobManager.AddJobsIntoEvent(eventToEdit.Id);
+            //JobManager.AddJobsIntoEvent(eventToEdit.Id,"Send List");
 
             return RedirectToAction("Index");
         }
