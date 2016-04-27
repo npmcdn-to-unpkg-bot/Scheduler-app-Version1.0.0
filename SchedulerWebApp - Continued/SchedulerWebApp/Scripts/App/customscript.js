@@ -1,6 +1,6 @@
 ﻿/*
  * This is a Custom script which is used 
- * throughout the views
+ * throughout the application
  */
 
 var todaysDate = moment(new Date());

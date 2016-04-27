@@ -207,6 +207,7 @@
     <Compile Include="Models\PostalEmail\PostalEmailManager.cs" />
     <Compile Include="Models\HangfireJobs\ScheduledJob.cs" />
     <Compile Include="Models\Service.cs" />
+    <Compile Include="Models\ValidationAttributes\CustomRequiredRemainderDateAttribute.cs" />
     <Compile Include="Models\ValidationAttributes\InvitedOnceAttribute.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\DBContext\CustomDbInitializer.cs" />
