@@ -9,33 +9,35 @@ namespace SchedulerWebApp.Models.HangfireJobs
 {
     public static class JobManager
     {
-        static readonly List<string> JobIds = new List<string>();
         static readonly SchedulerDbContext Db = new SchedulerDbContext();
 
         public static void ScheduleParticipantListEmail(EmailInformation emailInfo, DateTime listDate)
         {
+            const string jobDescription = "Send list";
+            var currentEvent = emailInfo.CurrentEvent;
+
+            RemoveOldListJob(currentEvent, jobDescription);
+
             var listJobId = BackgroundJob.Schedule(() => PostalEmailManager.SendListEmail(emailInfo, new ParticipantListEmail()), listDate);
-            JobIds.Add(listJobId);
+            AddJobsIntoEvent(listJobId, currentEvent.Id, jobDescription);
         }
-        
+
         public static void ScheduleRemainderEmail(List<EmailInformation> emails, DateTime remainderDate)
         {
             var remainderJobId = BackgroundJob.Schedule(() => PostalEmailManager.SendRemainder(emails, new RemainderEmail()), remainderDate);
-            JobIds.Add(remainderJobId);
+            AddJobsIntoEvent(remainderJobId, emails.First().CurrentEvent.Id, "Send Remainder");
         }
 
-        public static void AddJobsIntoEvent(int eventId)
+        public static void AddJobsIntoEvent(string jobId, int eventId, string jobDescription)
         {
-            foreach (var jobId in JobIds)
+            var scheduledJob = new ScheduledJob
             {
-                var scheduledJob = new ScheduledJob
-                {
-                    EventId = eventId,
-                    JobId = jobId
-                };
-                Db.ScheduledJobs.Add(scheduledJob);
-                Db.SaveChanges();
-            }
+                EventId = eventId,
+                JobId = jobId,
+                JobDescription = jobDescription
+            };
+            Db.ScheduledJobs.Add(scheduledJob);
+            Db.SaveChanges();
         }
 
         public static void RemoveScheduledJobs(Event eventToEdit)
@@ -50,6 +52,16 @@ namespace SchedulerWebApp.Models.HangfireJobs
                 Db.ScheduledJobs.Remove(job);
                 Db.SaveChanges();
             }
+        }
+
+        public static void RemoveOldListJob(Event currentEvent, string jobDescription)
+        {
+            var oldListJob = Db.ScheduledJobs.FirstOrDefault(sj => (sj.EventId == currentEvent.Id) &&
+                                                                (sj.JobDescription == jobDescription));
+            if (oldListJob == null) return;
+            BackgroundJob.Delete(oldListJob.JobId);
+            Db.ScheduledJobs.Remove(oldListJob);
+            Db.SaveChanges();
         }
     }
 }

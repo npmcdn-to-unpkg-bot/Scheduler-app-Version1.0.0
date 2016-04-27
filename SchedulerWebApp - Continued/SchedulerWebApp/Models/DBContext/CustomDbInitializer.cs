@@ -7,7 +7,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace SchedulerWebApp.Models.DBContext
 {
-    public class CustomDbInitializer : CreateDatabaseIfNotExists<SchedulerDbContext>
+    public class CustomDbInitializer : DropCreateDatabaseIfModelChanges<SchedulerDbContext>
     {
 
         protected override void Seed(SchedulerDbContext context)
