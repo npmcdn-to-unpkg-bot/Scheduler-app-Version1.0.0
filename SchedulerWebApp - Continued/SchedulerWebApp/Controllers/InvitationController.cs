@@ -213,7 +213,8 @@ namespace SchedulerWebApp.Controllers
 
                     //var returnUrl = new UrlHelper(Request.RequestContext).Action();
                     return Json(new { result = "Redirect", url = Url.Action("SaveEmails", "Invitation", viewModel) }, JsonRequestBehavior.AllowGet);
-                }*/
+                }
+         */
 
         /// <summary>
         /// Called when there are emaills that are not saved
