@@ -55,13 +55,14 @@
                 </div>
             </div>
 
-            <div class="form-group">
+            <div id="remainderInput" class="form-group">
                 @Html.LabelFor(model => model.ReminderDate, new { @class = "control-label col-sm-3 hidden-xs" })
                 <div class="col-sm-9">
                     @Html.EditorFor(model => model.ReminderDate, new { htmlAttributes = new { @class = "form-control datepicker", id = "datePickerRemainder", placeholder = "Remeinder date" } })
                     @Html.ValidationMessageFor(model => model.ReminderDate, "", new { @class = "text-danger" })
                 </div>
             </div>
+
 
             <div class="form-group">
                 @Html.LabelFor(model => model.ParticipantsEmails, new { @class = "control-label col-sm-3 hidden-xs" })
@@ -71,15 +72,17 @@
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group form-group-lg">
                 <div class="col-sm-offset-3 col-sm-9">
                     <div class="checkbox">
                         <label>
-                            @Html.CheckBoxFor(model => model.SendRemainder) @Html.LabelFor(model => model.SendRemainder)
+                            @Html.CheckBoxFor(model => model.SendRemainder, new { id = "remainderCheckbox" }) @Html.LabelFor(model => model.SendRemainder)
                         </label>
                     </div>
                 </div>
             </div>
+
+
 
             <div class="form-group">
                 <div class="col-sm-9 col-sm-offset-3">
@@ -104,6 +107,14 @@
 
     <script type="text/javascript">
 
+        //Hide remeinder input if checkbox is not checked
+        var isChecked = $('#remainderCheckbox:checked').length;
+        console.log("begining " + isChecked);
+        if (isChecked < 1) {
+            $('#datePickerRemainder').val('');
+            $('#remainderInput').hide();
+        }
+
         $(function () {
 
             initTagIt();
@@ -124,6 +135,26 @@
 
         $('#invitationCancelButton').on('click', function () {
             changeButtonText('invitationCancelButton', 'Cancelling');
+        });
+
+        $('#remainderCheckbox').change(function () {
+            var remeinderInput = $('#remainderInput');
+            var cheked = $('#remainderCheckbox:checked').length;
+
+            if (cheked < 1) {
+                console.log(cheked + ' > 1');
+                console.log(' unchacked');
+                remeinderInput.slideUp('slow');
+                $('#datePickerRemainder').rules('remove', 'required');
+            } else {
+                console.log(cheked + ' < 1');
+                console.log('Checked');
+                $('#datePickerRemainder').val('');
+                remeinderInput.slideDown('slow');
+                $('#datePickerRemainder').rules('add', {
+                    required: true
+                });
+            }
         });
 
         function inputInit(elementId) {

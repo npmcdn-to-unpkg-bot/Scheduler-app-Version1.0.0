@@ -25,7 +25,6 @@ namespace SchedulerWebApp.Models.ValidationAttributes
             DateTime dateTime;
             const string format = "d/M/yyyy";
 
-
             dateString = value != null ? String.Format("{0:d/M/yyyy}", value) : string.Empty;
 
             /*var validDateformat = DateTime.TryParse(dateString, out dateTime);*/

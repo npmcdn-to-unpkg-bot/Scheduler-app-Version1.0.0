@@ -42,7 +42,6 @@ namespace SchedulerWebApp
             app.UseHangfireDashboard("/hangfire", options);
             app.UseHangfireServer();
 
-
             ConfigureAuth(app);
         }
     }

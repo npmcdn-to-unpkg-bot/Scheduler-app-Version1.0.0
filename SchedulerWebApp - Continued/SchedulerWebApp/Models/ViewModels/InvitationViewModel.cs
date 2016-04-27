@@ -28,12 +28,13 @@ namespace SchedulerWebApp.Models.ViewModels
         [DeadlineDate("EventDate", ErrorMessage = "Get list between today and event's date")]
         public DateTime? ListDate { get; set; }
 
-        [Required]
+        //[Required]
         [DataType(DataType.Text)]
         [Display(Name = "Reminder(s)")]
-        [ValidDate(ErrorMessage = "Remind between today and list date")]
+        //[ValidDate(ErrorMessage = "Remind between today and list date")]
+        //[DeadlineDate("ListDate", ErrorMessage = "Remind between today and list date")]
         [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy HH:mm}", ApplyFormatInEditMode = true)]
-        [DeadlineDate("ListDate", ErrorMessage = "Remind between today and list date")]
+        [CustomRequiredRemainderDate("SendRemainder")]
         public DateTime? ReminderDate { get; set; }
 
         [Required]
