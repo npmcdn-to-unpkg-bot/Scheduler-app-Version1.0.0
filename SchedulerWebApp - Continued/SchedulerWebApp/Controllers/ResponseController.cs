@@ -52,7 +52,8 @@ namespace SchedulerWebApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Response([Bind(Include = "ParticipantId, EventId, ReceiverEmail, Availability, Comments, EventsTitle, EventsLocation")] ResponseViewModel model)
+        public ActionResult Response([Bind(Include =
+            "ParticipantId, EventId, ReceiverEmail, Availability, Comments, EventsTitle, EventsLocation")] ResponseViewModel model)
         {
             if (!ModelState.IsValid)
             {

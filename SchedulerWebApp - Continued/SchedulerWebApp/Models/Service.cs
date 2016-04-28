@@ -1,14 +1,29 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net.Mail;
 using System.Net.Mime;
 using System.Text;
+using SchedulerWebApp.Models.DBContext;
 using SchedulerWebApp.Models.PostalEmail;
 
 namespace SchedulerWebApp.Models
 {
     public static class Service
     {
+        private static readonly SchedulerDbContext Db = new SchedulerDbContext();
+
+        public static SchedulerUser GetUser(string userid)
+        {
+            return Db.Users.Find(userid);
+        }
+
+        public static List<Event> GetUserEvents(string userId)
+        {
+            var userEvents = GetUser(userId).Events;
+            return userEvents;
+        }
+
         public static DateTime GetRemanderDate(Event eventToEdit)
         {
             var remanderDate = eventToEdit.ReminderDate;
@@ -74,7 +89,7 @@ namespace SchedulerWebApp.Models
 
         }
 
-        public static string RemoveBrackets( string email)
+        public static string RemoveBrackets(string email)
         {
             if (email.Contains("["))
             {
@@ -92,6 +107,26 @@ namespace SchedulerWebApp.Models
                 corectDate = dateToset;
             }
             return corectDate;
+        }
+
+        public static bool EventHasNotPassed(Event eventForInvitation)
+        {
+            var todaysDate = DateTime.UtcNow.ToLocalTime();
+            var compareDates = eventForInvitation.StartDate.GetValueOrDefault().CompareTo(todaysDate);
+
+            bool notPassed = compareDates >= 0;
+
+            return notPassed;
+        }
+
+        public static Participant CreateParticipant(string email)
+        {
+            return new Participant
+            {
+                Email = email,
+                Responce = false,
+                Availability = false
+            };
         }
     }
 }

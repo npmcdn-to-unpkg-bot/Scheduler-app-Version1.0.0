@@ -26,18 +26,19 @@ namespace SchedulerWebApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var @event = GetUserEvents().Find(e => e.Id == id);
+            var @event = Service.GetUserEvents(GetUserId()).Find(e => e.Id == id);
 
             if (@event == null)
             {
                 return View("_NoAccess");
             }
-            bool hasPassed = EventHasNotPassed(@event);
+            bool hasPassed = Service.EventHasNotPassed(@event);
             return !hasPassed ? View("_CantInvite", @event) : View(ReturnInvitationModel(id));
         }
 
         [HttpPost]
-        public ActionResult SendEventsInvitation([Bind(Include = "ParticipantsEmails,EventDate,EventId,SendRemainder,ReminderDate,ListDate")] InvitationViewModel model)
+        public ActionResult SendEventsInvitation([Bind(Include =
+            "ParticipantsEmails,EventDate,EventId,SendRemainder,ReminderDate,ListDate")] InvitationViewModel model)
         {
             var id = model.EventId;
 
@@ -47,22 +48,18 @@ namespace SchedulerWebApp.Controllers
             }
 
             // get event from database
-            var eventForInvitation = _db.Events.Find(id);
+            var eventForInvitation = GetEvent(id);
             eventForInvitation.ListDate = model.ListDate;
             eventForInvitation.ReminderDate = model.ReminderDate;
 
-            //Check if there is Participants
-            //var noInvitation = !eventForInvitation.Participants.ToList().Any();
-
             //Check if invitations can still be sent
-            var notPassed = EventHasNotPassed(eventForInvitation);
+            var notPassed = Service.EventHasNotPassed(eventForInvitation);
             if (!notPassed)
             {
                 return View("_CantInvite", eventForInvitation);
             }
 
-            var userid = User.Identity.GetUserId();
-            var user = _db.Users.Find(userid);
+            var user = Service.GetUser(GetUserId());
 
             var unsavedContacts = new UnsavedContactViewModel();
             EmailInformation emailInfo = null;
@@ -77,37 +74,30 @@ namespace SchedulerWebApp.Controllers
             {
                 var email = Service.RemoveBrackets(participantEmail);
 
-                //create new participant 
-                var invitedParticipant = new Participant
-                                         {
-                                             Email = email,
-                                             Responce = false,
-                                             Availability = false
-                                         };
+                #region create and save new participant
 
-                //save participant in coresponding event
+                var invitedParticipant = Service.CreateParticipant(email);
                 eventForInvitation.Participants.Add(invitedParticipant);
                 _db.SaveChanges();
 
-                #region Create and send Email
+                #endregion
 
-                var organizerFirstName = user.FirstName;
-                var organizerEmail = user.Email;
+                #region Create and send Email
 
                 var participantId = eventForInvitation.Participants
                                                        .Where(p => p.Email == email)
                                                        .Select(p => p.Id)
                                                        .FirstOrDefault();
 
-                var responseUrl = Url.Action("Response", "Response", new RouteValueDictionary(new { id = eventForInvitation.Id, pId = participantId }), "https");
-                var detailsUrl = Url.Action("Details", "Events", new RouteValueDictionary(new { id = eventForInvitation.Id }), "https");
+                var responseUrl = CreateUrl("Response", "Response", eventForInvitation, participantId);
+                var detailsUrl = CreateUrl("Details", "Events", eventForInvitation, 0);
 
 
                 emailInfo = new EmailInformation
                                 {
                                     CurrentEvent = eventForInvitation,
-                                    OrganizerEmail = organizerEmail,
-                                    OrganizerName = organizerFirstName,
+                                    OrganizerEmail = user.Email,
+                                    OrganizerName = user.FirstName,
                                     ParticipantId = participantId,
                                     ParticipantEmail = email,
                                     ResponseUrl = responseUrl,
@@ -178,6 +168,15 @@ namespace SchedulerWebApp.Controllers
             return RedirectToAction("SaveEmails");
         }
 
+        private string CreateUrl(string actionName, string controllerName, Event eventForInvitation, int participantId)
+        {
+            if (participantId == 0)
+            {
+                return Url.Action(actionName, controllerName, new RouteValueDictionary(new { id = eventForInvitation.Id}), "https");
+            }
+            return Url.Action(actionName, controllerName, new RouteValueDictionary(new { id = eventForInvitation.Id, pId = participantId }), "https");
+        }
+
         #endregion
 
         /// <summary>
@@ -185,27 +184,6 @@ namespace SchedulerWebApp.Controllers
         /// </summary>
         /// <param name="eventForInvitation"></param>
         /// <returns></returns>
-        private static bool EventHasNotPassed(Event eventForInvitation)
-        {
-            //check if event has happened
-
-            /*var todayDate = DateTime.UtcNow.Date;
-            var eventEndDate = eventForInvitation.StartDate.GetValueOrDefault().Date;
-            //notPassed = todayDate <= eventEndDate;*/
-
-
-            var todaysDate = DateTime.UtcNow.ToLocalTime();
-            var compareDates = eventForInvitation.StartDate.GetValueOrDefault().CompareTo(todaysDate);
-
-            bool notPassed = compareDates >= 0;
-
-            return notPassed;
-        }
-
-        private string GetUserId()
-        {
-            return User.Identity.GetUserId();
-        }
 
         /*public ActionResult RemoveContact(UnsavedContactViewModel viewModel)
                 {
@@ -246,7 +224,7 @@ namespace SchedulerWebApp.Controllers
         public JsonResult CheckParticipantEmail(string participantsEmails, int eventId)
         {
             var emails = participantsEmails.Split(',').ToList();
-            var _event = _db.Events.Find(eventId);
+            var _event = GetEvent(eventId);
             var isNotyetInvited = false;
 
             foreach (var email in emails)
@@ -266,16 +244,14 @@ namespace SchedulerWebApp.Controllers
 
         #endregion
 
-        private List<Event> GetUserEvents()
+        private string GetUserId()
         {
-            var currentUser = User.Identity.GetUserId();
-            var userEvents = _db.Users.Find(currentUser).Events;
-            return userEvents;
+            return User.Identity.GetUserId();
         }
 
         public InvitationViewModel ReturnInvitationModel(int? id)
         {
-            var @event = GetUserEvents().Find(e => e.Id == id);
+            var @event = Service.GetUserEvents(GetUserId()).Find(e => e.Id == id);
 
             var eventListDate = @event.ListDate;
             var listDate = Service.SetCorectDate(eventListDate);
@@ -295,6 +271,20 @@ namespace SchedulerWebApp.Controllers
                                           SendRemainder = true
                                       };
             return invitationViewModel;
+        }
+
+        private Event GetEvent(int id)
+        {
+            return _db.Events.Find(id);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _db.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }
