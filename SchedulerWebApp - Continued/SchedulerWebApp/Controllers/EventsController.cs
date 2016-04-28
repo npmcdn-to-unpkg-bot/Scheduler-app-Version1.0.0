@@ -152,7 +152,9 @@ namespace SchedulerWebApp.Controllers
         public ActionResult CopyEvent(int id)
         {
             var eventToCopy = GetUserEvents().Find(e => e.Id == id);
-            return View("Create", eventToCopy);
+            var copiedEvent = eventToCopy;
+            copiedEvent.Title = eventToCopy.Title + "-Copy";
+            return View("Create", copiedEvent);
         }
 
         [HttpPost]
@@ -267,7 +269,7 @@ namespace SchedulerWebApp.Controllers
 
                 //Notify Participant using postal
                 PostalEmailManager.SendEmail(emailInfo, new EmailInfoChangeEmail());
-            } 
+            }
             #endregion
 
             //Schedule new emails for edited Job

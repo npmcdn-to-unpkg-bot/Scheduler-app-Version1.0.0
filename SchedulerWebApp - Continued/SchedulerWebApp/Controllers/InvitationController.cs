@@ -18,6 +18,11 @@ namespace SchedulerWebApp.Controllers
         private readonly ContactsController _contactsController = new ContactsController();
         private readonly SchedulerDbContext _db = new SchedulerDbContext();
 
+        private string UserId
+        {
+            get { return User.Identity.GetUserId(); }
+        }
+
         #region Send Ivitation
 
         public ActionResult SendEventsInvitation(int? id)
@@ -26,7 +31,7 @@ namespace SchedulerWebApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var @event = Service.GetUserEvents(GetUserId()).Find(e => e.Id == id);
+            var @event = Service.GetUserEvents(UserId).Find(e => e.Id == id);
 
             if (@event == null)
             {
@@ -59,7 +64,7 @@ namespace SchedulerWebApp.Controllers
                 return View("_CantInvite", eventForInvitation);
             }
 
-            var user = Service.GetUser(GetUserId());
+            var user = Service.GetUser(UserId);
 
             var unsavedContacts = new UnsavedContactViewModel();
             EmailInformation emailInfo = null;
@@ -133,7 +138,7 @@ namespace SchedulerWebApp.Controllers
 
                 #region after sending email, save unsaved contacts
 
-                var contactEmails = _contactsController.GetUserContacts(GetUserId());
+                var contactEmails = _contactsController.GetUserContacts(UserId);
                 allSaved = contactEmails.Any(c => c.Email == email);
 
                 if (allSaved)
@@ -244,14 +249,9 @@ namespace SchedulerWebApp.Controllers
 
         #endregion
 
-        private string GetUserId()
-        {
-            return User.Identity.GetUserId();
-        }
-
         public InvitationViewModel ReturnInvitationModel(int? id)
         {
-            var @event = Service.GetUserEvents(GetUserId()).Find(e => e.Id == id);
+            var @event = Service.GetUserEvents(UserId).Find(e => e.Id == id);
 
             var eventListDate = @event.ListDate;
             var listDate = Service.SetCorectDate(eventListDate);

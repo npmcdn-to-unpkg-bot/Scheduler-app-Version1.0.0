@@ -11,17 +11,23 @@ namespace SchedulerWebApp.Models
 {
     public static class Service
     {
-        private static readonly SchedulerDbContext Db = new SchedulerDbContext();
+        private static SchedulerDbContext _db;
 
         public static SchedulerUser GetUser(string userid)
         {
-            return Db.Users.Find(userid);
+            using (_db = new SchedulerDbContext())
+            {
+                return _db.Users.Find(userid);
+            }
         }
 
         public static List<Event> GetUserEvents(string userId)
         {
-            var userEvents = GetUser(userId).Events;
-            return userEvents;
+            using (_db = new SchedulerDbContext())
+            {
+                var userEvents = _db.Users.Find(userId).Events;
+                return userEvents;
+            }
         }
 
         public static DateTime GetRemanderDate(Event eventToEdit)
@@ -128,5 +134,6 @@ namespace SchedulerWebApp.Models
                 Availability = false
             };
         }
+
     }
 }

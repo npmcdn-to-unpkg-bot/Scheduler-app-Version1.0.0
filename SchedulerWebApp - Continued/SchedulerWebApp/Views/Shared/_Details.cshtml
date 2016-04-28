@@ -32,7 +32,7 @@
                 <div class="container col-sm-12">
                     @{
                         var participants = Model.Participants;
-                        if (participants.Count == 0)
+                        if (participants.Count == 0||participants==null)
                         {
                             Html.RenderPartial("_NoParticipants");
                         }
