@@ -54,7 +54,7 @@ namespace SchedulerWebApp.Tests.Controllers
             var controller = Arrange_Event_Controller();
 
             //act
-            var result = controller.GetUserEvents();
+            var result = controller.GetUserSpecificEvent();
 
             //Assert
             Assert.IsNotNull(result);

@@ -21,11 +21,11 @@ namespace SchedulerWebApp.Models
             }
         }
 
-        public static List<Event> GetUserEvents(string userId)
+        public static Event GetUserSpecificEvent(string userId, int? id)
         {
             using (_db = new SchedulerDbContext())
             {
-                var userEvents = _db.Users.Find(userId).Events;
+                var userEvents = _db.Users.Find(userId).Events.Find(e => e.Id == id);
                 return userEvents;
             }
         }

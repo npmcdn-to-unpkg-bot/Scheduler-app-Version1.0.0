@@ -31,7 +31,7 @@ namespace SchedulerWebApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var @event = Service.GetUserEvents(UserId).Find(e => e.Id == id);
+            var @event = Service.GetUserSpecificEvent(UserId, id);
 
             if (@event == null)
             {
@@ -177,7 +177,7 @@ namespace SchedulerWebApp.Controllers
         {
             if (participantId == 0)
             {
-                return Url.Action(actionName, controllerName, new RouteValueDictionary(new { id = eventForInvitation.Id}), "https");
+                return Url.Action(actionName, controllerName, new RouteValueDictionary(new { id = eventForInvitation.Id }), "https");
             }
             return Url.Action(actionName, controllerName, new RouteValueDictionary(new { id = eventForInvitation.Id, pId = participantId }), "https");
         }
@@ -251,7 +251,7 @@ namespace SchedulerWebApp.Controllers
 
         public InvitationViewModel ReturnInvitationModel(int? id)
         {
-            var @event = Service.GetUserEvents(UserId).Find(e => e.Id == id);
+            var @event = Service.GetUserSpecificEvent(UserId, id);
 
             var eventListDate = @event.ListDate;
             var listDate = Service.SetCorectDate(eventListDate);
