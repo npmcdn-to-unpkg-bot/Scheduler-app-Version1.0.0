@@ -68,7 +68,7 @@ namespace SchedulerWebApp.Controllers
         [ChildActionOnly]
         public ActionResult UpcomingEvents()
         {
-            var dateToday = DateTime.UtcNow.Date;
+            var dateToday = DateTime.UtcNow.ToLocalTime();
 
             if (UserIsAdmin())
             {
@@ -92,7 +92,7 @@ namespace SchedulerWebApp.Controllers
         [ChildActionOnly]
         public ActionResult PreviousEvents()
         {
-            var dateToday = DateTime.UtcNow.Date;
+            var dateToday = DateTime.UtcNow.ToLocalTime();
 
             if (UserIsAdmin())
             {
@@ -128,7 +128,7 @@ namespace SchedulerWebApp.Controllers
                 }
                 return View(@event);
             }
-            var userEvent = GetUserEvents(UserId).Find(e => e.Id == id);
+            var userEvent = GetUserSpecificEvent(id);
             return userEvent == null ? View("_NoAccess") : View(userEvent);
         }
 
@@ -156,7 +156,7 @@ namespace SchedulerWebApp.Controllers
 
         public ActionResult CopyEvent(int id)
         {
-            var eventToCopy = GetUserEvents(UserId).Find(e => e.Id == id);
+            var eventToCopy = GetUserSpecificEvent(id);
             var copiedEvent = eventToCopy;
             copiedEvent.Title = eventToCopy.Title + "-Copy";
             return View("Create", copiedEvent);
@@ -194,7 +194,7 @@ namespace SchedulerWebApp.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var eventToEdit = GetUserEvents(UserId).FirstOrDefault(e => e.Id == id);
+            var eventToEdit = GetUserSpecificEvent(id);
 
             //if not the organizer
             if (eventToEdit == null)
@@ -301,7 +301,7 @@ namespace SchedulerWebApp.Controllers
                 var @event = _db.Events.Find(id);
                 return View(@event);
             }
-            var userEvent = GetUserEvents(UserId).FirstOrDefault(e => e.Id == id);
+            var userEvent = GetUserSpecificEvent(id);
 
             return userEvent == null ? View("_NoAccess") : View(userEvent);
         }
@@ -311,7 +311,7 @@ namespace SchedulerWebApp.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             var user = Service.GetUser(UserId);
-            var @event = GetUserEvents(UserId).Find(e => e.Id == id);
+            var @event = GetUserSpecificEvent(id);
 
 
             //if event hasn't occured notify users of cancellation
@@ -368,6 +368,11 @@ namespace SchedulerWebApp.Controllers
         {
             var isAdmin = User.IsInRole("Admin");
             return isAdmin;
+        }
+
+        private Event GetUserSpecificEvent(int? id)
+        {
+            return GetUserEvents(UserId).Find(e => e.Id == id);
         }
 
         protected override void Dispose(bool disposing)
