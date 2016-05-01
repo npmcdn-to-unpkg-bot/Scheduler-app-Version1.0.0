@@ -6,27 +6,9 @@
 
 <h2>@ViewBag.Title.</h2>
 
-<style type="text/css">
-    .img-responsive {
-        margin: 0 auto;
-    }
-</style>
-
 <div class="row">
     <div class="col-md-8">
         <section>
-
-            <!-- #region Modal used for log in -->
-            @*<div id="gifModal" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-body">
-                                <img alt="Loading..." class="img-responsive" src="@Url.Content("~/Images/loading2.gif")" />
-                            </div>
-                        </div><!-- /.modal-content -->
-                    </div><!-- /.modal-dialog -->
-                </div><!-- /.modal -->*@
-            <!-- #endregion -->
             @using (Html.BeginForm("Login", "Account", new { ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "loginForm" }))
             {
                 @Html.AntiForgeryToken()
@@ -50,12 +32,15 @@
                         @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                     </div>
                 </div>
-                <div class="checkbox">
+
+                <div class="form-group form-group-lg">
                     <div class="col-md-offset-4 col-md-8">
-                        <label>
-                            @Html.CheckBoxFor(m => m.RememberMe)
-                            @Html.LabelFor(m => m.RememberMe)
-                        </label>
+                        <div class="checkbox">
+                            <label>
+                                @Html.CheckBoxFor(m => m.RememberMe ,new {@class="large-checkbox"})
+                                @Html.LabelFor(m => m.RememberMe)
+                            </label>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -91,10 +76,10 @@
     @Scripts.Render("~/bundles/custom")
 
     <script type="text/javascript">
+        
         showHidePassword('#passwordIcon', '#password');
 
         $('form').submit(function (e) {
-            //$('#gifModal').modal('show');
 
             var isValid = $(this).valid();
             console.log(isValid);

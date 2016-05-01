@@ -254,6 +254,8 @@ tr:contains("Absent") {
 /*#endregion */
 
 
+/*#region Changing dataTable expand/collapse buttons */
+
 table.dataTable.dtr-inline.collapsed > tbody > tr > td:first-child:before, table.dataTable.dtr-inline.collapsed > tbody > tr > th:first-child:before {
     background-color: #6B6BEF;
     font-family: FontAwesome;
@@ -268,4 +270,12 @@ table.dataTable.dtr-inline.collapsed > tbody > tr.parent > td:first-child:before
     content: "\f139";
     line-height: 16px;
     border: 0;
+}
+
+/*#endregion */
+
+.large-checkbox {
+    width: 20px;
+    height: 30px;
+    bottom: -5px;
 }
