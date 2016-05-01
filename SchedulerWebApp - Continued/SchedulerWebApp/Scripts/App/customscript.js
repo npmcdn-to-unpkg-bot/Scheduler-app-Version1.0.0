@@ -174,9 +174,10 @@ function changeButtonText(buttonId, newText) {
 function fixContainerHeight() {
     var windowHeight = $(window).height();
     var containerHeight = $('.body-div').height();
-    if (containerHeight < windowHeight) {
-        ($('.body-div').css("height", "100%"));
 
+    if (containerHeight < windowHeight) {
+
+        ($('.body-div').css("height", "100%"));
         console.log(containerHeight);
     }
 }

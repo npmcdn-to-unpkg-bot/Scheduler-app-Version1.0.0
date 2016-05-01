@@ -268,7 +268,7 @@ namespace SchedulerWebApp.Controllers
                                           EventLocation = @event.Location,
                                           ListDate = listDate,
                                           ReminderDate = remainderDate,
-                                          SendRemainder = true
+                                          SendRemainder = false
                                       };
             return invitationViewModel;
         }
