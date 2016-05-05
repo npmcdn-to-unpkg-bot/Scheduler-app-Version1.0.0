@@ -55,7 +55,9 @@ namespace SchedulerWebApp.Models
             stringBuilder.AppendLine("PRODID:-//Invitation");
             stringBuilder.AppendLine("VERSION:2.0");
             stringBuilder.AppendLine("METHOD:REQUEST");
+
             stringBuilder.AppendLine("BEGIN:VEVENT");
+            stringBuilder.AppendLine("SUMMARY;LANGUAGE=en-us:" + eventToSend.Title);
             stringBuilder.AppendLine(String.Format("DTSTART:{0:yyyyMMddTHHmmssZ}", startDate));     //Verify if the time is local time
             stringBuilder.AppendLine(String.Format("DTSTAMP:{0:yyyyMMddTHHmmssZ}", DateTime.UtcNow));
             stringBuilder.AppendLine(String.Format("DTEND:{0:yyyyMMddTHHmmssZ}", endDate));
