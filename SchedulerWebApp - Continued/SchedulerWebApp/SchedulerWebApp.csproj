@@ -204,6 +204,7 @@
     <Compile Include="Models\HangfireJobs\JobManager.cs" />
     <Compile Include="Models\PostalEmail\EmailInformation.cs" />
     <Compile Include="Models\PostalEmail\ParticipantListEmail.cs" />
+    <Compile Include="Models\PostalEmail\PasswordResetEmail.cs" />
     <Compile Include="Models\PostalEmail\PostalEmailManager.cs" />
     <Compile Include="Models\HangfireJobs\ScheduledJob.cs" />
     <Compile Include="Models\Service.cs" />
@@ -554,6 +555,7 @@
     </Content>
     <Content Include="Views\Emails\Test.cshtml" />
     <Content Include="Views\Shared\_UnsavedContacts.cshtml" />
+    <Content Include="Views\Emails\ResetPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

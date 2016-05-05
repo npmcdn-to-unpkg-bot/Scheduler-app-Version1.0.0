@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using SchedulerWebApp.Models;
+using SchedulerWebApp.Models.DBContext;
 using SchedulerWebApp.Models.ViewModels;
 
 namespace SchedulerWebApp.Controllers
@@ -17,14 +18,18 @@ namespace SchedulerWebApp.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
+        private readonly SchedulerDbContext _db = new SchedulerDbContext();
+
+
         public ManageController()
         {
         }
 
-        public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager,SchedulerDbContext context)
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            _db = context;
         }
 
         public ApplicationSignInManager SignInManager
@@ -59,13 +64,15 @@ namespace SchedulerWebApp.Controllers
                                         : "";
 
             string userId = User.Identity.GetUserId();
+            
             var model = new IndexViewModel
                         {
                             HasPassword = HasPassword(),
                             PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
                             TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                             Logins = await UserManager.GetLoginsAsync(userId),
-                            BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
+                            BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
+                            User = _db.Users.Find(userId)
                         };
             return View(model);
         }
@@ -337,6 +344,7 @@ namespace SchedulerWebApp.Controllers
             {
                 _userManager.Dispose();
                 _userManager = null;
+                _db.Dispose();
             }
 
             base.Dispose(disposing);
