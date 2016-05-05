@@ -9,23 +9,23 @@ namespace SchedulerWebApp.Models.ViewModels
     {
         public int EventId { get; set; }
 
-        [Display(Name = "Title")]
+        [Display(Name = "What")]
         public string EventTitle { get; set; }
 
-        [Display(Name = "Location")]
+        [Display(Name = "Where")]
         public string EventLocation { get; set; }
 
-        [Display(Name = "Date")]
+        [Display(Name = "When")]
         [DataType(DataType.Text)]
         [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy HH:mm}",ApplyFormatInEditMode = true)]
         public DateTime EventDate { get; set; }
 
         [Required]
         [DataType(DataType.Text)]
-        [Display(Name = "List Date")]
+        [Display(Name = "Confirmations")]
         [ValidDate(ErrorMessage = "Get list between today and end date")]
         [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy HH:mm}", ApplyFormatInEditMode = true)]
-        [DeadlineDate("EventDate", ErrorMessage = "Get list between today and event's date")]
+        [DeadlineDate("EventDate", ErrorMessage = "Date between today and event's date")]
         public DateTime? ListDate { get; set; }
 
         //[Required]
