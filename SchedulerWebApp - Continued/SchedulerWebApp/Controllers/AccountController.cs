@@ -8,6 +8,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using SchedulerWebApp.Models;
+using SchedulerWebApp.Models.PostalEmail;
 using SchedulerWebApp.Models.ViewModels;
 
 namespace SchedulerWebApp.Controllers
@@ -48,7 +49,7 @@ namespace SchedulerWebApp.Controllers
             return View();
         }
 
-        
+
         // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]
@@ -85,7 +86,7 @@ namespace SchedulerWebApp.Controllers
             {
                 return View("Error");
             }
-            return View(new VerifyCodeViewModel {Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe});
+            return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
 
         //
@@ -146,21 +147,21 @@ namespace SchedulerWebApp.Controllers
                                LastName = model.LastName
                            };
                 IdentityResult result = await UserManager.CreateAsync(user, model.Password);
- 
+
                 // Todo: this will throw an error if the password isn't correct.. hence ViewModel password regex validation
                 if (result.Errors.Any())
                 {
                     AddErrors(result);
                     return View(model);
                 }
-                
-               
+
+
                 UserManager.AddClaim(user.Id, new Claim(ClaimTypes.GivenName, user.FirstName));
 
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, false, false);
-                    
+
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
@@ -207,18 +208,33 @@ namespace SchedulerWebApp.Controllers
             if (ModelState.IsValid)
             {
                 SchedulerUser user = await UserManager.FindByNameAsync(model.Email);
-                if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
+                if (user == null)
                 {
                     // Don't reveal that the user does not exist or is not confirmed
                     return View("ForgotPasswordConfirmation");
                 }
 
-                // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                // Send an email with this link
-                //string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                //var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+
                 //await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                //return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                
+                #region create and send email with postal instead usermanager
+
+                var email = new PasswordResetEmail
+                                {
+                                    ReceiverEmail = user.Email,
+                                    ReceiverName = user.FirstName,
+                                    AdminEmail = "no-reply@scheduler.com",
+                                    EmailSubject = "Reset password",
+                                    PassWordRestLink = callbackUrl
+                                };
+
+                PostalEmailManager.SendResetPassword(email);
+
+                #endregion
+                
+                return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
             // If we got this far, something failed, redisplay form
@@ -284,7 +300,7 @@ namespace SchedulerWebApp.Controllers
         {
             // Request a redirect to the external login provider
             return new ChallengeResult(provider,
-                Url.Action("ExternalLoginCallback", "Account", new {ReturnUrl = returnUrl}));
+                Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
         }
 
         //
@@ -299,9 +315,9 @@ namespace SchedulerWebApp.Controllers
             }
             IList<string> userFactors = await UserManager.GetValidTwoFactorProvidersAsync(userId);
             List<SelectListItem> factorOptions =
-                userFactors.Select(purpose => new SelectListItem {Text = purpose, Value = purpose}).ToList();
+                userFactors.Select(purpose => new SelectListItem { Text = purpose, Value = purpose }).ToList();
             return
-                View(new SendCodeViewModel {Providers = factorOptions, ReturnUrl = returnUrl, RememberMe = rememberMe});
+                View(new SendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
 
         //
@@ -322,7 +338,7 @@ namespace SchedulerWebApp.Controllers
                 return View("Error");
             }
             return RedirectToAction("VerifyCode",
-                new {Provider = model.SelectedProvider, model.ReturnUrl, model.RememberMe});
+                new { Provider = model.SelectedProvider, model.ReturnUrl, model.RememberMe });
         }
 
         //
@@ -345,14 +361,14 @@ namespace SchedulerWebApp.Controllers
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new {ReturnUrl = returnUrl, RememberMe = false});
+                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
                 case SignInStatus.Failure:
                 default:
                     // If the user does not have an account, then prompt the user to create an account
                     ViewBag.ReturnUrl = returnUrl;
                     ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
                     return View("ExternalLoginConfirmation",
-                        new ExternalLoginConfirmationViewModel {Email = loginInfo.Email});
+                        new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
             }
         }
 
@@ -377,7 +393,7 @@ namespace SchedulerWebApp.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new SchedulerUser {UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName};
+                var user = new SchedulerUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName };
                 IdentityResult result = await UserManager.CreateAsync(user);
 
                 UserManager.AddClaim(user.Id, new Claim(ClaimTypes.GivenName, user.FirstName));
@@ -482,7 +498,7 @@ namespace SchedulerWebApp.Controllers
 
             public override void ExecuteResult(ControllerContext context)
             {
-                var properties = new AuthenticationProperties {RedirectUri = RedirectUri};
+                var properties = new AuthenticationProperties { RedirectUri = RedirectUri };
                 if (UserId != null)
                 {
                     properties.Dictionary[XsrfKey] = UserId;

@@ -259,6 +259,20 @@ namespace SchedulerWebApp.Models.PostalEmail
             SendCorespondingEmail(email);
         }
 
+        public static void SendResetPassword(PasswordResetEmail resetEmail)
+        {
+            dynamic email = new Email("ResetPassword");
+
+            email.To = resetEmail.ReceiverEmail;
+            email.From = resetEmail.AdminEmail;
+            email.EmailSubject = resetEmail.EmailSubject;
+
+            email.Name = resetEmail.ReceiverName;
+            email.ResetLink = resetEmail.PassWordRestLink;
+
+            SendCorespondingEmail(email);
+        }
+
         public static void SendCorespondingEmail(Email email)
         {
             // ReSharper disable once AssignNullToNotNullAttribute
