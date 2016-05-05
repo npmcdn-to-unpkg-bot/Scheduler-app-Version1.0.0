@@ -13,9 +13,11 @@ namespace SchedulerWebApp.Models
         public int Id { get; set; }
 
         [Required]
+        [Display(Name = "What")]
         public string Title { get; set; }
 
         [Required]
+        [Display(Name = "Where")]
         public string Location { get; set; }
 
         [DataType(DataType.MultilineText)]
@@ -23,16 +25,16 @@ namespace SchedulerWebApp.Models
 
         [Required]
         [DataType(DataType.Text)]
-        [Display(Name = "Start")]
+        [Display(Name = "On")]
         [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy HH:mm}")]
         [ValidDate(ErrorMessage = "You cant create event in past dates / time")]
         public DateTime? StartDate { get; set; }
 
-        [Display(Name = "Get list On")]
+        [Display(Name = "Confirmations")]
         [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy HH:mm}")]
         public DateTime? ListDate { get; set; }
 
-        [Display(Name = "Remind On")]
+        [Display(Name = "Remainders")]
         [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy HH:mm}")]
         public DateTime? ReminderDate { get; set; }
 

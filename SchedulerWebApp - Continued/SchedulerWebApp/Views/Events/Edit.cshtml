@@ -21,7 +21,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Title, new { @class = "control-label col-md-3" })
                 <div class="col-md-9">
-                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", autofocus = "autofocus" } })
+                    @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", autofocus = "autofocus", placeholder = "Name of the event" } })
                     @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -29,7 +29,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Location, new { @class = "control-label col-md-3" })
                 <div class="col-md-9">
-                    @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control", placeholder = "Where event's take place" } })
                     @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -37,7 +37,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.StartDate, new { @class = "control-label col-md-3" })
                 <div class="col-md-9">
-                    @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control", id = "datePickerStart" } })
+                    @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control", id = "datePickerStart", placeholder = "Event's date" } })
                     @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -45,7 +45,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.ListDate, new { @class = "control-label col-md-3" })
                 <div class="col-md-9">
-                    @Html.EditorFor(model => model.ListDate, new { htmlAttributes = new { @class = "form-control", id = "datePickerList" } })
+                    @Html.EditorFor(model => model.ListDate, new { htmlAttributes = new { @class = "form-control", id = "datePickerList", placeholder = "Date to get participants list" } })
                     @Html.ValidationMessageFor(model => model.ListDate, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -53,7 +53,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.ReminderDate, new { @class = "control-label col-md-3" })
                 <div class="col-md-9">
-                    @Html.EditorFor(model => model.ReminderDate, new { htmlAttributes = new { @class = "form-control", id = "datePickerRemainder" } })
+                    @Html.EditorFor(model => model.ReminderDate, new { htmlAttributes = new { @class = "form-control", id = "datePickerRemainder", placeholder = "Date to send remainders" } })
                     @Html.ValidationMessageFor(model => model.ReminderDate, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -61,7 +61,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-3" })
                 <div class="col-md-9">
-                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", placeholder = "Event description" } })
                     @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                 </div>
             </div>
