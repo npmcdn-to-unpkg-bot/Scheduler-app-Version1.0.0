@@ -9,6 +9,7 @@ function elementsInitialization(elementId) {
     var id = '#' + elementId;
     $(id).datetimepicker({
         format: "DD.MM.YYYY HH:mm",
+        toolbarPlacement: 'top',
         minDate: todaysDate.subtract(0, 'days').startOf('day')
     });
 }
@@ -22,12 +23,14 @@ function linkTwoInputs(listDateElementId, remeinderElementId, maxDatetime) {
     $(listId).datetimepicker({
         format: "DD.MM.YYYY HH:mm",
         minDate: dateToday,
+        toolbarPlacement: 'top',
         maxDate: maxDatetime
     });
 
     $(remeinderId).datetimepicker({
         format: "DD.MM.YYYY HH:mm",
         minDate: dateToday,
+        toolbarPlacement: 'top',
         maxDate: maxDatetime,
         useCurrent: false //Important! See issue #1075
     });
@@ -49,17 +52,20 @@ function linkThreeDatesElements(eventDateElementId, listDateElementId, remainder
 
     $(eventDate).datetimepicker({
         format: "DD.MM.YYYY HH:mm",
+        toolbarPlacement: 'top',
         minDate: todaysDate.subtract(0, 'days').startOf('day')
     });
 
     $(listDate).datetimepicker({
         format: "DD.MM.YYYY HH:mm",
+        toolbarPlacement: 'top',
         minDate: todaysDate.subtract(0, 'days').startOf('day'),
         useCurrent: false
     });
 
     $(remainderDate).datetimepicker({
         format: "DD.MM.YYYY HH:mm",
+        toolbarPlacement: 'top',
         minDate: todaysDate.subtract(0, 'days').startOf('day'),
         useCurrent: false
     });
@@ -177,7 +183,7 @@ function fixContainerHeight() {
 
     if (containerHeight < windowHeight) {
 
-        ($('.body-div').css("height", "100%"));
+        $('.body-div').css("height", "100vh");
         console.log(containerHeight);
     }
 }

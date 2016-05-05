@@ -46,7 +46,7 @@ textarea {
     box-shadow: 0 0 20px 3px #d3d3d3;
     padding-bottom: 30px;
     border-radius: 10px;
-    height: 100vh;
+    /*height: 100vh;*/
 }
 
 .body-firstRow {
@@ -149,7 +149,7 @@ input, select, textarea {
 }
 
 .element-green {
-    color: #1bce14;
+    color: #20b61a;
 }
 
 .element-lightBlue {
@@ -274,8 +274,13 @@ table.dataTable.dtr-inline.collapsed > tbody > tr.parent > td:first-child:before
 
 /*#endregion */
 
+/*#region Icrease checkbox size */
+
 .large-checkbox {
     width: 20px;
     height: 30px;
     bottom: -5px;
 }
+
+
+/*#endregion */
