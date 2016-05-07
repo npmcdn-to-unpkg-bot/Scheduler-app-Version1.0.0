@@ -63,4 +63,12 @@
 </div>
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script type="text/javascript">
+        centrelizeDiv(-400, true);
+
+        $(window).resize(function () {
+            centrelizeDiv(-400, true);
+        });
+
+    </script>
 }

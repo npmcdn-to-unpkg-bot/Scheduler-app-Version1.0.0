@@ -183,7 +183,45 @@ function fixContainerHeight() {
 
     if (containerHeight < windowHeight) {
 
-        $('.body-div').css("height", "100vh");
+        $('.body-div').css("height", "90vh");
         console.log(containerHeight);
+    }
+}
+
+function centrelizeDiv(minusTopPosition, checkWidth) {
+
+    //get size of the browser window
+    var width = $(window).width();
+    console.log(width);
+
+    if (checkWidth == true) {
+        if (width < 992) {
+            console.log("Check width: " + checkWidth);
+            $("div.centered-row").removeAttr('style');
+            return;
+        } else {
+            setStyles();
+        }
+    }
+
+    if (minusTopPosition == undefined) {
+        return;
+    } else {
+        setStyles();
+    }
+
+    function setStyles() {
+        minusTopPosition = minusTopPosition + "px";
+        var styles = {
+            position: "absolute",
+            margin: "auto",
+            top: minusTopPosition,
+            right: 0,
+            bottom: 0,
+            left: 0,
+            height: "100px"
+        };
+        console.log("Check width: " + checkWidth);
+        $("div.centered-row").css(styles);
     }
 }

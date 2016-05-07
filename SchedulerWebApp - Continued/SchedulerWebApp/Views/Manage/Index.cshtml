@@ -73,5 +73,11 @@
 
         $("[data-toggle=tooltip]").tooltip();
 
+        centrelizeDiv(-450, true);
+
+        $(window).resize(function () {
+            centrelizeDiv(-450, true);
+        });
+
     </script>
 }

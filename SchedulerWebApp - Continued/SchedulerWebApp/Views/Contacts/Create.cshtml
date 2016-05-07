@@ -59,6 +59,15 @@
             </div>
         </div>
     }
-
-
 </div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        centrelizeDiv(-400, true);
+
+        $(window).resize(function () {
+            centrelizeDiv(-400, true);
+        });
+    </script>
+}
