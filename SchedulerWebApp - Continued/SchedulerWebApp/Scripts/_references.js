@@ -37,3 +37,4 @@
 /// <reference path="datatables/datatables.fixedheader.min.js" />
 /// <reference path="datatables/datatables.fixedcolumns.min.js" />
 /// <reference path="datatables/datatables.colreorder.min.js" />
+/// <reference path="js-cookie/js.cookie.js" />
