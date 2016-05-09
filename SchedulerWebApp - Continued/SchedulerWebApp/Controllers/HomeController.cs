@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Web;
+using System.Web.Mvc;
 using SchedulerWebApp.Models.PostalEmail;
 
 namespace SchedulerWebApp.Controllers
@@ -34,7 +35,11 @@ namespace SchedulerWebApp.Controllers
             
             model.To = "s.buchumi@gmail.com";
             PostalEmailManager.SendContactUsEmail(model);
-            return View("MessageSent");
+
+            Response.Cookies.Add(new HttpCookie("successCookie", "Action is completed successfully"));
+
+            //remove MessageSent view fom home
+            return View("Index");
         }
     }
 }

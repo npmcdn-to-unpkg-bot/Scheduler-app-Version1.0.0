@@ -11,8 +11,11 @@
 <div class="col-md-8 col-md-offset-2">
     <h2 class="text-center-smallScreen">@Model.Title details</h2>
     <hr />
+
+    @Html.Partial("_successAlert")
+
     @Html.Partial("_Details")
-    
+
     <div class="row">
         <div class="col-sm-3  col-xs-12">
             @Html.ActionLink("Invite", "SendEventsInvitation", "Invitation", new { id = Model.Id }, new { @class = "btn btn-info btn-block addButtonMargin" })
@@ -21,14 +24,14 @@
         <div class="col-sm-3  col-xs-12">
             @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-info btn-block addButtonMargin" })
         </div>
-        
+
         <div class="col-sm-3  col-xs-12">
             @Html.ActionLink("Events", "Index", new { id = Model.Id }, new { @class = "btn btn-info btn-block addButtonMargin" })
         </div>
 
         <div class="col-sm-3  col-xs-12">
             @Html.ActionLink("Delete", "Delete", new { id = Model.Id }, new { @class = "btn btn-danger btn-block addButtonMargin" })
-        </div>    
+        </div>
     </div>
 </div>
 
@@ -36,13 +39,17 @@
 {
     @Scripts.Render("~/bundles/dataTables")
     @Scripts.Render("~/bundles/custom")
+    <script src="~/Scripts/js-cookie/js.cookie.js"></script>
+
     <script type="text/javascript">
         $(function () {
-            makeTableResponsive("detailsTable", 1,2);
+            makeTableResponsive("detailsTable", 1, 2);
 
             grayOutAbsentees();
 
             $("[data-toggle=tooltip]").tooltip();
+
+            displayAlert("Invitations sent.");
 
         });
     </script>

@@ -10,6 +10,11 @@
     <div class="col-md-offset-1 col-md-10">
         <h2 class="text-center">Welcome to scheduleasy.com</h2>
         <hr />
+        
+        <!--Sent email alert-->
+        
+        @Html.Partial("_successAlert")
+
     </div>
 </div>
 
@@ -81,10 +86,21 @@
         </p>
         <p>
             The whole organizations is taken care, what you need to do is to register, create your event and make invitations.
-            Invetees will be contacted for you, they wont have to register to confitm their attandance. And before the  event has take place, a list 
+            Invetees will be contacted for you, they wont have to register to confitm their attandance. And before the  event has take place, a list
             of invetees will be right there waiting for you in your inbox!!! Easy right?
         </p>
         <p>Its free, Give it a try...</p>
     </div>
 
 </div>
+
+
+@section scripts
+{
+    <script src="~/Scripts/js-cookie/js.cookie.js"></script>
+    <script type="text/javascript">
+
+        displayAlert('Message sent! Thank you for contacting us.');
+
+    </script>
+}

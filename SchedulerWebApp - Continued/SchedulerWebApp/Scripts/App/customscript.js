@@ -225,3 +225,14 @@ function centrelizeDiv(minusTopPosition, checkWidth) {
         $("div.centered-row").css(styles);
     }
 }
+
+function displayAlert(message) {
+    console.log(Cookies.get('successCookie'));
+    if (Cookies.get('successCookie') != undefined) {
+
+        $('#alertMessage').text(message);
+        $("#cookie-div").slideDown(800).delay(3000).slideUp(1000);
+    }
+    Cookies.remove('successCookie');
+    console.log(Cookies.get('successCookie'));
+}

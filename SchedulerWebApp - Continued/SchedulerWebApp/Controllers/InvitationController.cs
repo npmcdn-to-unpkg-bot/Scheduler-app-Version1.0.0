@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Microsoft.AspNet.Identity;
@@ -164,10 +165,12 @@ namespace SchedulerWebApp.Controllers
             //redirect to details if all contacts are saved
             if (allSaved)
             {
+                Response.Cookies.Add(new HttpCookie("successCookie", "Action is completed successfully"));
+
                 return RedirectToAction("Details", "Events", new { id });
             }
 
-            //ask user to save in his contacts return view with list of unsaved contacts
+            //Let user save his contacts return view with list of unsaved contacts
             unsavedContacts.EventId = eventForInvitation.Id;
             TempData["model"] = unsavedContacts;           //Pass list to SaveEmails action
             return RedirectToAction("SaveEmails");
@@ -184,20 +187,6 @@ namespace SchedulerWebApp.Controllers
 
         #endregion
 
-        /// <summary>
-        /// Todo: Refactor this to a service class
-        /// </summary>
-        /// <param name="eventForInvitation"></param>
-        /// <returns></returns>
-
-        /*public ActionResult RemoveContact(UnsavedContactViewModel viewModel)
-                {
-                    //return View("unsavedContacts", model);
-
-                    //var returnUrl = new UrlHelper(Request.RequestContext).Action();
-                    return Json(new { result = "Redirect", url = Url.Action("SaveEmails", "Invitation", viewModel) }, JsonRequestBehavior.AllowGet);
-                }
-         */
 
         /// <summary>
         /// Called when there are emaills that are not saved

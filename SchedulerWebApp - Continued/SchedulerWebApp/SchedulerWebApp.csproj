@@ -557,6 +557,7 @@
     <Content Include="Views\Emails\Test.cshtml" />
     <Content Include="Views\Shared\_UnsavedContacts.cshtml" />
     <Content Include="Views\Emails\ResetPassword.cshtml" />
+    <Content Include="Views\Shared\_successAlert.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
