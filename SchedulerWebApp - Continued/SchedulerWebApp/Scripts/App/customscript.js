@@ -173,7 +173,7 @@ function showHidePassword(iconSelector, inputIdSelector) {
 
 function changeButtonText(buttonId, newText) {
     var id = '#' + buttonId;
-    var newElement = '<span>' + newText + '.. <i class="fa fa-spinner fa-lg fa-spin fa-fw margin-bottom"></i><span class="sr-only">log in...</span></span>';
+    var newElement = '<span>' + newText + '.. <i class="fa fa-spinner fa-lg fa-spin fa-fw margin-bottom"></i><span class="sr-only">' + newText + ' in...</span></span>';
     $(id).html(newElement);
 }
 
