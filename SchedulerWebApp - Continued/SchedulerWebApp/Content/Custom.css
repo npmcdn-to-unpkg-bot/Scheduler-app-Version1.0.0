@@ -1,8 +1,4 @@
-﻿/* textarea.input-validation-error {
-      border-color: #CC0000;
- }*/
-
-/*html, body, .container {
+﻿/*html, body, .container {
     height: 100%;
 }*/
 
@@ -13,11 +9,6 @@
 .margin-top {
     margin-top: 10px;
 }
-
-/*.title-label {
-    font-weight: bold;
-    text-align: right;
-}*/
 
 .title-left {
     font-weight: bold;
@@ -43,9 +34,11 @@ textarea {
 }
 
 .body-div {
+    -webkit-box-shadow: 0 0 20px 3px #d3d3d3;
+    -ms-box-shadow: 0 0 20px 3px #d3d3d3;
     box-shadow: 0 0 20px 3px #d3d3d3;
     padding-bottom: 30px;
-    border-radius: 10px;
+    /*border-radius: 10px;*/
     /*height: 100vh;*/
 }
 
@@ -53,8 +46,8 @@ textarea {
     padding: 40px 80px 40px 80px;
 }
 
-/*reduce padding and put the text to the center
-    on small screen */
+/* reduce padding and put the text to the center
+ * on small screen */
 @media (max-width: 480px) {
     .body-firstRow {
         padding: 40px 20px 40px 20px;
@@ -131,15 +124,6 @@ body {
     white-space: normal;
 }
 
-/* Set width on the form input elements 
-   since they're 100% wide by default 
-*/
-/*
-input, select, textarea {
-    max-width: 350px;
-}
-*/
-
 .element-red {
     color: red;
 }
@@ -176,7 +160,7 @@ a + a {
     color: darkgrey;
 }
 
-    .event-thumbnail:hover {
+.event-thumbnail:hover {
         background: #D8D8D8;
         -webkit-box-shadow: 3px 3px 3px 3px;
         -ms-box-shadow: 3px 3px 3px 3px;
@@ -184,7 +168,7 @@ a + a {
         color: lightsteelblue;
     }
 
-        .event-thumbnail:hover div p {
+.event-thumbnail:hover div p {
             font-weight: bold;
             color: white;
         }
@@ -203,12 +187,12 @@ tr:contains("Absent") {
     text-decoration: inherit;
 }
 
-    .anchor-div:link {
+.anchor-div:link {
         color: inherit;
         text-decoration: inherit;
     }
 
-    .anchor-div:hover {
+.anchor-div:hover {
         color: inherit;
         text-decoration: inherit;
     }
@@ -253,7 +237,6 @@ tr:contains("Absent") {
 
 /*#endregion */
 
-
 /*#region Changing dataTable expand/collapse buttons */
 
 table.dataTable.dtr-inline.collapsed > tbody > tr > td:first-child:before, table.dataTable.dtr-inline.collapsed > tbody > tr > th:first-child:before {
@@ -284,3 +267,28 @@ table.dataTable.dtr-inline.collapsed > tbody > tr.parent > td:first-child:before
 
 
 /*#endregion */
+
+@media (max-width: 2224px) and (min-width: 415px) {
+    .centered-div {
+        position: fixed;
+        top: 45%;
+        left: 50%;
+        -moz-transform: translate(-50%, -50%);
+        -ms-transform: translate(-50%, -50%);
+        -o-transform: translate(-50%, -50%);
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+    }
+}
+
+@media only screen and (min-width : 1400px) {
+    .centered-div {
+        width: 25%;
+    }
+}
+
+@media (max-width: 1399px) and (min-width: 768px) {
+    .centered-div {
+        width: 40%
+    }
+}

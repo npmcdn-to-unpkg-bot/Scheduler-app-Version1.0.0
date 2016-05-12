@@ -183,14 +183,15 @@ function fixContainerHeight() {
 
     if (containerHeight < windowHeight) {
 
-        $('.body-div').css("height", "90vh");
+        $('.body-div').css("height", "95vh");
         console.log(containerHeight);
     }
 }
 
+/*not neededd anymore*/
 function centrelizeDiv(minusTopPosition, checkWidth) {
 
-    //get size of the browser window
+    //get size of the browserName window
     var width = $(window).width();
     console.log(width);
 
