@@ -71,6 +71,13 @@ textarea {
     }
 }
 
+@media (max-width: 768px) {
+        .button-padding-top-bottom {
+            padding-top: 15px;
+            padding-bottom: 15px;
+        }
+    }
+
 .event-div {
     margin-bottom: 30px;
 }
