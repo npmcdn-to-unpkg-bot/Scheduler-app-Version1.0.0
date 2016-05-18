@@ -79,7 +79,9 @@ textarea {
 }
 
 .event-div {
-    margin-bottom: 30px;
+    margin-bottom: 0;
+    padding-right: 10px;
+    padding-left: 10px;
 }
 
 .deleteEvent-div {

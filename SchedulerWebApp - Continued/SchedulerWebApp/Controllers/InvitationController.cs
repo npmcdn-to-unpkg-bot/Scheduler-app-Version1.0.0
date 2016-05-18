@@ -58,6 +58,14 @@ namespace SchedulerWebApp.Controllers
             eventForInvitation.ListDate = model.ListDate;
             eventForInvitation.ReminderDate = model.ReminderDate;
 
+            /*
+             * This is used to check time on the server 
+             * when this is deployed
+             */
+            Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("{ From Invitation controller sending invitation } Remainder date is on " + model.ReminderDate));
+            Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("{ From Invitation controller sending invitation } List date is on " + model.ListDate));
+
+
             //Check if invitations can still be sent
             var notPassed = Service.EventHasNotPassed(eventForInvitation);
             if (!notPassed)
