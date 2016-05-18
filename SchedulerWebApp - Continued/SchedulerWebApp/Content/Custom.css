@@ -72,11 +72,11 @@ textarea {
 }
 
 @media (max-width: 768px) {
-        .button-padding-top-bottom {
-            padding-top: 15px;
-            padding-bottom: 15px;
-        }
+    .button-padding-top-bottom {
+        padding-top: 15px;
+        padding-bottom: 15px;
     }
+}
 
 .event-div {
     margin-bottom: 30px;
@@ -167,7 +167,7 @@ a + a {
     color: darkgrey;
 }
 
-.event-thumbnail:hover {
+    .event-thumbnail:hover {
         background: #D8D8D8;
         -webkit-box-shadow: 3px 3px 3px 3px;
         -ms-box-shadow: 3px 3px 3px 3px;
@@ -175,7 +175,7 @@ a + a {
         color: lightsteelblue;
     }
 
-.event-thumbnail:hover div p {
+        .event-thumbnail:hover div p {
             font-weight: bold;
             color: white;
         }
@@ -194,12 +194,12 @@ tr:contains("Absent") {
     text-decoration: inherit;
 }
 
-.anchor-div:link {
+    .anchor-div:link {
         color: inherit;
         text-decoration: inherit;
     }
 
-.anchor-div:hover {
+    .anchor-div:hover {
         color: inherit;
         text-decoration: inherit;
     }
@@ -296,6 +296,11 @@ table.dataTable.dtr-inline.collapsed > tbody > tr.parent > td:first-child:before
 
 @media (max-width: 1399px) and (min-width: 768px) {
     .centered-div {
-        width: 40%
+        width: 40%;
     }
+}
+
+.image-row {
+    margin-left: -10px;
+    margin-right: -10px;
 }

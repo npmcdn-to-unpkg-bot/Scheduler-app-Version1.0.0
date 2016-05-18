@@ -1,40 +1,54 @@
 ﻿@using System.Globalization
 @model SchedulerWebApp.Models.Event
 
-
-
-<div class="col-md-4 col-sm-6 event-div">
+<div class="col-md-4 col-xs-12 event-div masonry-item">
     <div class="thumbnail event-thumbnail">
         <div class="caption">
             <a class="anchor-div" href=@Url.Action("Details", "Events", new { id = Model.Id })>
-                <p class="text-center p-header">@Model.Title.ToUpper()</p>
-                <table class="borderless table table-condensed centered">
-                    <tbody>
-                        <tr>
-                            <td class="col-sm-3"><label>Where?</label></td>
-                            <td class="col-sm-9 trim-text">@Model.Location</td>
-                        </tr>
-                        <tr>
-                            <td class="col-sm-3"><label>When?</label></td>
-                            <td class="col-sm-9">@Model.StartDate.GetValueOrDefault().ToString("d", new CultureInfo("de-CH"))</td>
-                        </tr>
-                        <tr>
-                            <td class="col-sm-3"><label>Envitees:</label></td>
-                            <td class="col-sm-9"><span class="badge">@Model.Participants.Count</span></td>
-                        </tr>
 
-                        <tr>
-                            <td class="col-sm-3"><label>Attending:</label></td>
-                            <td class="col-sm-9"><span class="badge green-badge">@Model.Participants.Where(p => p.Availability).ToList().Count</span></td>
-                        </tr>
+                <div class="row image-row">
+                    <div>
+                        <img class=" img-responsive img-thumbnail center-block" alt="Map" />
+                    </div>
+                </div>
+                <br />
 
-                        <tr>
-                            <td class="col-sm-3"><label>Absent:</label></td>
-                            <td class="col-sm-9"><span class="badge red-badge">@Model.Participants.Where(p => !(p.Availability)).ToList().Count</span></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="row">
+                    <div class="col-sm-4 col-xs-6"><label>What</label></div>
+                    <div class="col-sm-8 col-xs-6"><span>@Model.Title</span></div>
+                </div>
 
+                <div class="row">
+                    <div class="col-sm-4 col-xs-6"><label>Where</label></div>
+                    <div class="col-sm-8 col-xs-6 "><span class="location">@Model.Location</span></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4 col-xs-6"><label>When</label></div>
+                    <div class="col-sm-8 col-xs-6"><span>@Model.StartDate.GetValueOrDefault().ToString("d", new CultureInfo("de-CH"))</span></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4 hidden-xs">
+                        <label>Invatee(s)</label>
+                    </div>
+                    <div class="col-sm-3 col-xs-4">
+                        <p class="text-center">
+                            <span data-toggle="tooltip" data-placement="top" title="Invited" class="badge">@Model.Participants.Count</span>
+                        </p>
+                    </div>
+                    <div class="col-sm-2 col-xs-4">
+                        <p class="text-center">
+                            <span data-toggle="tooltip" data-placement="top" title="Attending" class="badge green-badge">@Model.Participants.Where(p => p.Availability).ToList().Count</span>
+                        </p>
+                    </div>
+                    <div class="col-sm-3 col-xs-4">
+                        <p class="text-center">
+                            <span data-toggle="tooltip" data-placement="top" title="Not attending" class="badge red-badge">@Model.Participants.Where(p => !(p.Availability)).ToList().Count</span>
+                        </p>
+                    </div>
+                </div>
+                
                 <div class="row">
                     <div class="col-md-4 col-sm-4 col-xs-12">
                         <p class="text-center  hidden-xs">

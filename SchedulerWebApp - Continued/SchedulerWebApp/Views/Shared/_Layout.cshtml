@@ -79,7 +79,9 @@
     @Scripts.Render("~/bundles/custom")
     @RenderSection("scripts", false)
     <script type="text/javascript">
-        fixContainerHeight();
+        $(window).bind("load", function () {
+            fixContainerHeight();
+        });
     </script>
 </body>
 </html>

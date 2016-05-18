@@ -16,27 +16,33 @@
 
 
 <ul class="nav nav-tabs nav-justified" id="myTab">
-    <li role="presentation" class="active"><a href="#upcomingEvent">Upcoming Events</a></li>
-    <li role="presentation"><a href="#passedEvent">Previous Events</a></li>
-    <li role="presentation"><a href="#allEvents">All Events</a></li>
+    <li role="presentation" class="active tab-header">
+        <a href="#upcomingEvent" role="tab" data-toggle="tab">Upcoming Events</a>
+    </li>
+    <li role="presentation" class="tab-header">
+        <a href="#passedEvent" role="tab" data-toggle="tab">Previous Events</a>
+    </li>
+    <li role="presentation" class="tab-header">
+        <a href="#allEvents" role="tab" data-toggle="tab">All Events</a>
+    </li>
 </ul>
 
 <div class="tab-content">
 
     <div id="upcomingEvent" class="tab-pane fade in active">
-        <div class="row">
+        <div class="row masonry-container">
             @Html.Action("UpcomingEvents", "Events")
         </div>
     </div>
 
     <div id="passedEvent" class="tab-pane fade">
-        <div class="row">
+        <div class="row masonry-container">
             @Html.Action("PreviousEvents", "Events")
         </div>
     </div>
 
     <div id="allEvents" class="tab-pane fade">
-        <div class="row">
+        <div class="row masonry-container">
             @Html.Action("AllEvents", "Events")
         </div>
     </div>
@@ -45,16 +51,45 @@
 
 
 @section scripts
-    {
+{
+    <script src="https://npmcdn.com/masonry-layout@4.0/dist/masonry.pkgd.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="https://maps.google.com/maps/api/js?sensor=true"></script>
+
     <script type="text/javascript">
-        $(document).ready(function () {
-            
-            $("#myTab a").click(function (e) {
-                e.preventDefault();
-                $(this).tab('show');
-            });
+
+        $(window).bind("load", function () {
+            addMasonry(container);
         });
 
+        $(document).ready(function () {
+
+            $('a[data-toggle=tab]').on('click', adjustHeight);
+
+            createMap(".caption", ".location");
+
+            //#region Masonry(arrange event divs)
+            var container = $('.masonry-container');
+
+
+            $('a[data-toggle=tab]').each(function () {
+                var self = $(this);
+                self.on('shown.bs.tab', function () {
+                    addMasonry(container);
+                });
+            });
+
+            
+
+            //#endregion
+
+        });
+
+        function addMasonry(masonryContainer) {
+            masonryContainer.masonry({
+                columnWidth: '.masonry-item',
+                itemSelector: '.masonry-item'
+            });
+        }
         $("[data-toggle=tooltip]").tooltip();
 
         (function () {
@@ -71,19 +106,16 @@
                 });
             }
 
-            $(window).resize(function () {
-                trimOnSmallScreens();
-            });
-
             function trimOnSmallScreens() {
                 var width = $(window).width();
                 if (width < 768) {
                     trimText(".p-header", 10);
-                    trimText(".trim-text", 8);
                 } else {
                     trimText(".p-header", 15);
                 }
             }
+
+
         })();
 
     </script>

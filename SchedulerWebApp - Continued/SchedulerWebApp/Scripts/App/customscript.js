@@ -183,8 +183,15 @@ function fixContainerHeight() {
 
     if (containerHeight < windowHeight) {
 
-        $('.body-div').css("height", "95vh");
+        $('.body-div').css("height", "90vh");
         console.log(containerHeight);
+    }
+}
+
+function adjustHeight() {
+    var events = $(".event-div").length;
+    if (events > 6) {
+        $(".body-div").css('height', '100%');
     }
 }
 
@@ -237,3 +244,28 @@ function displayAlert(message) {
     Cookies.remove('successCookie');
     console.log(Cookies.get('successCookie'));
 }
+
+//#region adding Map into evrnt div
+function createMap(selector, locationElementSelctor) {
+    var geocoder = new google.maps.Geocoder();
+
+    $(selector).each(function () {
+        var address = $(this).find(locationElementSelctor).text();
+        console.log(address);
+
+        geocoder.geocode({ 'address': address },
+            function (results, status) {
+                if (status === google.maps.GeocoderStatus.OK) {
+                    address = address;
+                } else {
+                    address = "winterthur";
+                    console.log('Geocode was not successful for the following reason: ' + status);
+                }
+            });
+
+        $(this).find("img").attr('src', 'https://maps.googleapis.com/maps/api/staticmap?center=' + address + '&zoom=14&size=350x250&markers=color:red%7Clabel:0%7C11211%7C11206%7C11222|' + address + '&key=AIzaSyB7hmntE1W-a7pmy7UoocDrQlawzUujTwI');
+
+    });
+}
+
+//#endregion 
