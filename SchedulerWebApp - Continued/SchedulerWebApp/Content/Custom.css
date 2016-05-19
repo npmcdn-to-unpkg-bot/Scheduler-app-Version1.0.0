@@ -304,11 +304,17 @@ table.dataTable.dtr-inline.collapsed > tbody > tr.parent > td:first-child:before
 
 @media (max-width: 765px) and (min-width: 415px) {
     .centered-div {
-        width: 60%
+        width: 60%;
     }
 }
 
 .image-row {
     margin-left: -10px;
     margin-right: -10px;
+}
+
+@media only screen and (min-width: 1400px) {
+    .error-div {
+        width: 50%;
+    }
 }
