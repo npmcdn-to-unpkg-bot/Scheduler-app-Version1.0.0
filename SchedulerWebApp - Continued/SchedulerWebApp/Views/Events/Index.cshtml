@@ -60,9 +60,7 @@
         var container = $('.masonry-container');
 
         $(window).bind("load", function () {
-
             addMasonry(container);
-            //fixContainerHeight();
         });
 
         $(document).ready(function () {
@@ -75,6 +73,7 @@
                 var self = $(this);
                 self.on('shown.bs.tab', function () {
                     addMasonry(container);
+                    fixContainerHeight();
                 });
             });
 
