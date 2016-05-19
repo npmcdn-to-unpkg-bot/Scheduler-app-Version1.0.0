@@ -258,8 +258,8 @@ function createMap(selector, locationElementSelctor) {
                 if (status === google.maps.GeocoderStatus.OK) {
                     address = address;
                 } else {
+                    console.log('Geocode for ' + address + ' was not successful for the following reason: ' + status);
                     address = "winterthur";
-                    console.log('Geocode was not successful for the following reason: ' + status);
                 }
             });
 
