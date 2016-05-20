@@ -49,7 +49,7 @@
 
                 <div class="form-group">
                     <div class="col-md-offset-3 col-md-9">
-                        <input type="submit" value="Save" class="btn btn-info  form-control  addButtonMargin" />
+                        <input id="saveBtn" type="submit" value="Save" class="btn btn-info  form-control  addButtonMargin" />
                     </div>
                 </div>
 
@@ -77,6 +77,12 @@
         });
 
         setDatesInCorrectFormat();
+
+
+        $('#saveBtn').on('click', function () {
+
+            console.log($('#datePickerStart').val());
+        });
 
         //centrelizeDiv(-400, true);
 
