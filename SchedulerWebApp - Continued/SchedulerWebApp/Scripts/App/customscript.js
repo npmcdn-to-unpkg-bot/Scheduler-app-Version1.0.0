@@ -142,10 +142,23 @@ function grayOutAbsentees() {
 }
 
 function setDatesInCorrectFormat() {
+
     $.validator.addMethod('date', function (value, element) {
         var d = new Date();
         return this.optional(element) || !/Invalid|NaN/.test(new Date(d.toLocaleDateString(value)));
     });
+}
+
+function checkSupportForInputTypeDate() {
+    jQuery.validator.methods.date = function (value, element) {
+        var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+        var isSafari = /Safari/.test(navigator.userAgent) && /Apple Computer/.test(navigator.vendor);
+        if (isSafari || isChrome) {
+            return true;
+        } else {
+            return this.optional(element) || !/Invalid|NaN/.test(new Date(value));
+        }
+    };
 }
 
 function AllowValidationOnHiddenInputs() {

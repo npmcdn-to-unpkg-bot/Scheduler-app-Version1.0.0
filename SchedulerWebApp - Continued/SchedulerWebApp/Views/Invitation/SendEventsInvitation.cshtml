@@ -122,6 +122,8 @@
 
             initTagIt();
 
+            checkSupportForInputTypeDate();
+
             var maxDate = convertInputDateToMomentDate("HiddenDatePickerList");
 
             linkTwoInputs('datePickerList', 'datePickerRemainder', maxDate);
