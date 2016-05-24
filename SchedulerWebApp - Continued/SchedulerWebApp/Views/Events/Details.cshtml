@@ -10,7 +10,6 @@
 
 <div class="col-md-8 col-md-offset-2">
     <h2 class="text-center-smallScreen">@Model.Title details</h2>
-    <hr />
 
     @Html.Partial("_successAlert")
 
@@ -50,7 +49,19 @@
             $("[data-toggle=tooltip]").tooltip();
 
             displayAlert("Invitations sent.");
-
         });
+
+        $(window).bind("load", function () {
+            var rowCount = $('#participantTable tbody tr').length;
+
+
+            if (rowCount >= 5) {
+                console.log(rowCount);
+                $('.body-div').css({
+                    'height': '100%'
+                });
+            }
+        });
+
     </script>
 }
