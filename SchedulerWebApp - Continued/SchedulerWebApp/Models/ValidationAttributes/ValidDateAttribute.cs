@@ -9,7 +9,10 @@ namespace SchedulerWebApp.Models.ValidationAttributes
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             string dateString;
-            if (value != null) dateString = String.Format("{0:g}", value);
+            if (value != null)
+            {
+                dateString = String.Format("{0:g}", value);
+            }
             else return new ValidationResult("Date is Required!");
 
             DateTime dateToday = DateTime.UtcNow.ToLocalTime();

@@ -57,15 +57,13 @@
     <div class="container body-content">
         <div class="body-div">
             <div class="row centered-row">
-                <div class="col-lg-1 col-sm-1 "></div>
-                <div class="col-lg-10 col-sm-10 col-xs-12 body-firstRow">
+                <div class=" center-block body-firstRow">
                     @RenderBody()
                 </div>
-                <div class="col-lg-1  col-sm-1 "></div>
             </div>
         </div>
 
-        <div class="navbar navbar-inverse navbar-fixed-bottom" role="navigation">
+        <div class="navbar navbar-inverse " role="navigation">
             <div class="container">
                 <div class="navbar-text pull-left">
                     <p>&copy; @DateTime.Now.Year - Schedule easy</p>
@@ -77,11 +75,11 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/custom")
-    @RenderSection("scripts", false)
     <script type="text/javascript">
         $(window).bind("load", function () {
             fixContainerHeight();
         });
     </script>
+    @RenderSection("scripts", false)
 </body>
 </html>

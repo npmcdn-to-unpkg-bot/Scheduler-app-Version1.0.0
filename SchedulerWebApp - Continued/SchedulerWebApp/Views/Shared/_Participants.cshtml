@@ -1,23 +1,14 @@
 ﻿@model IEnumerable<SchedulerWebApp.Models.Participant>
 
-<h3>Invitees</h3>
+<h4>Invitees</h4>
 
 <table id="participantTable" class="table table-responsive table-condensed detailsTable display" cellspacing="0" width="100%">
     <thead>
         <tr>
-            <th>
-                Email
-            </th>
-            <th>
-                Status
-            </th>
-            <th>
-                Response
-            </th>
-            <th>
-                Comments
-            </th>
-
+            <th>Email</th>
+            <th>Status</th>
+            <th>Response</th>
+            <th>Comments</th>
         </tr>
     </thead>
 
@@ -56,7 +47,7 @@
             else
             {
                 <td data-order="b" class="text-center">
-                    <i data-toggle="tooltip" data-placement="top" title="no response" class="fa fa-clock-o" aria-hidden="true"></i>
+                    <i data-toggle="tooltip" data-placement="top" title="no feedback" class="fa fa-clock-o" aria-hidden="true"></i>
                 </td>
             }
             <td>

@@ -30,20 +30,26 @@
 <div class="tab-content">
 
     <div id="upcomingEvent" class="tab-pane fade in active">
-        <div class="row masonry-container">
-            @Html.Action("UpcomingEvents", "Events")
+        <div class="row ">
+            <div class="masonry-container">
+                @Html.Action("UpcomingEvents", "Events")
+            </div>
         </div>
     </div>
 
     <div id="passedEvent" class="tab-pane fade">
-        <div class="row masonry-container">
-            @Html.Action("PreviousEvents", "Events")
+        <div class="row">
+            <div class="masonry-container">
+                @Html.Action("PreviousEvents", "Events")
+            </div>
         </div>
     </div>
 
     <div id="allEvents" class="tab-pane fade">
-        <div class="row masonry-container">
-            @Html.Action("AllEvents", "Events")
+        <div class="row">
+            <div class="masonry-container">
+                @Html.Action("AllEvents", "Events")
+            </div>
         </div>
     </div>
 
@@ -68,7 +74,7 @@
             $('a[data-toggle=tab]').on('click', adjustHeight);
 
             createMap(".caption", ".location");
-            
+
             $('a[data-toggle=tab]').each(function () {
                 var self = $(this);
                 self.on('shown.bs.tab', function () {

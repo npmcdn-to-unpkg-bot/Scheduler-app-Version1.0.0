@@ -4,7 +4,7 @@
     ViewBag.Title = "Add Event";
 }
 
-<div class="centered-div">
+<div class="center-block align-center">
     <div class="col-md-12">
         @using (Html.BeginForm())
         {
@@ -30,6 +30,7 @@
                         @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
                     </div>
                 </div>
+
 
                 <div class="form-group">
                     @Html.LabelFor(model => model.StartDate, new { @class = "control-label col-md-3 " })

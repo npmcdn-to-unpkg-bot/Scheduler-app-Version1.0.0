@@ -17,11 +17,11 @@ namespace SchedulerWebApp.Controllers
             return View();
         }
         
-
         public ActionResult FrequentlyAskedQuestions()
         {
             return View();
         }
+
         public ActionResult Contact()
         {
             return View();

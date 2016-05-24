@@ -278,7 +278,7 @@ table.dataTable.dtr-inline.collapsed > tbody > tr.parent > td:first-child:before
 /*#endregion */
 
 @media (max-width: 2224px) and (min-width: 415px) {
-    .centered-div {
+    /*.centered-div {
         position: fixed;
         top: 45%;
         left: 50%;
@@ -287,24 +287,26 @@ table.dataTable.dtr-inline.collapsed > tbody > tr.parent > td:first-child:before
         -o-transform: translate(-50%, -50%);
         -webkit-transform: translate(-50%, -50%);
         transform: translate(-50%, -50%);
+    }*/
+
+    .align-center {
+        width: 50%;
     }
 }
 
+#detailsTable {
+    margin-bottom: 0;
+}
+    
 @media only screen and (min-width : 1400px) {
-    .centered-div {
-        width: 30%;
-    }
 }
 
 @media (max-width: 1399px) and (min-width: 768px) {
-    .centered-div {
-        width: 40%;
-    }
 }
 
 @media (max-width: 765px) and (min-width: 415px) {
-    .centered-div {
-        width: 60%;
+    .align-center {
+        width: 80%;
     }
 }
 

@@ -183,8 +183,7 @@ function fixContainerHeight() {
 
     if (containerHeight < windowHeight) {
 
-        $('.body-div').css("height", "90vh");
-        console.log(containerHeight);
+        $('.body-div').css("height", "85vh");
     }
 }
 
