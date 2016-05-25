@@ -515,7 +515,7 @@
     <Content Include="Views\Events\Index.cshtml" />
     <Content Include="Views\Invitation\SendEventsInvitation.cshtml" />
     <Content Include="Views\Shared\_Participants.cshtml" />
-    <Content Include="Views\Events\_NoParticipants.cshtml" />
+    <Content Include="Views\Shared\_NoParticipants.cshtml" />
     <Content Include="Views\Events\Create.cshtml" />
     <Content Include="Views\EmailDelivery\InvitationEmail.html.cshtml" />
     <Content Include="Views\Response\Response.cshtml" />
