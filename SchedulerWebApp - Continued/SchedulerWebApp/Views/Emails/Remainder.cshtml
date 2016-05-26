@@ -943,10 +943,10 @@ Subject: @ViewBag.EmailSubject
                                                             Hi!
                                                         </p>
                                                         <p style="Margin-top: 0;color: #565656;font-family: Georgia,serif;font-size: 16px;line-height: 25px;Margin-bottom: 25px">
-                                                            You have not yet confirmed your attendance on @ViewBag.EventTitle which will take place on <strong style="font-weight: bold">@ViewBag.StartDate.ToShortDateString().&nbsp;</strong> in @ViewBag.EventLocation.
+                                                            You have not yet confirmed your attendance on @ViewBag.EventTitle which will take place on <strong style="font-weight: bold">@ViewBag.StartDate.ToShortDateString()&nbsp;</strong> at <strong>@ViewBag.StartDate.ToString("t")</strong> in @ViewBag.EventLocation.
                                                         </p>
                                                         <p style="Margin-top: 0;color: #565656;font-family: Georgia,serif;font-size: 16px;line-height: 25px;Margin-bottom: 25px">
-                                                            Please confirm your attendance using the &nbsp;button below. Confirmations should be sent before <strong style="font-weight: bold">@ViewBag.GetListDate.ToShortDateString().</strong>
+                                                            Please confirm your attendance using the &nbsp;button below. Confirmations should be sent before <strong style="font-weight: bold">@ViewBag.GetListDate.ToShortDateString()</strong> at <strong>@ViewBag.GetListDate.ToString("t").</strong>
                                                         </p>
                                                     </td>
                                                 </tr>
