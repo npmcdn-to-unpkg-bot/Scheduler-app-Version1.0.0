@@ -277,8 +277,13 @@ namespace SchedulerWebApp.Controllers
             }
             #endregion
 
+            
+            //Schedule remainders only when there is a remainder date
+            if (eventToEdit.ReminderDate != null)
+            {
+                JobManager.ScheduleRemainderEmail(emails, remanderDate);
+            }
             //Schedule new emails for edited Job
-            JobManager.ScheduleRemainderEmail(emails, remanderDate);
             JobManager.ScheduleParticipantListEmail(emailInfo, listDate);
             //JobManager.AddJobsIntoEvent(eventToEdit.Id,"Send List");
 
