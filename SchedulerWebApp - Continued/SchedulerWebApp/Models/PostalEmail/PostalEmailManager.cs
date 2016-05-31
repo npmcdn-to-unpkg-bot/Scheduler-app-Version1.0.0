@@ -147,6 +147,40 @@ namespace SchedulerWebApp.Models.PostalEmail
             return email;
         }
 
+        public static void SendEmail(EmailInformation emailInfo, object newEmailObject)
+        {
+            var email = ComposeDynamicEmail(emailInfo, newEmailObject);
+
+            SendCorespondingEmail(email);
+        }
+
+        public static void SendCorespondingEmail(Email email)
+        {
+            // ReSharper disable once AssignNullToNotNullAttribute
+            /*var viewpath = Path.GetFullPath(HostingEnvironment.MapPath(@"~/Views/Emails"));
+            var engines = new ViewEngineCollection();
+            engines.Add(new FileSystemRazorViewEngine(viewpath));
+            var emailService = new Postal.EmailService(engines);*/
+            try
+            {
+                email.Send();
+            }
+            catch (Exception exception)
+            {
+                ErrorLog.GetDefault(System.Web.HttpContext.Current).Log(new Error(new Exception(exception.Message)));
+            }
+
+        }
+
+        private static void AddAttachAttachment(dynamic email, EmailInformation emailInfo)
+        {
+            var emailAttachment = Service.CreateAttachment(emailInfo);
+            email.Attach(emailAttachment);
+        }
+
+
+
+
         public static void SendListEmail(EmailInformation emailInfo, object emailObject)
         {
             var currentEvent = GetCurrentEvent(emailInfo);
@@ -237,18 +271,12 @@ namespace SchedulerWebApp.Models.PostalEmail
 
         }
 
-        public static void SendEmail(EmailInformation emailInfo, object newEmailObject)
-        {
-            var email = ComposeDynamicEmail(emailInfo, newEmailObject);
-
-            SendCorespondingEmail(email);
-        }
-
         public static void SendContactUsEmail(ContactUsEmail contactUsEmail)
         {
             dynamic email = new Email("ContactUs");
 
             email.To = contactUsEmail.To;
+
             email.From = contactUsEmail.From;
             email.EmailSubject = contactUsEmail.EmailSubject;
 
@@ -273,23 +301,7 @@ namespace SchedulerWebApp.Models.PostalEmail
             SendCorespondingEmail(email);
         }
 
-        public static void SendCorespondingEmail(Email email)
-        {
-            // ReSharper disable once AssignNullToNotNullAttribute
-            /*var viewpath = Path.GetFullPath(HostingEnvironment.MapPath(@"~/Views/Emails"));
-            var engines = new ViewEngineCollection();
-            engines.Add(new FileSystemRazorViewEngine(viewpath));
-            var emailService = new Postal.EmailService(engines);*/
-            try
-            {
-                email.Send();
-            }
-            catch (Exception exception)
-            {
-                ErrorLog.GetDefault(System.Web.HttpContext.Current).Log(new Error(new Exception(exception.Message)));
-            }
 
-        }
 
         private static Event GetCurrentEvent(EmailInformation emailInfo)
         {
@@ -334,12 +346,6 @@ namespace SchedulerWebApp.Models.PostalEmail
 
             email.EventDetailsUrl = emailInfo.EventDetailsUrl;
             return email;
-        }
-
-        private static void AddAttachAttachment(dynamic email, EmailInformation emailInfo)
-        {
-            var emailAttachment = Service.CreateAttachment(emailInfo);
-            email.Attach(emailAttachment);
         }
     }
 }
