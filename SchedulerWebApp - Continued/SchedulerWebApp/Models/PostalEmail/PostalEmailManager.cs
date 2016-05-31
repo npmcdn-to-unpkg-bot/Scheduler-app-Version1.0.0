@@ -204,6 +204,8 @@ namespace SchedulerWebApp.Models.PostalEmail
             dynamic email = new Email("ParticipantList");
 
             email.To = emailInfo.OrganizerEmail;
+
+            //ToDo:change the email of the sender
             email.From = "no-reply@scheduleasy.com";
             email.EmailSubject = "Participants summary" + " " + emailInfo.CurrentEvent.Title;
 
@@ -253,6 +255,8 @@ namespace SchedulerWebApp.Models.PostalEmail
                 dynamic email = new Email("Remainder");
 
                 email.To = participant.Email;
+
+                //TOdo: Add the right sender email
                 email.From = "no-reply@scheduleasy.com";
                 email.EmailSubject = "Remainder for" + " " + emailInfo.CurrentEvent.Title;
 
@@ -275,8 +279,8 @@ namespace SchedulerWebApp.Models.PostalEmail
         {
             dynamic email = new Email("ContactUs");
 
+            //TODO: Go to the email and confirm receiver email address 
             email.To = contactUsEmail.To;
-
             email.From = contactUsEmail.From;
             email.EmailSubject = contactUsEmail.EmailSubject;
 
@@ -292,6 +296,8 @@ namespace SchedulerWebApp.Models.PostalEmail
             dynamic email = new Email("ResetPassword");
 
             email.To = resetEmail.ReceiverEmail;
+
+            //ToDo: Confirm receiver enail address
             email.From = resetEmail.AdminEmail;
             email.EmailSubject = resetEmail.EmailSubject;
 
