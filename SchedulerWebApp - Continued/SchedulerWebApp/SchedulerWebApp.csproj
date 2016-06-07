@@ -380,8 +380,11 @@
     <Content Include="Content\themes\base\tooltip.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Images\all_events.JPG" />
+    <Content Include="Images\createing_event.JPG" />
     <Content Include="Images\image1.jpg" />
     <Content Include="Images\image2.jpg" />
+    <Content Include="Images\Invitation_email.JPG" />
     <Content Include="Images\loading.gif" />
     <Content Include="Images\loading2.gif" />
     <Content Include="Images\progressRing.gif" />
@@ -392,6 +395,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Images\share_event.JPG" />
     <Content Include="Scripts\App\customscript.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
