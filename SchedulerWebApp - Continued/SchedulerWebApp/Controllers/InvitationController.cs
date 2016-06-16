@@ -162,7 +162,7 @@ namespace SchedulerWebApp.Controllers
 
             }
 
-            #region Scheduling remainder emails
+            #region Scheduling List email
 
             // start participant list summary scheduler
             var listDate = Service.GetListDate(eventForInvitation);

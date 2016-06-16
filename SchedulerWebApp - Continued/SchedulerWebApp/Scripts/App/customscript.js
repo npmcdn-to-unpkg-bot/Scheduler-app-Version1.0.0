@@ -126,7 +126,7 @@ function makeTableResponsive(tableClass, firstColumnIndexForOrdering, secondColu
 function grayOutAbsentees() {
     $('#participantTable').each(function () {
         $('tr:contains("Absent")').each(function () {
-            $(this).css('color', 'pink');
+            $(this).css('color', 'red');
             $(this).find('td .fa-calendar-times-o').addClass('element-red');
             $(this).find('td .fa-check-square-o').addClass('element-green');
 
@@ -138,6 +138,13 @@ function grayOutAbsentees() {
         $('.colorSpan:contains("Absent No Response")').each(function () {
             $(this).closest('tr').css('color', 'lightgray');
         });
+    });
+}
+
+function grayOutAbsenteesOnextPreviousPage() {
+    $('.paginate_button').on('click', function () {
+        grayOutAbsentees();
+        console.log("paginate_button I clicked");
     });
 }
 

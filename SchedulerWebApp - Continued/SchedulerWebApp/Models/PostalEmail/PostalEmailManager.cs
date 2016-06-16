@@ -178,9 +178,6 @@ namespace SchedulerWebApp.Models.PostalEmail
             email.Attach(emailAttachment);
         }
 
-
-
-
         public static void SendListEmail(EmailInformation emailInfo, object emailObject)
         {
             var currentEvent = GetCurrentEvent(emailInfo);
@@ -306,8 +303,6 @@ namespace SchedulerWebApp.Models.PostalEmail
 
             SendCorespondingEmail(email);
         }
-
-
 
         private static Event GetCurrentEvent(EmailInformation emailInfo)
         {

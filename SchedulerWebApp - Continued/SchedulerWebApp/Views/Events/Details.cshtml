@@ -49,6 +49,8 @@
             $("[data-toggle=tooltip]").tooltip();
 
             displayAlert("Invitations sent.");
+
+            grayOutAbsenteesOnextPreviousPage();
         });
 
         $(window).bind("load", function () {
