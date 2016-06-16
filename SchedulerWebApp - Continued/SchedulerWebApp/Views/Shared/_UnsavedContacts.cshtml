@@ -22,7 +22,7 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label class="control-label col-sm-2 hidden-xs"><span title="First Name" class="glyphicon glyphicon-user"></span></label>
+                    <label class="control-label col-sm-2 hidden-xs"><span data-toggle="tooltip" data-placement="bottom" title="First Name" class="glyphicon glyphicon-user"></span></label>
                     <div class="col-sm-10">
                         @Html.EditorFor(model => Model.Contacts[j].FirstName, new { htmlAttributes = new { @class = "form-control", placeholder = "First Name" } })
                         @Html.ValidationMessageFor(model => Model.Contacts[j].FirstName, "", new { @class = "text-danger" })
@@ -34,7 +34,7 @@
         <div class="row">
             <div class="col-md-6">
                 <div class=" form-group">
-                    <label class="control-label col-sm-2 hidden-xs"><span title="Last Name" class="glyphicon glyphicon-user"></span></label>
+                    <label class="control-label col-sm-2 hidden-xs"><span data-toggle="tooltip" data-placement="bottom" title="Last Name" class="glyphicon glyphicon-user"></span></label>
                     <div class="col-sm-10">
                         @Html.EditorFor(model => Model.Contacts[j].LastName, new { htmlAttributes = new { @class = "form-control", placeholder = "Last Name" } })
                         @Html.ValidationMessageFor(model => Model.Contacts[j].LastName, "", new { @class = "text-danger" })
@@ -43,7 +43,7 @@
             </div>
             <div class="col-md-6">
                 <div class=" form-group">
-                    <label class="control-label col-sm-2 hidden-xs"><span title="phone number" class="glyphicon glyphicon-earphone"></span></label>
+                    <label class="control-label col-sm-2 hidden-xs"><span data-toggle="tooltip" data-placement="bottom" title="phone number" class="glyphicon glyphicon-earphone"></span></label>
                     <div class="col-sm-10">
                         @Html.EditorFor(model => Model.Contacts[j].PhoneNumber, new { htmlAttributes = new { @class = "form-control", placeholder = "Phone Number" } })
                         @Html.ValidationMessageFor(model => Model.Contacts[j].PhoneNumber, "", new { @class = "text-danger" })

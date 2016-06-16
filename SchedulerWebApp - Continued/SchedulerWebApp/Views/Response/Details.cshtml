@@ -23,9 +23,16 @@
 
             grayOutAbsentees();
 
-            $("[data-toggle=tooltip]").tooltip();
+            toolTipInit();
 
-            grayOutAbsenteesOnextPreviousPage();
+            $('#participantTable').on('page.dt', function () {
+
+                $(this).on('draw.dt', function () {
+                    grayOutAbsentees();
+                    toolTipInit();
+                });
+
+            });
         });
     </script>
 }

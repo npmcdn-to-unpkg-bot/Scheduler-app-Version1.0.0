@@ -112,13 +112,13 @@
 
         //Hide remeinder input if checkbox is not checked
         var isChecked = $('#remainderCheckbox:checked').length;
-        console.log("begining " + isChecked);
+
         if (isChecked < 1) {
             $('#datePickerRemainder').val('');
             $('#remainderInput').hide();
         }
 
-        $(function () {
+        $(function() {
 
             initTagIt();
 
@@ -130,7 +130,7 @@
         });
 
         //Change button text on form submition or invitation cancellation.
-        $("form").submit(function (e) {
+        $("form").submit(function(e) {
             var isValid = $('form').valid();
             console.log(isValid);
 
@@ -139,12 +139,12 @@
             }
         });
 
-        $('#invitationCancelButton').on('click', function () {
+        $('#invitationCancelButton').on('click', function() {
             changeButtonText('invitationCancelButton', 'Cancelling');
         });
 
         //Hide or show remeinder field depending what user selected
-        $('#remainderCheckbox').change(function () {
+        $('#remainderCheckbox').change(function() {
             var remeinderInput = $('#remainderInput');
             var cheked = $('#remainderCheckbox:checked').length;
 
@@ -175,20 +175,27 @@
 
             $("#ParticipantsEmails").tagit({
                 placeholderText: "Participant Emails separated by comma",
-                autocomplete: ({
-                    source: function (request, response) {
-                        $.ajax({
-                            url: '@Url.Action("SearchContact", "Contacts")',
-                            dataType: "json",
-                            data: { term: request.term },
-                            success: function (data) {
-                                response(data);
-                            }
-                        });
-                    }
-                })
+                afterTagAdded: adjustHeight,
+                autocomplete: ({ source: dataSource })
             });
         }
+
+        var dataSource = function(request, response) {
+            $.ajax({
+                url: '@Url.Action("SearchContact", "Contacts")',
+                dataType: "json",
+                data: { term: request.term },
+                success: function(data) { response(data); }
+            });
+        };
+
+        var adjustHeight = function(event, ui) {
+            var enteredEmails = $('ul.tagit li').length;
+
+            if (enteredEmails > 5) {
+                $('.body-div').css("height", "100%");
+            };
+        };
 
         setDatesInCorrectFormat();
 

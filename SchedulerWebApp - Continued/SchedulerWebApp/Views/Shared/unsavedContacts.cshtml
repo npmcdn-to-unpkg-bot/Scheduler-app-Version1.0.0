@@ -110,14 +110,11 @@
             if (!isPostback) {
                 $('#sentConfirmation').modal('show');
             }
-
-
         });
 
 
-        //Todo: need to add a button to delete contact if the uder do not want to save it
-        $("[data-toggle=tooltip]").tooltip();
-
+        //Todo: need to add a button to delete contact if the user do not want to save it
+        toolTipInit();
         $('.input-group-addon').hover(function () {
             $(this).children().toggleClass('text-danger');
         });

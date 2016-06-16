@@ -41,19 +41,27 @@
     <script src="~/Scripts/js-cookie/js.cookie.js"></script>
 
     <script type="text/javascript">
-        $(function () {
+        $(function() {
             makeTableResponsive("detailsTable", 1, 2);
 
             grayOutAbsentees();
 
-            $("[data-toggle=tooltip]").tooltip();
+            toolTipInit();
 
             displayAlert("Invitations sent.");
-
-            grayOutAbsenteesOnextPreviousPage();
         });
 
-        $(window).bind("load", function () {
+        $('#participantTable').on('page.dt', function() {
+
+            $(this).on('draw.dt', function() {
+                grayOutAbsentees();
+                toolTipInit();
+            });
+
+        });
+
+
+        $(window).bind("load", function() {
             var rowCount = $('#participantTable tbody tr').length;
 
 

@@ -129,8 +129,8 @@ function grayOutAbsentees() {
             $(this).css('color', 'red');
             $(this).find('td .fa-calendar-times-o').addClass('element-red');
             $(this).find('td .fa-check-square-o').addClass('element-green');
-
         });
+
         $('tr:contains("Attending")').each(function () {
             $(this).addClass('element-green');
         });
@@ -138,13 +138,6 @@ function grayOutAbsentees() {
         $('.colorSpan:contains("Absent No Response")').each(function () {
             $(this).closest('tr').css('color', 'lightgray');
         });
-    });
-}
-
-function grayOutAbsenteesOnextPreviousPage() {
-    $('.paginate_button').on('click', function () {
-        grayOutAbsentees();
-        console.log("paginate_button I clicked");
     });
 }
 
@@ -262,6 +255,10 @@ function displayAlert(message) {
     }
     Cookies.remove('successCookie');
     console.log(Cookies.get('successCookie'));
+}
+
+function toolTipInit() {
+    $("[data-toggle=tooltip]").tooltip();
 }
 
 //#region adding Map into evrnt div
