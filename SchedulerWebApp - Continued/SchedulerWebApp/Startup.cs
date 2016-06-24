@@ -1,6 +1,4 @@
-﻿using System.Net;
-using System.Net.Mail;
-using Hangfire;
+﻿using Hangfire;
 using Hangfire.Dashboard;
 using Microsoft.Owin;
 using Owin;

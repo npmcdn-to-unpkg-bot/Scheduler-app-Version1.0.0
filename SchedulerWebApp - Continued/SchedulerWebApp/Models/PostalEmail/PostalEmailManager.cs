@@ -121,13 +121,25 @@ namespace SchedulerWebApp.Models.PostalEmail
             var engines = new ViewEngineCollection();
             engines.Add(new FileSystemRazorViewEngine(viewpath));
             var emailService = new Postal.EmailService(engines);*/
+
+            var client = new SmtpClient();
+            var credential = new NetworkCredential("aim.mangapi@gmail.com", "mangapi.");
+            client.UseDefaultCredentials = false;
+            client.Credentials = credential;
+            client.Host = "smtp.gmail.com";
+            client.Port = 587;
+            client.EnableSsl = true;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+
+            var emailService = new Postal.EmailService(ViewEngines.Engines, () => client);
+
             try
             {
-                email.Send();
+                emailService.Send(email);
             }
             catch (Exception exception)
             {
-                ErrorLog.GetDefault(System.Web.HttpContext.Current).Log(new Error(new Exception(exception.Message)));
+                ErrorSignal.FromCurrentContext().Raise(exception);
             }
 
         }

@@ -226,7 +226,6 @@
     <Compile Include="Models\PostalEmail\ContactUsEmail.cs" />
     <Compile Include="Models\PostalEmail\InvitationEmail.cs" />
     <Compile Include="Models\ViewModels\InvitationViewModel.cs" />
-    <Compile Include="Models\ViewModels\ParticipantListViewModel.cs" />
     <Compile Include="Models\PostalEmail\RemainderEmail.cs" />
     <Compile Include="Models\ViewModels\ResponseViewModel.cs" />
     <Compile Include="Models\ViewModels\UnsavedContactViewModel.cs" />
@@ -517,7 +516,6 @@
     <Content Include="Views\Shared\_Participants.cshtml" />
     <Content Include="Views\Shared\_NoParticipants.cshtml" />
     <Content Include="Views\Events\Create.cshtml" />
-    <Content Include="Views\EmailDelivery\InvitationEmail.html.cshtml" />
     <Content Include="Views\Response\Response.cshtml" />
     <Content Include="Views\Shared\_CantRespond.cshtml" />
     <Content Include="Views\Shared\_CantInvite.cshtml" />
@@ -528,12 +526,7 @@
     <Content Include="Views\Shared\_Details.cshtml" />
     <Content Include="Views\Response\Details.cshtml" />
     <Content Include="Views\Shared\_LateToManage.cshtml" />
-    <Content Include="Views\EmailDelivery\EditedEventInfo.html.cshtml" />
-    <Content Include="Views\EmailDelivery\DeletedEventInfo.html.cshtml" />
-    <Content Include="Views\EmailDelivery\RemainderEmail.html.cshtml" />
-    <Content Include="Views\EmailDelivery\ParticipantSummary.html.cshtml" />
     <Content Include="Views\Home\LogOff.cshtml" />
-    <Content Include="Views\EmailDelivery\ContactFormulaEmail.html.cshtml" />
     <Content Include="Views\Home\MessageSent.cshtml" />
     <Content Include="Views\Home\FrequentlyAskedQuestions.cshtml" />
     <Content Include="Views\Emails\Web.config" />
