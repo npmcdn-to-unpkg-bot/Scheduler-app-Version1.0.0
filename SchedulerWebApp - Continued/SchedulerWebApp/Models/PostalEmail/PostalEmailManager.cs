@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Web.Mvc;
+using System.Web.UI;
 using Elmah;
 using Postal;
 using SchedulerWebApp.Models.DBContext;
@@ -122,6 +123,8 @@ namespace SchedulerWebApp.Models.PostalEmail
             engines.Add(new FileSystemRazorViewEngine(viewpath));
             var emailService = new Postal.EmailService(engines);*/
 
+            #region Setting Credentials using smtp client class instead of in web.config
+
             var client = new SmtpClient();
             var credential = new NetworkCredential("aim.mangapi@gmail.com", "mangapi.");
             client.UseDefaultCredentials = false;
@@ -129,13 +132,19 @@ namespace SchedulerWebApp.Models.PostalEmail
             client.Host = "smtp.gmail.com";
             client.Port = 587;
             client.EnableSsl = true;
-            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network; 
 
             var emailService = new Postal.EmailService(ViewEngines.Engines, () => client);
 
+            #endregion
+
             try
             {
-                emailService.Send(email);
+                //sending email using web.config credentials
+                email.Send();
+
+                //sending email using above credentials
+                //emailService.Send(email);
             }
             catch (Exception exception)
             {

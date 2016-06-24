@@ -211,6 +211,13 @@ namespace SchedulerWebApp.Controllers
         public ActionResult Edit([Bind(Include = "Id,Title,Location,Description,StartDate,EndDate,ReminderDate,ListDate,SchedulerUserId")] 
             Event eventToEdit, int? id)
         {
+            var results = eventToEdit.StartDate.GetValueOrDefault().CompareTo(eventToEdit.ListDate.GetValueOrDefault());
+
+            if (results < 0)
+            {
+                ModelState.AddModelError("dateError","Enter date before Starting date");
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(eventToEdit);
