@@ -187,6 +187,7 @@ namespace SchedulerWebApp.Models.PostalEmail
             email.ParticipantNotAttending = notAttendingParticipant;
             email.ParticipantsResponded = respondedParticipants;
             email.EventDetailsUrl = emailInfo.EventDetailsUrl;
+            email.attendindParticipants = participants.Where(p=>p.Availability);
 
             SendCorespondingEmail(email);
         }
