@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
+using System.Web.Mvc;
 using Elmah;
 using Postal;
 using SchedulerWebApp.Models.DBContext;
@@ -83,27 +86,6 @@ namespace SchedulerWebApp.Models.PostalEmail
             if (newEmailObject.GetType() == typeof(InvitationEmail))
             {
                 email = ComposeEmail(emailInfo, "Invitation");
-                #region Old code
-
-                /*email = new Email("Invitation");
-
-                email.To = emailInfo.ParticipantEmail;
-                email.From = emailInfo.OrganizerEmail;
-                email.Subject = emailInfo.CurrentEvent.Title + emailInfo.EmailSubject;
-
-                email.EventTitle = emailInfo.CurrentEvent.Title;
-                email.EventLocation = emailInfo.CurrentEvent.Location;
-                email.EventsId = emailInfo.CurrentEvent.Id;
-
-                email.StartDate = emailInfo.CurrentEvent.StartDate.GetValueOrDefault();
-                email.GetListDate = emailInfo.CurrentEvent.ListDate.GetValueOrDefault();
-
-                email.ParticipantId = emailInfo.ParticipantId;
-                email.OrganizerName = emailInfo.OrganizerName;
-
-                email.ResponseUrl = emailInfo.ResponseUrl;*/
-
-                #endregion
 
                 //Attach a file
                 AddAttachAttachment(email, emailInfo);
@@ -120,28 +102,6 @@ namespace SchedulerWebApp.Models.PostalEmail
             {
                 //Write Cancellation Email
                 email = ComposeEmail(emailInfo, "Cancellation");
-
-                #region Old Code
-
-                /*email = new Email("Cancellation");
-
-                email.To = emailInfo.ParticipantEmail;
-                email.From = emailInfo.OrganizerEmail;
-                email.EmailSubject = emailInfo.CurrentEvent.Title + emailInfo.EmailSubject;
-
-                email.EventTitle = emailInfo.CurrentEvent.Title;
-                email.EventLocation = emailInfo.CurrentEvent.Location;
-                email.EventsId = emailInfo.CurrentEvent.Id;
-
-                email.StartDate = emailInfo.CurrentEvent.StartDate.GetValueOrDefault();
-                email.GetListDate = emailInfo.CurrentEvent.ListDate.GetValueOrDefault();
-
-                email.ParticipantId = emailInfo.ParticipantId;
-                email.OrganizerName = emailInfo.OrganizerName;*/
-
-                //email.OrganizerEmail = emailInfo.OrganizerEmail;
-
-                #endregion
             }
 
             return email;
@@ -340,8 +300,6 @@ namespace SchedulerWebApp.Models.PostalEmail
 
             email.ParticipantId = emailInfo.ParticipantId;
             email.OrganizerName = emailInfo.OrganizerName;
-
-            //email.OrganizerEmail = emailInfo.OrganizerEmail;//todo: why it appears appear twice 
 
             email.ResponseUrl = emailInfo.ResponseUrl;
 

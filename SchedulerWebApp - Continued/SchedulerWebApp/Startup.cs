@@ -1,4 +1,6 @@
-﻿using Hangfire;
+﻿using System.Net;
+using System.Net.Mail;
+using Hangfire;
 using Hangfire.Dashboard;
 using Microsoft.Owin;
 using Owin;
@@ -12,6 +14,7 @@ namespace SchedulerWebApp
     {
         public void Configuration(IAppBuilder app)
         {
+
             var authorizationFilter = new BasicAuthAuthorizationFilter(
                                 new BasicAuthAuthorizationFilterOptions
                                 {
