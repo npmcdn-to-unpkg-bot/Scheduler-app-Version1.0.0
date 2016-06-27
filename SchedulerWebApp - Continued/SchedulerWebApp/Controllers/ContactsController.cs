@@ -144,7 +144,7 @@ namespace SchedulerWebApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Contact contact = _db.Contacts.Find(id);
+            var contact = _db.Contacts.Find(id);
             _db.Contacts.Remove(contact);
             _db.SaveChanges();
             return RedirectToAction("Index");

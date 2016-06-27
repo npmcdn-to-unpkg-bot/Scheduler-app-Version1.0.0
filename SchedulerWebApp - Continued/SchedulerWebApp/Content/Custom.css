@@ -297,12 +297,6 @@ table.dataTable.dtr-inline.collapsed > tbody > tr.parent > td:first-child:before
 #detailsTable {
     margin-bottom: 0;
 }
-    
-@media only screen and (min-width : 1400px) {
-}
-
-@media (max-width: 1399px) and (min-width: 768px) {
-}
 
 @media (max-width: 765px) and (min-width: 415px) {
     .align-center {
@@ -319,4 +313,24 @@ table.dataTable.dtr-inline.collapsed > tbody > tr.parent > td:first-child:before
     .error-div {
         width: 50%;
     }
+}
+
+.first-p {
+    padding-top: 25px;
+}
+
+.element-red:hover {
+    color: red;
+}
+
+.add-contact:hover {
+    color: #8080FF;
+}
+
+.eventPageIcons {
+    font-size: 1.5em;
+}
+
+p {
+    font-size: 16px;
 }
