@@ -237,7 +237,7 @@ namespace SchedulerWebApp.Controllers
 
                 if (!isNotyetInvited)
                 {
-                    return Json(false, JsonRequestBehavior.AllowGet);
+                    return Json(String.Format("{0} is already invited", thisEmail), JsonRequestBehavior.AllowGet);
                 }
             }
 

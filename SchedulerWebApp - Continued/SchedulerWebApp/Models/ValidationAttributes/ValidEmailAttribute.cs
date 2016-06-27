@@ -16,16 +16,17 @@ namespace SchedulerWebApp.Models.ValidationAttributes
             string[] enteredValues = enteredEmails.Split(',');
             var emails = new List<string>();
 
-            foreach (string e in enteredValues)
+            foreach (var e in enteredValues)
             {
-                string enteredEmail = Service.RemoveBrackets(e);
+                var enteredEmail = Service.RemoveBrackets(e);
                 emails.Add(enteredEmail);
             }
 
-            if (emails.Any(email => !IsValid(email)))
+            foreach (var email in emails.Where(email => !IsValid(email)))
             {
-                return new ValidationResult("Email(s) Not correct format.\n Enter email separated by comma");
+                return new ValidationResult(String.Format("{0} is not in a correct format.", email));
             }
+
             return ValidationResult.Success;
         }
 
