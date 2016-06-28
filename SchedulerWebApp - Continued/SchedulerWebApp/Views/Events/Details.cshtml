@@ -38,38 +38,6 @@
 {
     @Scripts.Render("~/bundles/dataTables")
     @Scripts.Render("~/bundles/custom")
-    <script src="~/Scripts/js-cookie/js.cookie.js"></script>
-
-    <script type="text/javascript">
-        $(function() {
-            makeTableResponsive("detailsTable", 1, 2);
-
-            grayOutAbsentees();
-
-            toolTipInit();
-
-            displayAlert("Invitations sent.");
-        });
-
-        $('#participantTable').on('page.dt', function() {
-
-            $(this).on('draw.dt', function() {
-                grayOutAbsentees();
-                toolTipInit();
-            });
-
-        });
-
-        $(window).bind("load", function() {
-            var rowCount = $('#participantTable tbody tr').length;
-
-            if (rowCount >= 5) {
-                console.log(rowCount);
-                $('.body-div').css({
-                    'height': '100%'
-                });
-            }
-        });
-
-    </script>
+    <script type="text/javascript" src="~/Scripts/js-cookie/js.cookie.js"></script>
+    <script type="text/javascript" src="~/Scripts/App/events.details.js"></script>
 }

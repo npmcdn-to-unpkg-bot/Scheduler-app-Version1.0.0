@@ -84,7 +84,6 @@ function convertInputDateToMomentDate(inputElementId) {
     var id = '#' + inputElementId;
 
     var startDate = $(id).val();
-    console.log(startDate);
 
     var datetimeArray = startDate.split(' ');
 
@@ -92,8 +91,6 @@ function convertInputDateToMomentDate(inputElementId) {
     var timeArray = datetimeArray[1].split(':');
 
     var dateTimeArray = $.merge(dateArray, timeArray);
-
-    console.log(dateTimeArray);
 
     var eDate, eMonth, eYear, eHour, eMinutes;
 
@@ -103,10 +100,8 @@ function convertInputDateToMomentDate(inputElementId) {
     eHour = dateTimeArray[3];
     eMinutes = dateTimeArray[4];
     var dateString = eYear + '-' + eMonth + '-' + eDate + ' ' + eHour + ':' + eMinutes;
-    console.log(dateString);
 
     var maxDate = moment(dateString).toDate();
-    console.log(maxDate);
 
     return maxDate;
 }

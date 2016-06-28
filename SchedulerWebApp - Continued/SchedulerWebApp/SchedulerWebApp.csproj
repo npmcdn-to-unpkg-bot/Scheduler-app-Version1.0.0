@@ -392,6 +392,11 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Scripts\App\customscript.js" />
+    <Content Include="Scripts\App\event.edit.js" />
+    <Content Include="Scripts\App\events.create.js" />
+    <Content Include="Scripts\App\events.details.js" />
+    <Content Include="Scripts\App\events.Index.js" />
+    <Content Include="Scripts\App\Invitation.SendEventsInvitation.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Content\DataTables\css\mixins.scss" />
