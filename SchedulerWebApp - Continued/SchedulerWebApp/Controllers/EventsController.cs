@@ -27,9 +27,14 @@ namespace SchedulerWebApp.Controllers
             _db = context;
         }
 
-        private string UserId
+        private static string UserId
         {
             get { return Service.GetUserId(); }
+        }
+
+        private static bool IsAdmin
+        {
+            get { return Service.UserIsAdmin(); }
         }
 
         #region Return Events view
@@ -46,7 +51,7 @@ namespace SchedulerWebApp.Controllers
         [ChildActionOnly]
         public ActionResult AllEvents()
         {
-            if (Service.UserIsAdmin())
+            if (IsAdmin)
             {
                 var allEvents = _db.Events
                                    .ToList()
@@ -70,7 +75,7 @@ namespace SchedulerWebApp.Controllers
         {
             var dateToday = DateTime.UtcNow.ToLocalTime();
 
-            if (Service.UserIsAdmin())
+            if (IsAdmin)
             {
                 var allEvents = _db.Events.Where(e => e.StartDate >= dateToday)
                                           .ToList()
@@ -93,7 +98,7 @@ namespace SchedulerWebApp.Controllers
         {
             var dateToday = DateTime.UtcNow.ToLocalTime();
 
-            if (Service.UserIsAdmin())
+            if (IsAdmin)
             {
                 var allEvents = _db.Events.Where(e => e.StartDate < dateToday)
                                           .ToList()
@@ -118,7 +123,7 @@ namespace SchedulerWebApp.Controllers
                 return View("Error");
             }
 
-            if (Service.UserIsAdmin())
+            if (IsAdmin)
             {
                 var @event = _db.Events.Find(id);
                 if (@event == null)
