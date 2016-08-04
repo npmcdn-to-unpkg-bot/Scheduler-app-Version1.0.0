@@ -4,6 +4,8 @@ var isChecked = $('#remainderCheckbox:checked').length;
 if (isChecked < 1) {
     $('#datePickerRemainder').val('');
     $('#remainderInput').hide();
+} else {
+    $('#remainderInput').removeAttr('style');
 }
 
 $(function () {
@@ -18,18 +20,7 @@ $(function () {
 });
 
 //Change button text on form submition or invitation cancellation.
-$("form").submit(function (e) {
-    var isValid = $('form').valid();
-
-    //delay for 100 ms to let error s to be displayed
-    setTimeout(function () {
-        var numberOfErros = $('.field-validation-error').length;
-
-        if (isValid && numberOfErros <= 0) {
-            changeButtonText('submitButton', 'Sending');
-        }
-    }, 100);
-});
+onValidFormSubmit("submitButton", "Sending");
 
 $('#invitationCancelButton').on('click', function () {
     changeButtonText('invitationCancelButton', 'Cancelling');

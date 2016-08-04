@@ -116,7 +116,7 @@ namespace SchedulerWebApp.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return View("Error");
             }
 
             if (UserIsAdmin())
@@ -191,7 +191,7 @@ namespace SchedulerWebApp.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return View("Error");
             }
 
             var eventToEdit = GetUserSpecificEvent(id);
@@ -305,7 +305,7 @@ namespace SchedulerWebApp.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return View("Error");
             }
 
             if (UserIsAdmin())

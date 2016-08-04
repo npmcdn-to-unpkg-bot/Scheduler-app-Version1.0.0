@@ -7,11 +7,27 @@
 {
     @Styles.Render("~/Content/dataTablesStyles")
 }
-<div class="col-md-8 col-md-offset-2">
-    <h1>@Model.Title details</h1>
-    <hr />
-    @Html.Partial("_Details")
-</div>
+
+@Html.Partial("_GlobalPageHeader", ViewData["heading"] = "Response")
+
+<section id="contact-section">
+    <div class="container">
+        <div class="row">
+            <!--Participant column-->
+            @Html.Partial("_ParticipantColumn")
+            
+            <div class=" col-md-3 col-sm-4">
+                <div class="block wow fadeInRight" data-wow-delay=".3s" data-wow-duration="500ms">
+                    <h2 class="subtitle wow fadeInRight" data-wow-duration="500ms" data-wow-delay=".3s">Event</h2>
+                    <div class="well well-sm event-details-well">
+                        @Html.Partial("_EventTableDetails")
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
 
 @section scripts
 {

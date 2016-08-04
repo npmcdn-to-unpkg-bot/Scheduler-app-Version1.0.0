@@ -1,0 +1,27 @@
+﻿@model SchedulerWebApp.Models.Contact
+
+<div class="media-body">
+    <h4 class="media-heading text-capitalize">
+        <i style="color: #777777" class="fa fa-user fa-lg" aria-hidden="true"></i>&nbsp;
+        @Model.FirstName @Model.LastName
+    </h4><br />
+    <p>
+        <i class="fa fa-envelope fa-lg" aria-hidden="true"></i>&nbsp;
+        @Html.DisplayFor(model => model.Email)
+    </p>
+    @if (Model.PhoneNumber == null)
+    {
+        <p style="color: #e4b9b9">
+            <i style="color: #777777" class="fa fa-phone-square fa-lg" aria-hidden="true"></i>&nbsp;
+            No phone number
+        </p>
+    }
+    else
+    {
+        <p>
+            <i style="color: #777777" class="fa fa-phone-square fa-lg" aria-hidden="true"></i> &nbsp;
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </p>
+    }
+
+</div>

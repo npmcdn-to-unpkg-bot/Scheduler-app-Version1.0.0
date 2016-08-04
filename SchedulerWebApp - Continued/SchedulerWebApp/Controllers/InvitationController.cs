@@ -30,7 +30,7 @@ namespace SchedulerWebApp.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return View("Error");
             }
             var @event = Service.GetUserSpecificEvent(UserId, id);
 

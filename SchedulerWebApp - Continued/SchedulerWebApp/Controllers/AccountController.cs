@@ -420,7 +420,7 @@ namespace SchedulerWebApp.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut();
-            return RedirectToAction("LogOff", "Home");
+            return RedirectToAction("Index", "Home");
         }
 
         //

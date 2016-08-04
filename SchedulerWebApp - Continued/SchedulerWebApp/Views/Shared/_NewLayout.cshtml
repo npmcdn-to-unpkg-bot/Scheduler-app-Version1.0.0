@@ -1,0 +1,175 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <!--Basic settings-->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Scheduleasy.com</title>
+    <link rel="shortcut icon" type="image/ico" href="~/Images/favicon.ico">
+
+    <!--Stylesheets-->
+    @Styles.Render("~/Content/css")
+    <link href='https://fonts.googleapis.com/css?family=Oxygen:400,700,300' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+    <!--Individual page styles-->
+    @RenderSection("styles", false)
+
+    <!--Template sytles-->
+    <!-- Ionicons Fonts Css -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- animate css -->
+    <link rel="stylesheet" href="~/Content/Template-css/animate.css">
+    <!-- Hero area slider css-->
+    <link rel="stylesheet" href="~/Content/Template-css/slider.css">
+    <!-- owl craousel css -->
+    <link rel="stylesheet" href="~/Content/Template-css/owl.carousel.css">
+    <link rel="stylesheet" href="~/Content/Template-css/owl.theme.css">
+    <link rel="stylesheet" href="~/Content/Template-css/jquery.fancybox.css">
+    <!-- template main css file -->
+    <link rel="stylesheet" href="~/Content/Template-css/main.css">
+    <!-- responsive css -->
+    <link rel="stylesheet" href="~/Content/Template-css/responsive.css">
+
+
+    <!--Custom style-->
+    @Styles.Render("~/Content/customStyle")
+
+    <!--Modenizr-->
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+
+    <!--Navigation Bar-->
+    <header id="top-bar" class="navbar-fixed-top animated-header">
+        <div class="container">
+            <div class="navbar-header">
+                <!-- responsive nav button -->
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <!-- /responsive nav button -->
+                <!-- logo -->
+                <div class="navbar-brand">
+                    <a href="@Url.Action("Index","Home")">
+                        <img class="img-responsive" src="~/Images/favicon.ico" alt="Easy Schedule" />
+                    </a>
+                </div>
+                <!-- /logo -->
+            </div>
+            <!-- main menu -->
+            <nav class="collapse navbar-collapse navbar-right" role="navigation">
+                <div class="main-menu">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>@Html.ActionLink("New Event", "Create", "Events")</li>
+                        <li>@Html.ActionLink("Events", "Index", "Events")</li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Contacts <span class="caret"></span></a>
+                            <div class="dropdown-menu">
+                                <ul>
+                                    <li><a href="@Url.Action("Index","Contacts")">My Contacts</a></li>
+                                    <li><a href="@Url.Action("Create","Contacts")">Add Contact</a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Help <span class="caret"></span></a>
+                            <div class="dropdown-menu">
+                                <ul>
+                                    <li>@Html.ActionLink("Contact Us", "Contact", "Home")</li>
+                                    <li>@Html.ActionLink("FAQ", "FrequentlyAskedQuestions", "Home")</li>
+                                </ul>
+                            </div>
+                        </li>
+                        
+                        @Html.Partial("_LoginPartial")
+                    </ul>
+                </div>
+            </nav>
+            <!-- /main nav -->
+        </div>
+    </header>
+
+    <!--Page body-->
+    @RenderBody()
+    <!-- #region New Footer -->
+    <!--
+    ==================================================
+    Footer Section Start
+    ================================================== -->
+    <footer id="footer" class="footer">
+        <div class="container">
+            <div class="col-md-8">
+                <p class="copyright">&copy: <span>@DateTime.Now.Year</span> . Design and Developed by <a href="http://www.Themefisher.com">Themefisher</a></p>
+            </div>
+            <div class="col-md-4">
+                <!-- Social Media -->
+                <ul class="social">
+                    <li>
+                        <a href="http://wwww.fb.com/themefisher" class="Facebook">
+                            <i class="ion-social-facebook"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://wwww.twitter.com/themefisher" class="Twitter">
+                            <i class="ion-social-twitter"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="Linkedin">
+                            <i class="ion-social-linkedin"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://wwww.fb.com/themefisher" class="Google Plus">
+                            <i class="ion-social-googleplus"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </footer> <!-- /#footer -->
+
+    <!-- #region Old Footer -->
+    <!--Page footer-->
+    @*<div class="navbar navbar-inverse " role="navigation">
+                <div class="container">
+                    <div class="navbar-text pull-left">
+                        <p>&copy; @DateTime.Now.Year - Schedule easy</p>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+    <!-- #endregion -->
+    <!--Scripts bundles-->
+
+    <!-- #region Scripts -->
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/custom")
+
+    <!-- Template Javascript Files
+        ================================================== -->
+    <!-- modernizr js -->
+    <script src="~/Scripts/Template-js/vendor/modernizr-2.6.2.min.js"></script>
+    <!-- owl carouserl js -->
+    <script src="~/Scripts/Template-js/owl.carousel.min.js"></script>
+    <!-- wow js -->
+    <script src="~/Scripts/Template-js/wow.min.js"></script>
+    <!-- slider js -->
+    <script src="~/Scripts/Template-js/slider.js"></script>
+    <script src="~/Scripts/Template-js/jquery.fancybox.js"></script>
+    <!-- template main js -->
+    <script src="~/Scripts/Template-js/main.js"></script>
+    <script type="text/javascript">
+        $(window).bind("load", function () {
+            fixContainerHeight();
+        });
+    </script>
+    @RenderSection("scripts", false)
+    <!-- #endregion -->
+</body>
+</html>

@@ -4,79 +4,84 @@
     ViewBag.Title = "Log in";
 }
 
-<h2>@ViewBag.Title.</h2>
+@Html.Partial("_GlobalPageHeader", ViewData["heading"]="Log in")
 
-<div class="row">
-    <div class="col-md-8">
-        <section>
-            @using (Html.BeginForm("Login", "Account", new { ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "loginForm" }))
-            {
-                @Html.AntiForgeryToken()
-                <h4>Use a local account to log in.</h4>
-                <hr />
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Email, new { @class = "col-md-4 control-label" })
-                    <div class="col-md-8">
-                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Password, new { @class = "col-md-4 control-label" })
-                    <div class="col-md-8">
-                        <div class="input-group">
-                            @Html.PasswordFor(m => m.Password, new { id = "password", @class = "form-control" })
-                            <div id="passwordIcon" class="input-group-addon"><i class="glyphicon glyphicon-eye-open"></i></div>
-                        </div>
-                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group form-group-lg">
-                    <div class="col-md-offset-4 col-md-8">
-                        <div class="checkbox">
-                            <label>
-                                @Html.CheckBoxFor(m => m.RememberMe ,new {@class="large-checkbox"})
-                                @Html.LabelFor(m => m.RememberMe)
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-4 col-md-8">
-                        <button id="submitBtn" type="submit" class=" btn btn-primary btn-block">
-                            log in
-                        </button>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-4 col-md-8">
-                        @Html.ActionLink("Register as a new user", "Register", "Account", null, new { @class = "btn btn-info btn-block" })
-                    </div>
-                </div>
-
-
-                @* Enable this once you have account confirmation enabled for password reset functionality*@
-                    <p>
-                        @Html.ActionLink("Forgot your password?", "ForgotPassword")
+<section id="contact-section" class="form-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5 col-md-offset-2">
+                <div class="block">
+                    <h2 class="subtitle wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".3s">@ViewBag.Title</h2>
+                    <p class="subtitle-des wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".5s">
+                        Log in with easyschedule account
                     </p>
-            }
-        </section>
+                    <div class="contact-form">
+
+                        @using (Html.BeginForm("Login", "Account", new { ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form", id = "loginForm" }))
+                        {
+                            @Html.AntiForgeryToken()
+
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".6s">
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email" })
+                                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                            </div>
+
+                            <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".8s">
+                                <div class="input-group">
+                                    @Html.PasswordFor(m => m.Password, new { id = "password", @class = "form-control", placeholder = "Password" })
+                                    <div id="passwordIcon" class="input-group-addon zero-radius">
+                                        <i class="glyphicon glyphicon-eye-open"></i>
+                                    </div>
+                                </div>
+                                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                            </div>
+                            <br />
+                            <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay="1s">
+                                <div class="checkbox">
+                                    <label>
+                                        @Html.CheckBoxFor(m => m.RememberMe, new { @class = "large-checkbox" })
+                                        @Html.LabelFor(m => m.RememberMe, new { id = "labelLgCheckbox" })
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay="1.2s">
+                                <div id="submit" class="wow fadeInDown" data-wow-duration="500ms" data-wow-delay="1.3s">
+                                    <button id="submitBtn" type="submit" class="btn btn-default btn-send btn-block zero-radius form_element-height">Log in</button>
+                                </div>
+                            </div>
+                            <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay="1.4s">
+                                @Html.ActionLink("Forgot your password?", "ForgotPassword")
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="map-area">
+                    <h2 class="subtitle wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".3s">Use Google</h2>
+                    <p class="subtitle-des wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".5s">
+                        Use your google account to log in
+                    </p>
+                    <div class="map">
+                        <section id="socialLoginForm" class="wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".8s">
+                            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col-md-4">
-        <section id="socialLoginForm">
-            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-        </section>
-    </div>
-</div>
+</section>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/custom")
 
     <script type="text/javascript">
-        
+
         showHidePassword('#passwordIcon', '#password');
 
         $('form').submit(function (e) {

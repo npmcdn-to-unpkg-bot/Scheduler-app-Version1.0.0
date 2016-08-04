@@ -9,7 +9,7 @@ $(document).ready(function () {
 
     $('a[data-toggle=tab]').on('click', adjustHeight);
 
-    createMap(".caption", ".location");
+    createMap(".wow", ".location");
 
     $('a[data-toggle=tab]').each(function () {
         var self = $(this);

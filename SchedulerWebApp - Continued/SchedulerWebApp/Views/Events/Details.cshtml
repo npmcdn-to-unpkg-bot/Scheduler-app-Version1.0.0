@@ -8,31 +8,38 @@
     ViewBag.Title = Model.Title + " Details";
 }
 
-<div class="col-md-8 col-md-offset-2">
-    <h2 class="text-center-smallScreen">@Model.Title details</h2>
+@Html.Partial("_GlobalPageHeader", ViewData["heading"] = @Model.Title + " details")
 
-    @Html.Partial("_successAlert")
 
-    @Html.Partial("_Details")
+<section id="contact-section">
+    <div class="container">
 
-    <div class="row">
-        <div class="col-sm-3  col-xs-12">
-            @Html.ActionLink("Invite", "SendEventsInvitation", "Invitation", new { id = Model.Id }, new { @class = "btn btn-info btn-block addButtonMargin" })
+        <div class="row">
+            <!--Participant column-->
+            @Html.Partial("_ParticipantColumn")
+
+            <div class="col-md-3 col-sm-4">
+                <div class="block wow fadeInRight" data-wow-delay=".3s" data-wow-duration="500ms">
+                    <h2 class="subtitle wow fadeInRight" data-wow-duration="500ms" data-wow-delay=".3s">Event</h2>
+                    <div class="well well-sm event-details-well">
+                        <!--Event Details Table-->
+                        @Html.Partial("_EventTableDetails")
+                    </div>
+                    <!--Buttons-->
+                    @Html.ActionLink("Invite", "SendEventsInvitation", "Invitation", new { id = Model.Id }, new { @class = "btn btn-info btn-block zero-radius" }) <br />
+                    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-info btn-block addButtonMargin zero-radius" }) <br />
+                    @Html.ActionLink("Events", "Index", new { id = Model.Id }, new { @class = "btn btn-info btn-block addButtonMargin zero-radius" })<br />
+                    @Html.ActionLink("Delete", "Delete", new { id = Model.Id }, new { @class = "btn btn-danger btn-block addButtonMargin zero-radius" })
+
+                </div>
+            </div>
+
         </div>
 
-        <div class="col-sm-3  col-xs-12">
-            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-info btn-block addButtonMargin" })
-        </div>
-
-        <div class="col-sm-3  col-xs-12">
-            @Html.ActionLink("Events", "Index", new { id = Model.Id }, new { @class = "btn btn-info btn-block addButtonMargin" })
-        </div>
-
-        <div class="col-sm-3  col-xs-12">
-            @Html.ActionLink("Delete", "Delete", new { id = Model.Id }, new { @class = "btn btn-danger btn-block addButtonMargin" })
-        </div>
     </div>
-</div>
+</section>
+
+
 
 @section scripts
 {

@@ -2,13 +2,29 @@
 @{
     ViewBag.Title = "No events";
 }
-<hr />
-<div class="col-md-offset-2 col-md-8">
-    <h2 class="text-center">Oops!!!</h2>
-    <div class="alert alert-danger text-center" role="alert">
-        <p>
-            You are not the organiser of this event. Only organiser can manage events.
-        </p>
+
+@Html.Partial("_GlobalPageHeader", ViewData["heading"] = "No access")
+<style type="text/css">
+    .centre-div {
+         margin-bottom: 5%;
+     }
+</style>
+
+<section id="contact-section">
+    <div class="container">
+        <div class="row centre-div">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="section-heading">
+
+                </div><h1 class="text-center">Oops!!!</h1>
+                <br/>
+                <div class="alert alert-danger text-center zero-radius" role="alert">
+                    <p>
+                        You are not the organiser of this event. Only organiser can manage events.
+                    </p>
+                </div>
+                @Html.ActionLink("Back to events", "Index", "Events", null, new { @class = "btn btn-info btn-block  zero-radius form_element-height" })
+            </div>
+        </div>
     </div>
-    @Html.ActionLink("Back to events", "Index", "Events", null, new { @class = "btn btn-info btn-block " })
-</div>
+</section>

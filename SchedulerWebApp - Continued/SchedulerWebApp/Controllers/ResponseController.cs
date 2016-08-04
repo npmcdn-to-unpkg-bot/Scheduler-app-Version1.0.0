@@ -26,7 +26,7 @@ namespace SchedulerWebApp.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return View("Error");
             }
             var eventToAttend = _db.Events.Find(id);
             var participant = eventToAttend.Participants.FirstOrDefault(p => p.Id == pId);

@@ -3,47 +3,57 @@
 @{
     ViewBag.Title = "Index";
 }
+@Html.Partial("_GlobalPageHeader", ViewData["heading"] = "Events")
 
-<ul class="nav nav-tabs nav-justified" id="myTab">
-    <li role="presentation" class="active tab-header">
-        <a href="#upcomingEvent" role="tab" data-toggle="tab">Upcoming Events</a>
-    </li>
-    <li role="presentation" class="tab-header">
-        <a href="#passedEvent" role="tab" data-toggle="tab">Previous Events</a>
-    </li>
-    <li role="presentation" class="tab-header">
-        <a href="#allEvents" role="tab" data-toggle="tab">All Events</a>
-    </li>
-</ul>
-
-<div class="tab-content">
-
-    <div id="upcomingEvent" class="tab-pane fade in active">
-        <div class="row ">
-            <div class="masonry-container">
-                @Html.Action("UpcomingEvents", "Events")
-            </div>
-        </div>
-    </div>
-
-    <div id="passedEvent" class="tab-pane fade">
+<section id="contact-section">
+    <div class="container">
         <div class="row">
-            <div class="masonry-container">
-                @Html.Action("PreviousEvents", "Events")
+            <div class="col-md-10 col-md-offset-1 wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".2s">
+
+                <ul class="nav nav-tabs nav-justified" id="myTab">
+                    <li role="presentation" class="active tab-header">
+                        <a href="#upcomingEvent" role="tab" data-toggle="tab">Upcoming Events</a>
+                    </li>
+                    <li role="presentation" class="tab-header">
+                        <a href="#passedEvent" role="tab" data-toggle="tab">Previous Events</a>
+                    </li>
+                    <li role="presentation" class="tab-header">
+                        <a href="#allEvents" role="tab" data-toggle="tab">All Events</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+
+                    <div id="upcomingEvent" class="tab-pane fade in active">
+                        <div class="row ">
+                            <div class="masonry-container">
+                                @Html.Action("UpcomingEvents", "Events")
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="passedEvent" class="tab-pane fade">
+                        <div class="row">
+                            <div class="masonry-container">
+                                @Html.Action("PreviousEvents", "Events")
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="allEvents" class="tab-pane fade">
+                        <div class="row">
+                            <div class="masonry-container">
+                                @Html.Action("AllEvents", "Events")
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
         </div>
     </div>
-
-    <div id="allEvents" class="tab-pane fade">
-        <div class="row">
-            <div class="masonry-container">
-                @Html.Action("AllEvents", "Events")
-            </div>
-        </div>
-    </div>
-
-</div>
-
+</section>
 
 @section scripts
 {

@@ -1,0 +1,18 @@
+﻿@model SchedulerWebApp.Models.Event
+
+<div class="col-md-offset-1 col-md-7 col-sm-8">
+    <div class="block wow fadeInLeft" data-wow-delay=".3s" data-wow-duration="500ms">
+        @{
+            var participants = Model.Participants;
+            if (participants.Count == 0 || participants == null)
+            {
+                Html.RenderPartial("_NoParticipants");
+            }
+            else
+            {
+                Html.RenderPartial("_Participants", participants);
+            }
+        }
+    </div>
+</div>
+

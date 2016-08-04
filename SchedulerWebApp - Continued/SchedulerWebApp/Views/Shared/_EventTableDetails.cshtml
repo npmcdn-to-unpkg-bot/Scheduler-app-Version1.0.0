@@ -1,0 +1,22 @@
+﻿@model SchedulerWebApp.Models.Event
+
+<table id="detailsTable" class="table borderless table-condensed centered">
+    <tbody>
+        <tr>
+            <td class=" col-sm-2">@Html.LabelFor(model => model.Title) </td>
+            <td class=" col-sm-10">@Html.DisplayFor(model => model.Title)</td>
+        </tr>
+        <tr>
+            <td class=" col-sm-2">@Html.LabelFor(model => model.Location) </td>
+            <td class=" col-sm-10">@Html.DisplayFor(model => model.Location)</td>
+        </tr>
+        <tr>
+            <td class=" col-sm-2">@Html.LabelFor(model => model.StartDate) </td>
+            <td class=" col-sm-10">@Model.StartDate.Value.ToString("d") at @Model.StartDate.Value.ToString("t")</td>
+        </tr>
+        <tr>
+            <td class=" col-sm-2">@Html.LabelFor(model => model.Description) </td>
+            <td class=" col-sm-10">@Html.DisplayFor(model => model.Description)</td>
+        </tr>
+    </tbody>
+</table>

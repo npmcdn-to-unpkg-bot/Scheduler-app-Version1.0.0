@@ -9,11 +9,11 @@ namespace SchedulerWebApp.Controllers
     {
         public ActionResult Index()
         {
-            return View();
-        }
-        
-        public ActionResult LogOff()
-        {
+            if (!Request.IsAuthenticated)
+            {
+                return View("IndexNotAuthenticated");
+            }
+
             return View();
         }
         

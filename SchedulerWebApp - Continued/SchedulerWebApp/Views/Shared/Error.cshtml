@@ -4,11 +4,19 @@
     ViewBag.Title = "Error";
 }
 
-<div class=" row">
-    <div class="centered-div error-div">
-        <div class="col-md-12 text-center">
-            <h1 class="text-danger">Error.</h1>
-            <h2 class="text-danger">An error occurred while processing your request.</h2>
+<section class="moduler wrapper_404">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="text-center">
+                    <h1 class="wow fadeInUp animated cd-headline slide" data-wow-delay=".3s">404</h1>
+                    <h2 class="wow fadeInUp animated" data-wow-delay=".5s">Opps! Internet is brocken..</h2>
+                    <h3 class="wow fadeInUp animated" data-wow-delay=".7s"> Just kidding &#9786; </h3>
+                    <h3 class="wow fadeInUp animated" data-wow-delay=".7s">The page you are looking for was either moved, removed, renamed or never existed.</h3>
+                    <a href="@Url.Action("Index","Home")" class="btn btn-dafault btn-home wow fadeInUp animated" data-wow-delay="1.1s">Go Home</a>
+
+                </div>
+            </div>
         </div>
     </div>
-</div>
+</section>

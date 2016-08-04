@@ -26,7 +26,7 @@ namespace SchedulerWebApp.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return View("Error");
             }
             var contact = GetUserContacts(GetCurrentUserId()).Find(c => c.ContactId == id);
             if (contact == null)
@@ -95,7 +95,7 @@ namespace SchedulerWebApp.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return View("Error");
             }
 
             var contact = _db.Contacts.Find(id);
@@ -129,7 +129,7 @@ namespace SchedulerWebApp.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return View("Error");
             }
             Contact contact = _db.Contacts.Find(id);
             if (contact == null)

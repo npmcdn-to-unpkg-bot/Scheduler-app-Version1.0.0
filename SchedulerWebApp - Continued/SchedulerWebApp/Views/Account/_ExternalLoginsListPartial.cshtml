@@ -1,8 +1,7 @@
 ﻿@using Microsoft.Owin.Security
 @model SchedulerWebApp.Models.ViewModels.ExternalLoginListViewModel
 
-<h4>Use another service to log in.</h4>
-<hr />
+
 @{
     IEnumerable<AuthenticationDescription> loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
     if (loginProviders.Count() == 0)
@@ -20,10 +19,10 @@
         {
             @Html.AntiForgeryToken()
             <div id="socialLoginList">
-                <p>
+                <p class="top-pading">
                     @foreach (AuthenticationDescription p in loginProviders)
                     {
-                        <button type="submit" class="btn btn-primary" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account">@p.AuthenticationType</button>
+                        <button type="submit" class="btn btn-default btn-block form_element-height zero-radius" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Log in using your @p.Caption account">@p.AuthenticationType</button>
                     }
                 </p>
             </div>

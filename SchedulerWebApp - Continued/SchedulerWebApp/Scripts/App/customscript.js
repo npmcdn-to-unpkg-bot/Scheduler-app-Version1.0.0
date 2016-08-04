@@ -6,18 +6,18 @@
 var todaysDate = moment(new Date());
 
 function elementsInitialization(elementId) {
-    var id = '#' + elementId;
+    var id = '.' + elementId;
     $(id).datetimepicker({
         format: "DD.MM.YYYY HH:mm",
-        toolbarPlacement: 'top',
+        toolbarPlacement: 'bottom',
         minDate: todaysDate.subtract(0, 'days').startOf('day')
     });
 }
 
-function linkTwoInputs(listDateElementId, remeinderElementId, maxDatetime) {
+function linkTwoInputs(listDateElement, remeinderElement, maxDatetime) {
 
-    var listId = '#' + listDateElementId;
-    var remeinderId = '#' + remeinderElementId;
+    var listId = '.' + listDateElement;
+    var remeinderId = '.' + remeinderElement;
     var dateToday = todaysDate.subtract(0, 'days').startOf('day');
 
     $(listId).datetimepicker({
@@ -144,15 +144,32 @@ function setDatesInCorrectFormat() {
     });
 }
 
+function onValidFormSubmit(buttonId, newText) {
+    $("form").submit(function (e) {
+        var isValid = $('form').valid();
+
+        //delay for 100 ms to let error s to be displayed
+        setTimeout(function () {
+            var numberOfErros = $('.field-validation-error').length;
+
+            if (isValid && numberOfErros <= 0) {
+                changeButtonText(buttonId, newText);
+            }
+        }, 100);
+    });
+
+}
+
 function checkSupportForInputTypeDate() {
     jQuery.validator.methods.date = function (value, element) {
-        var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+        return true;
+        /*var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
         var isSafari = /Safari/.test(navigator.userAgent) && /Apple Computer/.test(navigator.vendor);
         if (isSafari || isChrome) {
             return true;
         } else {
             return this.optional(element) || !/Invalid|NaN/.test(new Date(value));
-        }
+        }*/
     };
 }
 
@@ -264,18 +281,18 @@ function createMap(selector, locationElementSelctor) {
         var address = $(this).find(locationElementSelctor).text();
         console.log(address);
 
-        geocoder.geocode({ 'address': address },
-            function (results, status) {
-                if (status === google.maps.GeocoderStatus.OK) {
-                    address = address;
-                } else {
-                    console.log('Geocode for ' + address + ' was not successful for the following reason: ' + status);
-                    address = "winterthur";
-                }
-            });
+            geocoder.geocode({ 'address': address },
+                        function (results, status) {
+                            if (status === google.maps.GeocoderStatus.OK) {
+                                address = address;
 
+                            } else {
+                                console.log('Geocode for ' + address + ' was not successful for the following reason: ' + status);
+                                //$(".wow img").attr('src', "../Images/image2.jpg");
+                            }
+                        });
+ 
         $(this).find("img").attr('src', 'https://maps.googleapis.com/maps/api/staticmap?center=' + address + '&zoom=14&size=350x250&markers=color:red%7Clabel:0%7C11211%7C11206%7C11222|' + address + '&key=AIzaSyB7hmntE1W-a7pmy7UoocDrQlawzUujTwI');
-
     });
 }
 

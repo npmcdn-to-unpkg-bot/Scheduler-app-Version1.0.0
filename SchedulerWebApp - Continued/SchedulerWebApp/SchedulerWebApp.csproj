@@ -241,6 +241,16 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\business-casual.css" />
+    <Content Include="fonts\ionicons.svg" />
+    <Content Include="Content\Template-css\animate.css" />
+    <Content Include="Content\Template-css\bootstrap.min.css" />
+    <Content Include="Content\Template-css\ionicons.min.css" />
+    <Content Include="Content\Template-css\jquery.fancybox.css" />
+    <Content Include="Content\Template-css\main.css" />
+    <Content Include="Content\Template-css\owl.carousel.css" />
+    <Content Include="Content\Template-css\owl.theme.css" />
+    <Content Include="Content\Template-css\responsive.css" />
+    <Content Include="Content\Template-css\slider.css" />
     <Content Include="Content\Custom.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap.css" />
     <Content Include="Content\DataTables\css\autoFill.bootstrap.min.css" />
@@ -379,10 +389,13 @@
     <Content Include="Content\themes\base\tooltip.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Images\bg_header.jpg" />
+    <Content Include="Images\gt_favicon.png" />
     <Content Include="Images\image1.jpg" />
     <Content Include="Images\image2.jpg" />
     <Content Include="Images\loading.gif" />
     <Content Include="Images\loading2.gif" />
+    <Content Include="Images\logo.png" />
     <Content Include="Images\progressRing.gif" />
     <Content Include="Images\favicon.ico" />
     <Content Include="ApplicationInsights.config" />
@@ -401,9 +414,12 @@
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Content\DataTables\css\mixins.scss" />
     <Content Include="Content\DataTables\css\common.scss" />
-    <Content Include="fonts\custom\Oxygen-Bold.woff" />
-    <Content Include="fonts\custom\Oxygen-Light.woff" />
-    <Content Include="fonts\custom\Oxygen-Regular.woff" />
+    <Content Include="fonts\Oxygen-Bold.woff" />
+    <Content Include="fonts\Oxygen-Light.woff" />
+    <Content Include="fonts\Oxygen-Regular.woff" />
+    <Content Include="fonts\ionicons.eot" />
+    <Content Include="fonts\ionicons.ttf" />
+    <Content Include="fonts\ionicons.woff" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -468,6 +484,14 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\js-cookie\js.cookie.js" />
+    <Content Include="Scripts\Template-js\bootstrap.min.js" />
+    <Content Include="Scripts\Template-js\jquery.fancybox.js" />
+    <Content Include="Scripts\Template-js\jquery.min.js" />
+    <Content Include="Scripts\Template-js\main.js" />
+    <Content Include="Scripts\Template-js\owl.carousel.min.js" />
+    <Content Include="Scripts\Template-js\slider.js" />
+    <Content Include="Scripts\Template-js\vendor\modernizr-2.6.2.min.js" />
+    <Content Include="Scripts\Template-js\wow.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\moment-with-locales.js" />
     <Content Include="Scripts\moment-with-locales.min.js" />
@@ -531,7 +555,6 @@
     <Content Include="Views\Shared\_Details.cshtml" />
     <Content Include="Views\Response\Details.cshtml" />
     <Content Include="Views\Shared\_LateToManage.cshtml" />
-    <Content Include="Views\Home\LogOff.cshtml" />
     <Content Include="Views\Home\MessageSent.cshtml" />
     <Content Include="Views\Home\FrequentlyAskedQuestions.cshtml" />
     <Content Include="Views\Emails\Web.config" />
@@ -555,9 +578,19 @@
     <Content Include="Views\Shared\_UnsavedContacts.cshtml" />
     <Content Include="Views\Emails\ResetPassword.cshtml" />
     <Content Include="Views\Shared\_successAlert.cshtml" />
+    <Content Include="Views\Shared\_NewLayout.cshtml" />
+    <Content Include="Views\Home\IndexNotAuthenticated.cshtml" />
+    <Content Include="Views\Shared\_GlobalPageHeader.cshtml" />
+    <Content Include="Views\Shared\_ParticipantColumn.cshtml" />
+    <Content Include="Views\Shared\_EventTableDetails.cshtml" />
+    <Content Include="Views\Shared\_ContantDetails.cshtml" />
+    <Content Include="Views\Shared\_ContactDetailsIcon.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="fonts\custom\" />
+    <Folder Include="fonts\Template-fonts\" />
+    <Folder Include="Views\Service\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

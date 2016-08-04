@@ -1,0 +1,36 @@
+﻿@{
+    Layout = "~/Views/Shared/_NewLayout.cshtml";
+}
+
+<section id="hero-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <div class="block wow fadeInUp" data-wow-delay=".3s">
+
+                    <!-- Slider -->
+                    <section class="cd-intro">
+                        <h1 class="wow fadeInUp animated cd-headline slide" data-wow-delay=".4s">
+                            <span>WELCOME TO EASY SCHEDULE.</span><br>
+                            <span>The easiest way to </span><br>
+                            <span class="cd-words-wrapper">
+                                <b class="is-visible">Create</b>
+                                <b>Share</b>
+                                <b>Respond to</b>
+                            </span>
+                            <br />
+                            <span>an event</span>
+                        </h1>
+                    </section>
+                    <!-- cd-intro -->
+                    <!-- /.slider -->
+                    <h2 class="wow fadeInUp animated" data-wow-delay=".6s">
+                        Just create and share your event, we will take care of the rest! Before the event takes place you will have a list of atendees. Thats not all, we remeinds invetees of their feedback (if you wish to remeind them)
+                    </h2>
+                    <h2 class="wow fadeInUp animated" data-wow-delay=".8s">And many more options, give it a try..</h2>
+                    @Html.ActionLink("REGISTER", "Register", "Account", null, new { @class = "btn" })
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

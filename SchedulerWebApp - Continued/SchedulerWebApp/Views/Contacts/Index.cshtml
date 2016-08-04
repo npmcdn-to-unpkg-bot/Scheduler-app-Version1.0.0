@@ -8,71 +8,87 @@
 @{
     ViewBag.Title = "Contacts";
 }
-<div class="row">
-    <div class="col-xs-9">
-        <p class="heading-paragraph text-center-smallScreen">Contacts</p>
-    </div>
-    <div class="col-xs-3">
-        <p>
-            <a class="element-gray add-contact" href="@Url.Action("Create", "Contacts")"><i data-toggle="tooltip" data-placement="bottom" title="Add new contact" class="fa fa-user-plus fa-3x pull-right" aria-hidden="true"></i></a>
-        </p>
-    </div>
-</div>
 
-@if (Model.ToList().Count == 0)
-{
-    <div class="alert alert-info text-center" role="alert">
-        There are no contact in your list yet. You can add a new contact using the button above.
+@Html.Partial("_GlobalPageHeader", ViewData["heading"] = "Contacts")
+
+<section id="contact-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="block">
+                    <div class="row">
+                        <div class="col-xs-9">
+                        </div>
+                        <div class="col-xs-3 wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".3s">
+                            <p>
+                                <a class="element-gray add-contact" href="@Url.Action("Create", "Contacts")"><i data-toggle="tooltip" data-placement="bottom" title="Add new contact" class="fa fa-user-plus fa-3x pull-right" aria-hidden="true"></i></a>
+                            </p>
+                        </div>
+                    </div>
+
+                    @if (Model.ToList().Count == 0)
+                    {
+                        <div class="alert alert-info text-center alertMarging wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".5s" role="alert">
+                            There are no contact in your list yet. You can add a new contact using the button above.
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".5s">
+                            <table class="table footable display nowrap" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.FirstName)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.LastName)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Email)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.PhoneNumber)
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.FirstName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.LastName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Email)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.PhoneNumber)
+                                            </td>
+                                            <td>
+                                                <a class="element-gray detail-link link-icon" href="@Url.Action("Details", "Contacts", new { id = item.ContactId })"><i data-toggle="tooltip" data-placement="top" title="Details" class="fa fa-lg fa-info-circle"></i></a>
+                                                <a class="element-gray link-icon" href="@Url.Action("Edit","Contacts",new {id=item.ContactId})"><i data-toggle="tooltip" data-placement="top" title="Edit" class="fa fa-lg fa-pencil"></i></a>
+                                                <a class="element-red link-icon" href="@Url.Action("Delete", "Contacts", new { id = item.ContactId })"><i data-toggle="tooltip" data-placement="top" title="Delete" class="fa fa-lg fa-trash-o"></i></a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+
+                            </table>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
     </div>
-}
-else
-{
-    <table class="table footable display nowrap" cellspacing="0" width="100%">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.FirstName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.LastName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Email)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.PhoneNumber)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
+</section>
 
-                    <td>
-                        @Html.DisplayFor(modelItem => item.FirstName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.LastName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Email)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.PhoneNumber)
-                    </td>
-                    <td>
-                        <a class="element-gray detail-link link-icon" href="@Url.Action("Details", "Contacts", new { id = item.ContactId })"><i data-toggle="tooltip" data-placement="top" title="Details" class="fa fa-lg fa-info-circle"></i></a>
-                        <a class="element-gray link-icon" href="@Url.Action("Edit","Contacts",new {id=item.ContactId})"><i data-toggle="tooltip" data-placement="top" title="Edit" class="fa fa-lg fa-pencil"></i></a>
-                        <a class="element-red link-icon" href="@Url.Action("Delete", "Contacts", new { id = item.ContactId })"><i data-toggle="tooltip" data-placement="top" title="Delete" class="fa fa-lg fa-trash-o"></i></a>
-                    </td>
-                </tr>
-            }
-        </tbody>
 
-    </table>
-}
 
 @section Scripts{
     @Scripts.Render("~/bundles/dataTables");

@@ -1,9 +1,10 @@
-﻿/*html, body, .container {
-    height: 100%;
-}*/
-
-.borderless tbody tr td, .borderless thead tr th {
+﻿.borderless tbody tr td, .borderless thead tr th {
     border: none;
+}
+
+.navbar-header .navbar-brand a {
+    max-width: 60px;
+    margin-top: 0;
 }
 
 .margin-top {
@@ -14,10 +15,6 @@
     font-weight: bold;
     text-align: left;
 }
-
-/*.button-width {
-    width: 85px;
-}*/
 
 textarea {
     -moz-resize: vertical;
@@ -116,6 +113,7 @@ body {
     font-family: 'Oxygen', sans-serif;
     padding-bottom: 20px;
     padding-top: 50px;
+    margin-bottom: 60px;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -206,6 +204,8 @@ tr:contains("Absent") {
         text-decoration: inherit;
     }
 
+
+
 /*Modal styles*/
 .modal {
     text-align: center;
@@ -274,21 +274,9 @@ table.dataTable.dtr-inline.collapsed > tbody > tr.parent > td:first-child:before
     bottom: -5px;
 }
 
-
 /*#endregion */
 
 @media (max-width: 2224px) and (min-width: 415px) {
-    /*.centered-div {
-        position: fixed;
-        top: 45%;
-        left: 50%;
-        -moz-transform: translate(-50%, -50%);
-        -ms-transform: translate(-50%, -50%);
-        -o-transform: translate(-50%, -50%);
-        -webkit-transform: translate(-50%, -50%);
-        transform: translate(-50%, -50%);
-    }*/
-
     .align-center {
         width: 50%;
     }
@@ -331,6 +319,112 @@ table.dataTable.dtr-inline.collapsed > tbody > tr.parent > td:first-child:before
     font-size: 1.5em;
 }
 
+#labelLgCheckbox {
+    margin-bottom: 5px;
+}
+
+.event-details-well {
+    background-color: #02bdd5;
+    color: white;
+    -ms-border-radius: 0;
+    border-radius: 0;
+    margin-top: 55px;
+}
+
+.no-Participant-alert {
+    margin-top: 30%;
+    height: 100px;
+}
+
+@media (max-width: 768px) {
+    .no-Participant-alert {
+        margin-top: 0;
+    }
+}
+
+.zero-radius {
+    -ms-border-radius: 0;
+    border-radius: 0;
+}
+
 p {
     font-size: 16px;
 }
+
+.alertMarging {
+    margin-top: 20%;
+    margin-bottom: 20%;
+}
+
+ul.list-unstyled {
+    background-color: #fff;
+}
+
+#contact-section input[disabled] {
+    background-color: lightgrey;
+}
+
+/*#region Tempalte sytles */
+
+
+
+.top-pading {
+    padding-top: 7px;
+}
+
+.form_element-height {
+    height: 40px;
+}
+
+#contact-section {
+    padding: 10px 0 20px 0;
+}
+
+.global-page-header {
+    padding: 90px 0 25px 0;
+}
+
+footer {
+    border-top: 1px solid rgba(2, 179, 213, 0.13);
+}
+
+#hero-area {
+    padding-top: 150px;
+    padding-bottom: 100px;
+}
+
+    #hero-area h2 {
+        text-transform: none;
+    }
+
+@media (min-width: 992px) {
+    section.service-page {
+        height: 95vh;
+    }
+
+    .vertical-align {
+        display: flex;
+        align-items: center;
+    }
+}
+
+/*#region Stick footer to the butttom */
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 60px;
+}
+
+/*#endregion */
+
+/*#endregion */
