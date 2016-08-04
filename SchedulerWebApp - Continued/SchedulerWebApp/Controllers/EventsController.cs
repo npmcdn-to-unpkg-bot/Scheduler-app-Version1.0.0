@@ -29,7 +29,7 @@ namespace SchedulerWebApp.Controllers
 
         private string UserId
         {
-            get { return User.Identity.GetUserId(); }
+            get { return Service.GetUserId(); }
         }
 
         #region Return Events view
@@ -46,7 +46,7 @@ namespace SchedulerWebApp.Controllers
         [ChildActionOnly]
         public ActionResult AllEvents()
         {
-            if (UserIsAdmin())
+            if (Service.UserIsAdmin())
             {
                 var allEvents = _db.Events
                                    .ToList()
@@ -70,7 +70,7 @@ namespace SchedulerWebApp.Controllers
         {
             var dateToday = DateTime.UtcNow.ToLocalTime();
 
-            if (UserIsAdmin())
+            if (Service.UserIsAdmin())
             {
                 var allEvents = _db.Events.Where(e => e.StartDate >= dateToday)
                                           .ToList()
@@ -83,10 +83,9 @@ namespace SchedulerWebApp.Controllers
                                         .OrderBy(e => e.StartDate);
 
             return !userEvents.Any() ? PartialView("_NoEvent") : PartialView("_EventList", userEvents);
-        }
-
+        } 
         #endregion
-
+        
         #region Passed Events
 
         [ChildActionOnly]
@@ -94,7 +93,7 @@ namespace SchedulerWebApp.Controllers
         {
             var dateToday = DateTime.UtcNow.ToLocalTime();
 
-            if (UserIsAdmin())
+            if (Service.UserIsAdmin())
             {
                 var allEvents = _db.Events.Where(e => e.StartDate < dateToday)
                                           .ToList()
@@ -119,7 +118,7 @@ namespace SchedulerWebApp.Controllers
                 return View("Error");
             }
 
-            if (UserIsAdmin())
+            if (Service.UserIsAdmin())
             {
                 var @event = _db.Events.Find(id);
                 if (@event == null)
@@ -308,7 +307,7 @@ namespace SchedulerWebApp.Controllers
                 return View("Error");
             }
 
-            if (UserIsAdmin())
+            if (Service.UserIsAdmin())
             {
                 var @event = _db.Events.Find(id);
                 return View(@event);
@@ -374,12 +373,6 @@ namespace SchedulerWebApp.Controllers
         {
             var userEvents = GetUser(userId).Events;
             return userEvents;
-        }
-
-        private bool UserIsAdmin()
-        {
-            var isAdmin = User.IsInRole("Admin");
-            return isAdmin;
         }
 
         private Event GetUserSpecificEvent(int? id)

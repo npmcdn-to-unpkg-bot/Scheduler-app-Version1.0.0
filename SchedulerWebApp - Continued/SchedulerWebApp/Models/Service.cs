@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net.Mail;
 using System.Net.Mime;
 using System.Text;
+using System.Web;
+using Microsoft.AspNet.Identity;
 using SchedulerWebApp.Models.DBContext;
 using SchedulerWebApp.Models.PostalEmail;
 
@@ -135,6 +136,17 @@ namespace SchedulerWebApp.Models
                 Responce = false,
                 Availability = false
             };
+        }
+
+        public static string GetUserId()
+        {
+            return HttpContext.Current.User.Identity.GetUserId();
+        }
+
+        public static bool UserIsAdmin()
+        {
+            var isAdmin = HttpContext.Current.User.IsInRole("Admin");
+            return isAdmin;
         }
 
     }
