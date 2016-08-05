@@ -57,29 +57,29 @@
                 <div class="block">
                     <div class="row service-parts">
                         <div class="col-md-4">
-                            <a class="unstyled-link" href="#">
+                            <a class="unstyled-link" href="@Url.Action( "Index", "Manage")">
                                 <div class="left-border block wow fadeInUp animated" data-wow-duration="400ms" data-wow-delay="600ms">
                                     <i class="ion-ios-home"></i>
-                                    <h4>BRANDING</h4>
-                                    <p>Veritatis </p>
+                                    <h4>Account</h4>
+                                    <p>Manage account </p>
                                 </div>
                             </a>
                         </div>
                         <div class="col-md-4">
-                            <a class="unstyled-link" href="#">
+                            <a class="unstyled-link" href="@Url.Action("Index","Events")">
                                 <div class="left-border block wow fadeInUp animated" data-wow-duration="400ms" data-wow-delay="800ms">
                                     <i class="ion-calendar"></i>
-                                    <h4>12</h4>
+                                    <h4>@Model.Events.Count()</h4>
                                     <p>Events</p>
                                 </div>
                             </a>
                         </div>
                         <div class="col-md-4">
-                            <a class="unstyled-link" href="#">
+                            <a class="unstyled-link" href="@Url.Action("Index","Contacts")">
                                 <div class="left-border block wow fadeInUp animated" data-wow-duration="400ms" data-wow-delay="1s">
                                     <i class="ion-ios-people-outline"></i>
-                                    <h4>DEVELOPMENT</h4>
-                                    <p>Veritatis </p>
+                                    <h4>@Model.Contacts.Count()</h4>
+                                    <p>Contacts </p>
                                 </div>
                             </a>
                         </div>
