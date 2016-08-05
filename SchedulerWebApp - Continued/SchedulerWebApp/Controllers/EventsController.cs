@@ -60,7 +60,7 @@ namespace SchedulerWebApp.Controllers
                 return !allEvents.Any() ? PartialView("_NoEvent") : PartialView("_EventList", allEvents);
             }
 
-            var userEvents = GetUserEvents(UserId)
+            var userEvents = Service.GetUserEvents(UserId)
                             .OrderBy(e => e.StartDate);
 
             return !userEvents.Any() ? PartialView("_NoEvent") : PartialView("_EventList", userEvents);
@@ -83,7 +83,7 @@ namespace SchedulerWebApp.Controllers
 
                 return !allEvents.Any() ? PartialView("_NoEvent") : PartialView("_EventList", allEvents);
             }
-            var userEvents = GetUserEvents(UserId).Where(e => e.StartDate >= dateToday)
+            var userEvents = Service.GetUserEvents(UserId).Where(e => e.StartDate >= dateToday)
                                         .ToList()
                                         .OrderBy(e => e.StartDate);
 
@@ -106,7 +106,7 @@ namespace SchedulerWebApp.Controllers
 
                 return !allEvents.Any() ? PartialView("_NoEvent") : PartialView("_EventList", allEvents);
             }
-            var userEvents = GetUserEvents(UserId).Where(e => e.StartDate < dateToday)
+            var userEvents = Service.GetUserEvents(UserId).Where(e => e.StartDate < dateToday)
                                             .ToList()
                                             .OrderBy(e => e.StartDate);
 
@@ -132,7 +132,7 @@ namespace SchedulerWebApp.Controllers
                 }
                 return View(@event);
             }
-            var userEvent = GetUserSpecificEvent(id);
+            var userEvent = Service.GetUserSpecificEvent(id);
             return userEvent == null ? View("_NoAccess") : View(userEvent);
         }
 
@@ -154,13 +154,13 @@ namespace SchedulerWebApp.Controllers
             {
                 return View(@event);
             }
-            SaveEvent(@event);
+            Service.SaveEvent(@event);
             return RedirectToAction("SendEventsInvitation", "Invitation", new { id = @event.Id });
         }
 
         public ActionResult CopyEvent(int id)
         {
-            var eventToCopy = GetUserSpecificEvent(id);
+            var eventToCopy = Service.GetUserSpecificEvent(id);
             var copiedEvent = eventToCopy;
             copiedEvent.Title = eventToCopy.Title + "-Copy";
             return View("Create", copiedEvent);
@@ -176,16 +176,10 @@ namespace SchedulerWebApp.Controllers
                 return View("Create", @event);
             }
 
-            SaveEvent(@event);
+            Service.SaveEvent(@event);
 
             return RedirectToAction("SendEventsInvitation", "Invitation", new { id = @event.Id });
-        }
-
-        private void SaveEvent(Event @event)
-        {
-            GetUserEvents(UserId).Add(@event);
-            _db.SaveChanges();
-        }
+        }   
 
         #endregion
 
@@ -198,7 +192,7 @@ namespace SchedulerWebApp.Controllers
                 return View("Error");
             }
 
-            var eventToEdit = GetUserSpecificEvent(id);
+            var eventToEdit = Service.GetUserSpecificEvent(id);
 
             //if not the organizer
             if (eventToEdit == null)
@@ -250,7 +244,7 @@ namespace SchedulerWebApp.Controllers
 
             var participants = currentEvent.Participants.ToList();
 
-            var user = Service.GetUser(UserId);
+            var user = Service.GetUser();
 
             EmailInformation emailInfo = null;
             var emails = new List<EmailInformation>();
@@ -317,7 +311,7 @@ namespace SchedulerWebApp.Controllers
                 var @event = _db.Events.Find(id);
                 return View(@event);
             }
-            var userEvent = GetUserSpecificEvent(id);
+            var userEvent = Service.GetUserSpecificEvent(id);
 
             return userEvent == null ? View("_NoAccess") : View(userEvent);
         }
@@ -326,8 +320,8 @@ namespace SchedulerWebApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            var user = Service.GetUser(UserId);
-            var @event = GetUserSpecificEvent(id);
+            var user = Service.GetUser();
+            var @event = Service.GetUserSpecificEvent(id);
 
 
             //if event hasn't occured notify users of cancellation
@@ -367,23 +361,6 @@ namespace SchedulerWebApp.Controllers
         }
 
         #endregion
-
-        private SchedulerUser GetUser(string userId)
-        {
-            var user = _db.Users.Find(userId);
-            return user;
-        }
-
-        public List<Event> GetUserEvents(string userId)
-        {
-            var userEvents = GetUser(userId).Events;
-            return userEvents;
-        }
-
-        private Event GetUserSpecificEvent(int? id)
-        {
-            return GetUserEvents(UserId).Find(e => e.Id == id);
-        }
 
         protected override void Dispose(bool disposing)
         {

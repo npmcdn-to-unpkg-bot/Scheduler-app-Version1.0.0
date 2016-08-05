@@ -32,7 +32,7 @@ namespace SchedulerWebApp.Controllers
             {
                 return View("Error");
             }
-            var @event = Service.GetUserSpecificEvent(UserId, id);
+            var @event = Service.GetUserSpecificEvent(id);
 
             if (@event == null)
             {
@@ -73,7 +73,7 @@ namespace SchedulerWebApp.Controllers
                 return View("_CantInvite", eventForInvitation);
             }
 
-            var user = Service.GetUser(UserId);
+            var user = Service.GetUser();
 
             var unsavedContacts = new UnsavedContactViewModel();
             EmailInformation emailInfo = null;
@@ -248,7 +248,7 @@ namespace SchedulerWebApp.Controllers
 
         public InvitationViewModel ReturnInvitationModel(int? id)
         {
-            var @event = Service.GetUserSpecificEvent(UserId, id);
+            var @event = Service.GetUserSpecificEvent(id);
 
             var eventListDate = @event.ListDate;
             var listDate = Service.SetCorectDate(eventListDate);

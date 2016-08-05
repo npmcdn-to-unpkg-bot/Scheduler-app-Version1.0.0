@@ -1,5 +1,6 @@
 ﻿using System.Web;
 using System.Web.Mvc;
+using SchedulerWebApp.Models;
 using SchedulerWebApp.Models.PostalEmail;
 
 namespace SchedulerWebApp.Controllers
@@ -14,7 +15,9 @@ namespace SchedulerWebApp.Controllers
                 return View("IndexNotAuthenticated");
             }
 
-            return View();
+            var user = Service.GetUser();
+
+            return View("Index", user);
         }
         
         public ActionResult FrequentlyAskedQuestions()

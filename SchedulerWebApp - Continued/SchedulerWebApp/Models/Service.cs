@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
+using System.Linq;
 using System.Net.Mail;
 using System.Net.Mime;
 using System.Text;
@@ -14,21 +17,54 @@ namespace SchedulerWebApp.Models
     {
         private static SchedulerDbContext _db;
 
-        public static SchedulerUser GetUser(string userid)
+        private static string UserId
+        {
+            get { return GetUserId(); }
+        }
+
+        #region User methods
+
+        public static string GetUserId()
+        {
+            return HttpContext.Current.User.Identity.GetUserId();
+        }
+
+        public static SchedulerUser GetUser()
         {
             using (_db = new SchedulerDbContext())
             {
-                return _db.Users.Find(userid);
+                var user = _db.Users.Include(u => u.Events.Select(e => e.Participants))
+                                .Include(u => u.Contacts)
+                                .First(u => u.Id == UserId);
+                return user;
             }
         }
 
-        public static Event GetUserSpecificEvent(string userId, int? id)
+        public static bool UserIsAdmin()
         {
-            using (_db = new SchedulerDbContext())
+            var isAdmin = HttpContext.Current.User.IsInRole("Admin");
+            return isAdmin;
+        }
+
+        #endregion
+
+        #region Date mothods
+
+        public static DateTime? SetCorectDate(DateTime? dateToset)
+        {
+            DateTime? corectDate = null;
+
+            if (dateToset != null)
             {
-                var userEvents = _db.Users.Find(userId).Events.Find(e => e.Id == id);
-                return userEvents;
+                corectDate = dateToset;
             }
+            return corectDate;
+        }
+
+        public static DateTime GetListDate(Event eventToEdit)
+        {
+            var listDate = eventToEdit.ListDate;
+            return listDate.GetValueOrDefault();
         }
 
         public static DateTime GetRemanderDate(Event eventToEdit)
@@ -37,11 +73,53 @@ namespace SchedulerWebApp.Models
             return remanderDate.GetValueOrDefault();
         }
 
-        public static DateTime GetListDate(Event eventToEdit)
+        #endregion
+
+        #region Event Related methods
+
+        public static List<Event> GetUserEvents(string userId)
         {
-            var listDate = eventToEdit.ListDate;
-            return listDate.GetValueOrDefault();
+            var userEvents = GetUser().Events;
+            return userEvents;
         }
+
+        public static Event GetUserSpecificEvent(int? id)
+        {
+            using (_db = new SchedulerDbContext())
+            {
+                var userEvents = _db.Events.Include(ev => ev.Participants)
+                                          .First(e => (e.Id == id) && (e.SchedulerUserId == UserId));
+
+                /*_db.Users.Find(UserId).Events.Find(e => e.Id == id);*/
+                return userEvents;
+            }
+        }
+
+        private static Event GetUserSpecificEventWith(int? id)
+        {
+            return Service.GetUserEvents(UserId).Find(e => e.Id == id);
+        }
+
+        public static void SaveEvent(Event @event)
+        {
+            using (_db = new SchedulerDbContext())
+            {
+                _db.Users.Find(UserId).Events.Add(@event);
+                _db.SaveChanges();
+            }
+        }
+
+        public static bool EventHasNotPassed(Event eventForInvitation)
+        {
+            var todaysDate = DateTime.UtcNow.ToLocalTime();
+            var compareDates = eventForInvitation.StartDate.GetValueOrDefault().CompareTo(todaysDate);
+
+            bool notPassed = compareDates >= 0;
+
+            return notPassed;
+        }
+
+        #endregion
 
         public static Attachment CreateAttachment(EmailInformation emailInformation)
         {
@@ -107,27 +185,6 @@ namespace SchedulerWebApp.Models
             return email;
         }
 
-        public static DateTime? SetCorectDate(DateTime? dateToset)
-        {
-            DateTime? corectDate = null;
-
-            if (dateToset != null)
-            {
-                corectDate = dateToset;
-            }
-            return corectDate;
-        }
-
-        public static bool EventHasNotPassed(Event eventForInvitation)
-        {
-            var todaysDate = DateTime.UtcNow.ToLocalTime();
-            var compareDates = eventForInvitation.StartDate.GetValueOrDefault().CompareTo(todaysDate);
-
-            bool notPassed = compareDates >= 0;
-
-            return notPassed;
-        }
-
         public static Participant CreateParticipant(string email)
         {
             return new Participant
@@ -136,17 +193,6 @@ namespace SchedulerWebApp.Models
                 Responce = false,
                 Availability = false
             };
-        }
-
-        public static string GetUserId()
-        {
-            return HttpContext.Current.User.Identity.GetUserId();
-        }
-
-        public static bool UserIsAdmin()
-        {
-            var isAdmin = HttpContext.Current.User.IsInRole("Admin");
-            return isAdmin;
         }
 
     }
