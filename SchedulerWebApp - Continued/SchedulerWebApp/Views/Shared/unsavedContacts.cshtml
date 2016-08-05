@@ -1,106 +1,105 @@
 ﻿@model SchedulerWebApp.Models.ViewModels.UnsavedContactViewModel
 
+@Html.Partial("_GlobalPageHeader", ViewData["heading"] = "Contact us")
+
 <style type="text/css">
-    @@media (max-width: 480px) {
-        .body-firstRow {
-            padding: 40px 80px 40px 80px;
-        }
-    }
-
     @@media (max-width: 768px) {
-        .save-button {
-            margin-bottom: 10px;
+        #unsaved-contact {
+            margin: 10px;
         }
-
-        .cancel-button {
-            margin-top: 10px;
-        }
-    }
-
-    hr {
-        margin-top: 20px;
-        margin-bottom: 20px;
-        border: 0;
-        border-top: 1px solid #5BC0DE;
-    }
-
-    .tooltip.bottom .tooltip-inner {
-        background-color: lightgray;
-    }
-
-    .tooltip.bottom .tooltip-arrow {
-        border-bottom-color: lightgray;
-    }
-
-    .glyphicon-large-size {
-        font-size: 50px;
     }
 </style>
 
-<div id="sentConfirmation" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div class="row text-center">
-                    <i title="Sent" class="fa fa-check-circle-o fa-4x element-green"></i>
-                </div>
+<section id="contact-section">
+    <div class="container">
+        <div class="row">
+            <div id="unsaved-contact" class="col-md-10 col-md-offset-1">
+                <div class="block">
 
-
-                <p class="text-center">Invitations were sent.</p>
-
-                @if (Model.Contacts.Count != 0)
-                {
-                    <p class="text-center">You have @Model.Contacts.Count() unsaved contacts. Do you want save them?</p>
-                }
-                else
-                {
-                    <div class="row">
-                        <a class="btn btn-info">Close</a>
+                    <div class="text-center">
+                        <h2 class="subtitle wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".3s">Save Emails</h2>
+                        <p class="subtitle-des wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".5s">
+                            Fill all the fiels <b>correcty</b> to save emails into your contact list.
+                        </p>
                     </div>
-                }
-                <div class="row">
-                    <div>
-                        <div class="col-sm-6">
-                            <a data-dismiss="modal" class="btn btn-info btn-block">Yes</a>
-                        </div>
-                        <div class="col-sm-6">
-                            @Html.ActionLink("No", "Details", "Events", new { id = Model.EventId }, new { @class = "btn btn-danger btn-block" })
-                        </div>
+
+                    <div class="contact-form">
+
+                        <!--Confirmation Modal-->
+                        <div id="sentConfirmation" class="modal fade" tabindex="-1" role="dialog" data-backdrop="static">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <div class="row text-center">
+                                            <i title="Sent" class="fa fa-check-circle-o fa-4x element-green"></i>
+                                        </div>
+                                        <p class="text-center">Invitations were sent.</p>
+
+                                        @if (Model.Contacts.Count != 0)
+                                        {
+                                            <p class="text-center">You have @Model.Contacts.Count() unsaved contacts. Do you want save them?</p>
+                                        }
+                                        else
+                                        {
+                                            <div class="row">
+                                                <a class="btn btn-info">Close</a>
+                                            </div>
+                                        }
+                                        <div class="row">
+                                            <div>
+                                                <div class="col-sm-6 addButtonMargin">
+                                                    <a data-dismiss="modal" class="btn btn-info btn-block">Yes</a>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    @Html.ActionLink("No", "Details", "Events", new { id = Model.EventId }, new { @class = "btn btn-danger btn-block" })
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><!-- /.modal-content -->
+                            </div><!-- /.modal-dialog -->
+                        </div><!-- /.modal -->
+                        @Html.EditorFor(m => m.EventId, new { htmlAttributes = new { @class = "hidden" } })
+
+                        @using (Html.BeginForm("AddUnsaved", "Contacts", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            var eventId = Model.EventId;
+                            @Html.HiddenFor(model => model.EventId)
+
+                            <div class="row">
+                                @{
+                            Html.RenderPartial("_UnsavedContacts", Model);
+                                }
+                            </div>
+
+                            <div class="row">
+                                <div class=" col-sm-offset-1 col-sm-5 col-xs-12">
+                                    <div class="form-group">
+                                        <button type="submit" class="btn btn-info btn-block zero-radius">Save</button>
+                                    </div>
+                                </div>
+                                <div class="col-sm-offset-1 col-sm-5 col-xs-12 cancel-button">
+                                    <div class="form-group">
+                                        @Html.ActionLink("Cancel", "Details", "Events", null, new { id = "cancelButton", @class = "btn btn-info zero-radius form-control" })
+                                    </div>
+                                </div>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-@Html.EditorFor(m => m.EventId, new { htmlAttributes = new { @class = "hidden" } })
 
-@using (Html.BeginForm("AddUnsaved", "Contacts", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-    var eventId = Model.EventId;
-    @Html.HiddenFor(model => model.EventId)
-
-    <h4>Save unsaved emails</h4>
-
-    Html.RenderPartial("_UnsavedContacts", Model);
-
-    <div class="row">
-        <div class="col-sm-6 col-xs-12">
-            <input type="submit" value="Save" class="btn btn-info btn-block" />
-        </div>
-        <div class="col-sm-6 col-xs-12 cancel-button">
-            @Html.ActionLink("Cancel", "Details", "Events", new { id = eventId }, new { @class = "btn btn-danger btn-block" })
-        </div>
+            </div>
     </div>
-}
+</section>
+
 
 @section scripts
 {
     <script type="text/javascript">
-
-
 
         $(document).ready(function () {
             var isPostback = document.referrer.indexOf(document.location.href) > -1;
@@ -111,7 +110,6 @@
                 $('#sentConfirmation').modal('show');
             }
         });
-
 
         //Todo: need to add a button to delete contact if the user do not want to save it
         toolTipInit();
