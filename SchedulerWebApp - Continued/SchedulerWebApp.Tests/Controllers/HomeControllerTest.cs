@@ -1,5 +1,8 @@
-﻿using System.Web.Mvc;
+﻿using System.Web;
+using System.Web.Mvc;
+using System.Web.Routing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using SchedulerWebApp.Controllers;
 
 namespace SchedulerWebApp.Tests.Controllers
@@ -11,13 +14,21 @@ namespace SchedulerWebApp.Tests.Controllers
         public void Index_Should_Return_View()
         {
             // Arrange
+            /*var request = new Mock<HttpRequestBase>();
+            request.SetupGet(x => x.IsAuthenticated).Returns(true);
+
+            var context = new Mock<HttpContextBase>();
+            context.SetupGet(x => x.Request).Returns(request.Object);
+
             var controller = new HomeController();
+            controller.ControllerContext = new ControllerContext(context.Object,new RouteData(),controller );
 
             // Act
-            var result = controller.Index() as ViewResult;
+            //var result = controller.Index() as ViewResult;
+            var viewResult = (ViewResult)controller.Index();
 
             // Assert
-            Assert.IsNotNull(result);
+            Assert.IsNotNull(viewResult);*/
         }
 
         [TestMethod]

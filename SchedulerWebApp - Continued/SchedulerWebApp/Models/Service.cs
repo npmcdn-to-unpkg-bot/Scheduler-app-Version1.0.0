@@ -35,7 +35,7 @@ namespace SchedulerWebApp.Models
             {
                 var user = _db.Users.Include(u => u.Events.Select(e => e.Participants))
                                 .Include(u => u.Contacts)
-                                .First(u => u.Id == UserId);
+                                .FirstOrDefault(u => u.Id == UserId);
                 return user;
             }
         }
@@ -88,16 +88,11 @@ namespace SchedulerWebApp.Models
             using (_db = new SchedulerDbContext())
             {
                 var userEvents = _db.Events.Include(ev => ev.Participants)
-                                          .First(e => (e.Id == id) && (e.SchedulerUserId == UserId));
+                                          .FirstOrDefault(e => (e.Id == id) && (e.SchedulerUserId == UserId));
 
                 /*_db.Users.Find(UserId).Events.Find(e => e.Id == id);*/
                 return userEvents;
             }
-        }
-
-        private static Event GetUserSpecificEventWith(int? id)
-        {
-            return Service.GetUserEvents(UserId).Find(e => e.Id == id);
         }
 
         public static void SaveEvent(Event @event)
