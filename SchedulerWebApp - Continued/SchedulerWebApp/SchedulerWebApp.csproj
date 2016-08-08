@@ -389,13 +389,10 @@
     <Content Include="Content\themes\base\tooltip.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Images\bg_header.jpg" />
-    <Content Include="Images\gt_favicon.png" />
     <Content Include="Images\image1.jpg" />
     <Content Include="Images\image2.jpg" />
     <Content Include="Images\loading.gif" />
     <Content Include="Images\loading2.gif" />
-    <Content Include="Images\logo.png" />
     <Content Include="Images\progressRing.gif" />
     <Content Include="Images\favicon.ico" />
     <Content Include="ApplicationInsights.config" />
