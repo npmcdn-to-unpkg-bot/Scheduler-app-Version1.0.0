@@ -18,6 +18,7 @@ namespace SchedulerWebApp.Controllers
     {
         private readonly ContactsController _contactsController = new ContactsController();
         private readonly SchedulerDbContext _db = new SchedulerDbContext();
+        private readonly Service _service = new Service();
 
         private string UserId
         {
@@ -32,13 +33,13 @@ namespace SchedulerWebApp.Controllers
             {
                 return View("Error");
             }
-            var @event = Service.GetUserSpecificEvent(id);
+            var @event = _service.GetUserSpecificEvent(id);
 
             if (@event == null)
             {
                 return View("_NoAccess");
             }
-            bool hasPassed = Service.EventHasNotPassed(@event);
+            bool hasPassed = _service.EventHasNotPassed(@event);
             return !hasPassed ? View("_CantInvite", @event) : View(ReturnInvitationModel(id));
         }
 
@@ -67,13 +68,13 @@ namespace SchedulerWebApp.Controllers
 
 
             //Check if invitations can still be sent
-            var notPassed = Service.EventHasNotPassed(eventForInvitation);
+            var notPassed = _service.EventHasNotPassed(eventForInvitation);
             if (!notPassed)
             {
                 return View("_CantInvite", eventForInvitation);
             }
 
-            var user = Service.GetUser();
+            var user = _service.GetUser();
 
             var unsavedContacts = new UnsavedContactViewModel();
             EmailInformation emailInfo = null;
@@ -86,11 +87,11 @@ namespace SchedulerWebApp.Controllers
 
             foreach (var participantEmail in emailList)
             {
-                var email = Service.RemoveBrackets(participantEmail);
+                var email = _service.RemoveBrackets(participantEmail);
 
                 #region create and save new participant
 
-                var invitedParticipant = Service.CreateParticipant(email);
+                var invitedParticipant = _service.CreateParticipant(email);
                 eventForInvitation.Participants.Add(invitedParticipant);
                 _db.SaveChanges();
 
@@ -231,7 +232,7 @@ namespace SchedulerWebApp.Controllers
 
             foreach (var email in emails)
             {
-                var thisEmail = Service.RemoveBrackets(email);
+                var thisEmail = _service.RemoveBrackets(email);
 
                 isNotyetInvited = _event.Participants.All(p => p.Email != thisEmail);
 
@@ -248,7 +249,7 @@ namespace SchedulerWebApp.Controllers
 
         public InvitationViewModel ReturnInvitationModel(int? id)
         {
-            var @event = Service.GetUserSpecificEvent(id);
+            var @event = _service.GetUserSpecificEvent(id);
 
             var eventListDate = @event.ListDate;
             var listDate = Service.SetCorectDate(eventListDate);

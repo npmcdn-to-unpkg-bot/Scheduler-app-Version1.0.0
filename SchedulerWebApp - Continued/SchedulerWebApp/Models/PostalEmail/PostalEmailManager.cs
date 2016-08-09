@@ -15,6 +15,7 @@ namespace SchedulerWebApp.Models.PostalEmail
     public static class PostalEmailManager
     {
         static readonly SchedulerDbContext Db = new SchedulerDbContext();
+        static Service _service = new Service();
 
         private static Email ComposeDynamicEmail(EmailInformation emailInfo, object newEmailObject)
         {
@@ -91,7 +92,7 @@ namespace SchedulerWebApp.Models.PostalEmail
 
         private static void AddAttachAttachment(dynamic email, EmailInformation emailInfo)
         {
-            var emailAttachment = Service.CreateAttachment(emailInfo);
+            var emailAttachment = _service.CreateAttachment(emailInfo);
             email.Attach(emailAttachment);
         }
 

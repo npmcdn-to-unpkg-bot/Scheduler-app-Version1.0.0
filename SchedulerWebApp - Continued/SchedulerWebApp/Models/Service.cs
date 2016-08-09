@@ -13,23 +13,23 @@ using SchedulerWebApp.Models.PostalEmail;
 
 namespace SchedulerWebApp.Models
 {
-    public static class Service
+    public class Service
     {
-        private static SchedulerDbContext _db;
+        private SchedulerDbContext _db;
 
-        private static string UserId
+        private string UserId
         {
             get { return GetUserId(); }
         }
 
         #region User methods
 
-        public static string GetUserId()
+        public string GetUserId()
         {
             return HttpContext.Current.User.Identity.GetUserId();
         }
 
-        public static SchedulerUser GetUser()
+        public SchedulerUser GetUser()
         {
             using (_db = new SchedulerDbContext())
             {
@@ -40,7 +40,7 @@ namespace SchedulerWebApp.Models
             }
         }
 
-        public static bool UserIsAdmin()
+        public bool UserIsAdmin()
         {
             var isAdmin = HttpContext.Current.User.IsInRole("Admin");
             return isAdmin;
@@ -77,13 +77,13 @@ namespace SchedulerWebApp.Models
 
         #region Event Related methods
 
-        public static List<Event> GetUserEvents(string userId)
+        public List<Event> GetUserEvents(string userId)
         {
             var userEvents = GetUser().Events;
             return userEvents;
         }
 
-        public static Event GetUserSpecificEvent(int? id)
+        public Event GetUserSpecificEvent(int? id)
         {
             using (_db = new SchedulerDbContext())
             {
@@ -95,7 +95,7 @@ namespace SchedulerWebApp.Models
             }
         }
 
-        public static void SaveEvent(Event @event)
+        public void SaveEvent(Event @event)
         {
             using (_db = new SchedulerDbContext())
             {
@@ -104,7 +104,7 @@ namespace SchedulerWebApp.Models
             }
         }
 
-        public static bool EventHasNotPassed(Event eventForInvitation)
+        public bool EventHasNotPassed(Event eventForInvitation)
         {
             var todaysDate = DateTime.UtcNow.ToLocalTime();
             var compareDates = eventForInvitation.StartDate.GetValueOrDefault().CompareTo(todaysDate);
@@ -116,7 +116,7 @@ namespace SchedulerWebApp.Models
 
         #endregion
 
-        public static Attachment CreateAttachment(EmailInformation emailInformation)
+        public Attachment CreateAttachment(EmailInformation emailInformation)
         {
             var eventToSend = emailInformation.CurrentEvent;
 
@@ -171,7 +171,7 @@ namespace SchedulerWebApp.Models
 
         }
 
-        public static string RemoveBrackets(string email)
+        public string RemoveBrackets(string email)
         {
             if (email.Contains("["))
             {
@@ -180,7 +180,7 @@ namespace SchedulerWebApp.Models
             return email;
         }
 
-        public static Participant CreateParticipant(string email)
+        public Participant CreateParticipant(string email)
         {
             return new Participant
             {

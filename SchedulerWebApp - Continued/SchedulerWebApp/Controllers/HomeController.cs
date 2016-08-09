@@ -8,6 +8,8 @@ namespace SchedulerWebApp.Controllers
     [AllowAnonymous]
     public class HomeController : Controller
     {
+        private readonly Service _service = new Service();
+
         public ActionResult Index()
         {
             if (!Request.IsAuthenticated)
@@ -15,9 +17,9 @@ namespace SchedulerWebApp.Controllers
                 return View("IndexNotAuthenticated");
             }
 
-            var user = Service.GetUser();
+            var user = _service.GetUser();
 
-            return View("Index", user);
+           return View("Index", user);
         }
         
         public ActionResult FrequentlyAskedQuestions()
@@ -42,7 +44,7 @@ namespace SchedulerWebApp.Controllers
             Response.Cookies.Add(new HttpCookie("successCookie", "Action is completed successfully"));
 
             //remove MessageSent view fom home
-            return View("Index");
+            return RedirectToAction("Index");
         }
     }
 }

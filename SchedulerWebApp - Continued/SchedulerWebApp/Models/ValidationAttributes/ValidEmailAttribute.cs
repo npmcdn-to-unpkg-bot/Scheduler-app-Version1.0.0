@@ -8,6 +8,12 @@ namespace SchedulerWebApp.Models.ValidationAttributes
 {
     public class ValidEmailAttribute : ValidationAttribute
     {
+        private readonly Service _service;
+
+        public ValidEmailAttribute()
+        {
+            _service = new Service();
+        }
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             string enteredEmails = value != null ? value.ToString() : string.Empty;
@@ -18,7 +24,7 @@ namespace SchedulerWebApp.Models.ValidationAttributes
 
             foreach (var e in enteredValues)
             {
-                var enteredEmail = Service.RemoveBrackets(e);
+                var enteredEmail = _service.RemoveBrackets(e);
                 emails.Add(enteredEmail);
             }
 

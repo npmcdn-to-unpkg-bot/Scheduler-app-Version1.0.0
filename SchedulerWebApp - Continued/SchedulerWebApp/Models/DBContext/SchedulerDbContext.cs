@@ -10,8 +10,7 @@ namespace SchedulerWebApp.Models.DBContext
             : base("DefaultConnection", false)
         {
         }
-
-
+        
         public virtual DbSet<Event> Events { get; set; }
         public virtual DbSet<Participant> Participants { get; set; }
         public  virtual DbSet<Contact> Contacts { get; set; }

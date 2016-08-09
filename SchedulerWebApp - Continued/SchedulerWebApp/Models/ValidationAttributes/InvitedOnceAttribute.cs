@@ -9,11 +9,13 @@ namespace SchedulerWebApp.Models.ValidationAttributes
 {
     public class InvitedOnceAttribute : ValidationAttribute
     {
+        private readonly Service _service = new Service();
         public InvitedOnceAttribute(string eventId)
         {
             EventId = eventId;
         }
         public string EventId { get; set; }
+
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
@@ -46,7 +48,7 @@ namespace SchedulerWebApp.Models.ValidationAttributes
                 Event currentEvent = dbContext.Events.Find(id);
                 foreach (var e in emails)
                 {
-                    var email = Service.RemoveBrackets(e);
+                    var email = _service.RemoveBrackets(e);
 
                     bool isNotYetInvited = currentEvent.Participants.All(p => p.Email != email);
 
