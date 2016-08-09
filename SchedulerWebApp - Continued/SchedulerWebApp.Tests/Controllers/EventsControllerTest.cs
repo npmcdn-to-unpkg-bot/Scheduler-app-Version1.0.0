@@ -74,7 +74,7 @@ namespace SchedulerWebApp.Tests.Controllers
             Assert.IsNotNull(result);
             Assert.IsInstanceOfType(result.ViewData.Model,typeof(Event));
         }*/
-        
+
         /*[TestMethod]
         public void Edit_Should_Redirect_To_Index()
         {
@@ -103,12 +103,14 @@ namespace SchedulerWebApp.Tests.Controllers
 
         public EventsController Arrange_Event_Controller()
         {
-            var testEvent1 = new Event{Id = 1};
-            var testEvent2 = new Event{Id = 2};
+            var testEvent1 = new Event { Id = 1 };
+            var testEvent2 = new Event { Id = 2 };
 
-            var testUser = new SchedulerUser{Id = "99fd20b8-7194-31e1-945b-e6736c732499",Events = new List<Event> { testEvent1, testEvent2 }};
+            var testUser = new SchedulerUser { Id = "99fd20b8-7194-31e1-945b-e6736c732499", Events = new List<Event> { testEvent1, testEvent2 } };
 
             var users = new List<SchedulerUser> { testUser }.AsQueryable();
+            var service = new Service();
+
 
             var mockSet = new Mock<DbSet<SchedulerUser>>();
             mockSet.As<IQueryable<SchedulerUser>>().Setup(m => m.Provider).Returns(users.Provider);
@@ -119,11 +121,9 @@ namespace SchedulerWebApp.Tests.Controllers
             var context = new Mock<SchedulerDbContext>();
             context.Setup(c => c.Users).Returns(mockSet.Object);
 
-            var controller = new EventsController(context.Object) { ControllerContext = MockContext() };
+            var controller = new EventsController(context.Object, service) { ControllerContext = MockContext() };
 
             return controller;
         }
-
-
     }
 }

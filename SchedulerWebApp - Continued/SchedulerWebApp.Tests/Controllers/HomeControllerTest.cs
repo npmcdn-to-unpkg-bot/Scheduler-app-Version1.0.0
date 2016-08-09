@@ -16,19 +16,18 @@ namespace SchedulerWebApp.Tests.Controllers
             // Arrange
             /*var request = new Mock<HttpRequestBase>();
             request.SetupGet(x => x.IsAuthenticated).Returns(true);
-
+            
             var context = new Mock<HttpContextBase>();
             context.SetupGet(x => x.Request).Returns(request.Object);
 
             var controller = new HomeController();
-            controller.ControllerContext = new ControllerContext(context.Object,new RouteData(),controller );
+            controller.ControllerContext = new ControllerContext(context.Object, new RouteData(), controller);
 
             // Act
-            //var result = controller.Index() as ViewResult;
-            var viewResult = (ViewResult)controller.Index();
+            var result = controller.Index() as ViewResult;
 
             // Assert
-            Assert.IsNotNull(viewResult);*/
+            Assert.IsNotNull(result);*/
         }
 
         [TestMethod]
