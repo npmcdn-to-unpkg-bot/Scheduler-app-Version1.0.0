@@ -1,4 +1,5 @@
-﻿@model SchedulerWebApp.Models.ViewModels.UnsavedContactViewModel
+﻿@using System.Globalization
+@model SchedulerWebApp.Models.ViewModels.UnsavedContactViewModel
 
 @Html.Partial("_GlobalPageHeader", ViewData["heading"] = "Contact us")
 
@@ -37,7 +38,12 @@
 
                                         @if (Model.Contacts.Count != 0)
                                         {
-                                            <p class="text-center">You have @Model.Contacts.Count() unsaved contacts. Do you want save them?</p>
+
+                                            var numberOfContacts = Model.Contacts.Count();
+
+                                            var itOrThem = numberOfContacts == 1 ? "it" : "them";
+
+                                            <p class="text-center">You have @numberOfContacts unsaved contacts. Do you want save @itOrThem?</p>
                                         }
                                         else
                                         {
