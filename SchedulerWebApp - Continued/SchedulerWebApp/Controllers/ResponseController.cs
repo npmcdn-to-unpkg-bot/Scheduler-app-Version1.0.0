@@ -3,6 +3,7 @@ using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using SchedulerWebApp.Models;
 using SchedulerWebApp.Models.DBContext;
 using SchedulerWebApp.Models.ViewModels;
 
@@ -35,6 +36,11 @@ namespace SchedulerWebApp.Controllers
             {
                 return HttpNotFound();
             }
+
+            if (!CheckIfEventHasPassed(eventToAttend))
+            {
+                return View("_CantRespond", eventToAttend);
+            }
             var model = new ResponseViewModel
                         {
                             Availability = participant.Availability,
@@ -62,14 +68,6 @@ namespace SchedulerWebApp.Controllers
 
             var eventId = model.EventId;
             var @event = _db.Events.Find(eventId);
-            var dateToday = DateTime.UtcNow.Date;
-            var listDate = @event.ListDate.GetValueOrDefault().Date;
-            bool canStillRespond = dateToday <= listDate;
-
-            if (!canStillRespond)
-            {
-                return View("_CantRespond", @event);
-            }
 
             try
             {
@@ -89,6 +87,14 @@ namespace SchedulerWebApp.Controllers
             }
 
             return RedirectToAction("Details", new { id = eventId });
+        }
+
+        private static bool CheckIfEventHasPassed(Event @event)
+        {
+            var dateToday = DateTime.UtcNow.Date;
+            var listDate = @event.ListDate.GetValueOrDefault().Date;
+            bool canStillRespond = dateToday <= listDate;
+            return canStillRespond;
         }
 
         public ActionResult Details(int? id)
