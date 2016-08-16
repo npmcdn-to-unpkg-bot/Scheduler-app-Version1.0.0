@@ -3,30 +3,40 @@
     ViewBag.Title = "Can't Edit";
 }
 
-<div class="col-md-offset-2 col-md-8">
-    <h2 class="text-center">
-        <span class="fa-stack fa-lg">
-            <i class="fa fa-pencil fa-stack-1x"></i>
-            <i class="fa fa-ban fa-stack-2x fa-flip-horizontal text-danger "></i>
-        </span>
-        Can not be edited
-    </h2>
-    <hr />
+@Html.Partial("_GlobalPageHeader", ViewData["heading"] = "Late to manage")
 
-    <div class="alert alert-danger" role="alert">
-        <p>
-            @Model.Title took place on <b>@Model.StartDate.GetValueOrDefault().ToString("g")</b>. No more changes can be made.
-        </p>
-        <p>
-            You can either copy this event to a different date or create a new event below.
-        </p>
+<section id="contact-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="block">
+                    <h2 class="subtitle wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".3s">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-pencil fa-stack-1x"></i>
+                            <i class="fa fa-ban fa-stack-2x fa-flip-horizontal text-danger "></i>
+                        </span>
+                        Can not be edited
+                    </h2>
+                    <br />
+
+                    <div class="alert alert-danger wow fadeInDown zero-radius" data-wow-duration="500ms" data-wow-delay=".5s" role="alert">
+                        <p>
+                            @Model.Title took place on <b>@Model.StartDate.GetValueOrDefault().ToString("g")</b>. No more changes can be made.
+                        </p>
+                        <p>
+                            You can either copy this event to a different date or create a new event below.
+                        </p>
+                    </div>
+                    <div class="row wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".7s" role="alert">
+                        <div class="col-sm-6 addButtonMargin">
+                            <a class="btn btn-info btn-block zero-radius" href="@Url.Action("CopyEvent", "Events", new { id = Model.Id })">Copy</a>
+                        </div>
+                        <div class="col-sm-6">
+                            @Html.ActionLink("Event Details", "Details", "Events", new { id = Model.Id }, new { @class = "btn btn-info btn-block zero-radius" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="row">
-        <div class="col-sm-6">
-            <a class="btn btn-info btn-block " href="@Url.Action("CopyEvent", "Events", new { id = Model.Id })">Copy</a>
-        </div>
-        <div class="col-sm-6">
-            @Html.ActionLink("Event Details", "Details", "Events", new { id = Model.Id }, new { @class = "btn btn-info btn-block" })
-        </div>
-    </div>    
-</div>
+</section>

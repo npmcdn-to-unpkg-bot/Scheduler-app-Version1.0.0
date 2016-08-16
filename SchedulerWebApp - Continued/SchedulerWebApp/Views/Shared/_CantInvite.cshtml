@@ -1,24 +1,35 @@
 ﻿@model SchedulerWebApp.Models.Event
 @{
-    ViewBag.Title = "Can't Respond";
+    ViewBag.Title = "Late to respond";
 }
-<div class="col-md-offset-2 col-md-8">
-    <h2 class="text-center">
-        <span class="fa-stack fa-lg">
-            <i class="fa fa-share-alt fa-stack-1x"></i>
-            <i class="fa fa-ban fa-stack-2x text-danger "></i>
-        </span>
-        Too late..
-    </h2>
-    <hr />
 
-    <div class="alert alert-danger" role="alert">
-        <p>
-            @Model.Title took place on <b>@Model.StartDate.GetValueOrDefault().ToString("g")</b>. Therefore no particippant can be invited. 
-        </p>
-        <p>
-            To see more details click the button below.
-        </p>
+@Html.Partial("_GlobalPageHeader", ViewData["heading"] = "Late to Respond")
+
+<section id="contact-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="block">
+                    <h2 class="subtitle wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".3s">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-share-alt fa-stack-1x"></i>
+                            <i class="fa fa-ban fa-stack-2x text-danger "></i>
+                        </span>
+                        Too late..
+                    </h2>
+                    <br />
+
+                    <div class="alert alert-danger wow fadeInDown zero-radius" data-wow-duration="500ms" data-wow-delay=".5s" role="alert">
+                        <p>
+                            @Model.Title took place on <b>@Model.StartDate.GetValueOrDefault().ToString("g")</b>. Therefore no particippant can be invited.
+                        </p>
+                        <p>
+                            To see more details click the button below.
+                        </p>
+                    </div>
+                    @Html.ActionLink("Event Details", "Details", "Events", new { id = Model.Id }, new { @class = "btn btn-info btn-block wow fadeInDown zero-radius" , data_wow_duration="500ms", data_wow_delay=".7s" })
+                </div>
+            </div>
+        </div>
     </div>
-    @Html.ActionLink("Event Details", "Details", "Events", new { id = Model.Id }, new { @class = "btn btn-info btn-block" })
-</div>
+</section>

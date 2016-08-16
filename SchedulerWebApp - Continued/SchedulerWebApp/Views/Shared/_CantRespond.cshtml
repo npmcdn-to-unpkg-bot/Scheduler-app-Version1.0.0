@@ -1,15 +1,31 @@
 ﻿@model SchedulerWebApp.Models.Event
 
 @{
-    ViewBag.Title = "_CantRespond";
+    ViewBag.Title = "Late to respond";
 }
-<div class="col-lg-offset-2 col-md-8">
-    <h2 class="text-center">Late Response </h2>
-    <hr />
 
-    <div class="alert alert-danger text-center" role="alert">
-        <p>You can no more respond to this Event. Responce were accepted till @Model.ListDate.GetValueOrDefault().ToString("g")</p>
-        <p>Please contact the organiser.</p>
+@Html.Partial("_GlobalPageHeader", ViewData["heading"] = "Late to Respond")
+
+<section id="contact-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="block">
+                    <h2 class="subtitle wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".3s">
+                        <span class="fa-stack fa-lg">
+                            <i class="fa fa-share-alt fa-stack-1x"></i>
+                            <i class="fa fa-ban fa-stack-2x text-danger "></i>
+                        </span>
+                        Response is late
+                    </h2>
+                    <br />
+                    <div class="alert alert-danger wow fadeInDown zero-radius" data-wow-duration="500ms" data-wow-delay=".5s" role="alert">
+                        <p>You can no more respond to this Event. Responce were accepted till @Model.ListDate.GetValueOrDefault().ToString("g")</p>
+                        <p>Please contact the organiser.</p>
+                    </div>
+                    @Html.ActionLink("Back home", "Index", "Home", null, new { @class = "btn btn-info btn-block wow fadeInDown zero-radius", data_wow_duration = "500ms", data_wow_delay = ".7s" })
+                </div>
+            </div>
+        </div>
     </div>
-    @Html.ActionLink("Back home", "Index", "Home", null, new { @class = "btn btn-info btn-block" })
-</div>
+</section>
