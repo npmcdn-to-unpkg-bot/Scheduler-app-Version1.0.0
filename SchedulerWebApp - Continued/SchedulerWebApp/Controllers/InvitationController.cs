@@ -74,7 +74,7 @@ namespace SchedulerWebApp.Controllers
                 return View("_CantInvite", eventForInvitation);
             }
 
-            var user = _service.GetUser();
+            
 
             var unsavedContacts = new UnsavedContactViewModel();
             EmailInformation emailInfo = null;
@@ -89,51 +89,29 @@ namespace SchedulerWebApp.Controllers
             {
                 var email = _service.RemoveBrackets(participantEmail);
 
-                #region create and save new participant
+                //save new participant
+                SaveParticipantInDb(email, eventForInvitation);
 
-                var invitedParticipant = _service.CreateParticipant(email);
-                eventForInvitation.Participants.Add(invitedParticipant);
-                _db.SaveChanges();
-
-                #endregion
 
                 #region Create and send Email
 
-                var participantId = eventForInvitation.Participants
-                                                       .Where(p => p.Email == email)
-                                                       .Select(p => p.Id)
-                                                       .FirstOrDefault();
-
-                var responseUrl = CreateUrl("Response", "Response", eventForInvitation, participantId);
-                var detailsUrl = CreateUrl("Details", "Events", eventForInvitation, 0);
-
-
-                emailInfo = new EmailInformation
-                                {
-                                    CurrentEvent = eventForInvitation,
-                                    OrganizerEmail = user.Email,
-                                    OrganizerName = user.FirstName,
-                                    ParticipantId = participantId,
-                                    ParticipantEmail = email,
-                                    ResponseUrl = responseUrl,
-                                    RemainderDate = eventForInvitation.ReminderDate.GetValueOrDefault(),
-                                    ListDate = eventForInvitation.ListDate.GetValueOrDefault(),
-                                    EventDetailsUrl = detailsUrl,
-                                    EmailSubject = " Invitation"
-                                };
-
+                emailInfo = ComposeEmailInfo(eventForInvitation, email);
                 emails.Add(emailInfo);
 
                 //Send Invitation Email
                 try
                 {
                     PostalEmailManager.SendEmail(emailInfo, new InvitationEmail());
+
+                    //todo: this is to be removed before deployment for production
                     Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("Email sent to " + emailInfo.ParticipantEmail));
 
                     if (model.SendRemainder)
                     {
                         var remainderDate = Service.GetRemanderDate(eventForInvitation);
                         JobManager.ScheduleRemainderEmail(emails, remainderDate);
+
+                        //todo: this is to be removed before deployment for production
                         Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("remainder is set at " + remainderDate));
                     }
                 }
@@ -183,6 +161,43 @@ namespace SchedulerWebApp.Controllers
             unsavedContacts.EventId = eventForInvitation.Id;
             TempData["model"] = unsavedContacts;           //Pass list to SaveEmails action
             return RedirectToAction("SaveEmails");
+        }
+
+        private EmailInformation ComposeEmailInfo(Event eventForInvitation, 
+            string email)
+        {
+
+            var user = _service.GetUser();
+            var participantId = GetParticipantId(eventForInvitation, email);
+
+            return new EmailInformation
+            {
+                CurrentEvent = eventForInvitation,
+                OrganizerEmail = user.Email,
+                OrganizerName = user.FirstName,
+                ParticipantId = participantId,
+                ParticipantEmail = email,
+                ResponseUrl = CreateUrl("Response", "Response", eventForInvitation, participantId),
+                RemainderDate = eventForInvitation.ReminderDate.GetValueOrDefault(),
+                ListDate = eventForInvitation.ListDate.GetValueOrDefault(),
+                EventDetailsUrl = CreateUrl("Details", "Events", eventForInvitation, 0),
+                EmailSubject = " Invitation"
+            };
+        }
+
+        private void SaveParticipantInDb(string email, Event eventForInvitation)
+        {
+            var invitedParticipant = _service.CreateParticipant(email);
+            eventForInvitation.Participants.Add(invitedParticipant);
+            _db.SaveChanges();
+        }
+
+        private static int GetParticipantId(Event eventForInvitation, string email)
+        {
+            return eventForInvitation.Participants
+                .Where(p => p.Email == email)
+                .Select(p => p.Id)
+                .FirstOrDefault();
         }
 
         private string CreateUrl(string actionName, string controllerName, Event eventForInvitation, int participantId)
