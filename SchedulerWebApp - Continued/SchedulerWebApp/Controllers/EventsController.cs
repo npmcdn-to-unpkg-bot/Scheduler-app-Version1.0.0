@@ -323,7 +323,8 @@ namespace SchedulerWebApp.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             var user = _service.GetUser();
-            var @event = _service.GetUserSpecificEvent(id);
+            var @event = _db.Events.Include(ev => ev.Participants)
+                                          .FirstOrDefault(e => (e.Id == id) && (e.SchedulerUserId == UserId));
 
 
             //if event hasn't occured notify users of cancellation
