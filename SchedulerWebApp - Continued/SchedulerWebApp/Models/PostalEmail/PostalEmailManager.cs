@@ -85,7 +85,7 @@ namespace SchedulerWebApp.Models.PostalEmail
             }
             catch (Exception exception)
             {
-                ErrorSignal.FromCurrentContext().Raise(exception);
+                ErrorLog.GetDefault(System.Web.HttpContext.Current).Log(new Error(new Exception(exception.Message)));
             }
 
         }

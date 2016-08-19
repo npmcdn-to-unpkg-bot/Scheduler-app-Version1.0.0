@@ -138,8 +138,8 @@ namespace SchedulerWebApp.Models
             stringBuilder.AppendLine(String.Format("LOCATION: {0}", eventToSend.Location));
             stringBuilder.AppendLine(String.Format("UID:{0}", Guid.NewGuid()));
             stringBuilder.AppendLine(String.Format("DESCRIPTION:{0}", eventToSend.Description));
-            stringBuilder.AppendLine(String.Format("X-ALT-DESC;FMTTYPE=text/html:{0}", eventToSend.Description));
-            stringBuilder.AppendLine(String.Format("SUMMARY:{0}", eventToSend.Description));
+            stringBuilder.AppendLine(String.Format("X-ALT-DESC;FMTTYPE=text/html:{0}", eventToSend.Title));
+            stringBuilder.AppendLine(String.Format("SUMMARY:{0}", eventToSend.Title));
             stringBuilder.AppendLine(String.Format("ORGANIZER:MAILTO:{0}", emailInformation.OrganizerEmail));
             //stringBuilder.AppendLine(string.Format("ATTENDEE;CN=\"{0}\";RSVP=TRUE:mailto:{1}", email.SenderLastName, email.From));
             stringBuilder.AppendLine("BEGIN:VALARM");
