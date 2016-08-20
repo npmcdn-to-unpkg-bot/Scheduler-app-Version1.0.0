@@ -18,7 +18,13 @@ namespace SchedulerWebApp.Tests.Controllers
         {
             //arrange
             var mockContext = new Mock<SchedulerDbContext>();
-            mockContext.Setup(c => c.Events.Find(1)).Returns(new Event { Id = 1, Participants = new List<Participant> { new Participant { Id = 1 } } });
+            mockContext.Setup(c => c.Events.Find(1)).Returns(
+                new Event
+                {
+                    Id = 1,
+                    ListDate = new DateTime(2020, 02, 10),
+                    Participants = new List<Participant> {new Participant {Id = 1}}
+                });
             var controller = new ResponseController(mockContext.Object);
 
             //act
@@ -58,7 +64,7 @@ namespace SchedulerWebApp.Tests.Controllers
             var controller = new ResponseController(mockContext.Object);
 
             //act
-            var result = controller.Response(new ResponseViewModel { EventId = 1 }) as ViewResult;
+            var result = controller.Response(1, 1) as ViewResult;
 
             //assert
             Assert.AreEqual("_CantRespond", result.ViewName);
