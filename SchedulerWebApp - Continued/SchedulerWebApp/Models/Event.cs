@@ -7,9 +7,8 @@ namespace SchedulerWebApp.Models
 {
     public class Event
     {
-        public Event()
-        {
-        }
+        public Event(){}
+
         public int Id { get; set; }
 
         [Required]

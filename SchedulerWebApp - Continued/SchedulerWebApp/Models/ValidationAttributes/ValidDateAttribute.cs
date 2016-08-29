@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
+using Elmah;
 
 namespace SchedulerWebApp.Models.ValidationAttributes
 {
@@ -15,7 +16,15 @@ namespace SchedulerWebApp.Models.ValidationAttributes
             }
             else return new ValidationResult("Date is Required!");
 
-            DateTime dateToday = DateTime.UtcNow.ToLocalTime();
+            var dateTimeNow = DateTime.UtcNow.ToLocalTime();
+
+            /*
+             * Todo: the line below is only for debugging purposes:
+             *      Its to log current time to see if the application is using client or server machine
+             *      local time
+             */
+            ErrorSignal.FromCurrentContext().Raise(new Exception("The Current local machine time is: " + dateTimeNow.ToString("g") + " - { From Validation attribute }"));
+
             DateTime dateTime;
             const string format = "g";
 
@@ -23,7 +32,7 @@ namespace SchedulerWebApp.Models.ValidationAttributes
 
             var validDateformat = DateTime.TryParseExact(dateString,
                                                          format,
-                                                         new CultureInfo("de-CH"), 
+                                                         new CultureInfo("de-CH"),
                                                          DateTimeStyles.None, out dateTime);
 
             if (!validDateformat)
@@ -32,7 +41,7 @@ namespace SchedulerWebApp.Models.ValidationAttributes
             }
             var enteredDate = dateTime;
 
-            if (enteredDate >= dateToday)
+            if (enteredDate >= dateTimeNow)
             {
                 return ValidationResult.Success;
             }

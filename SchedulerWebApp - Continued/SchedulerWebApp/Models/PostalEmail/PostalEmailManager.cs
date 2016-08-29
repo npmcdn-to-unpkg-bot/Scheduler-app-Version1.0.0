@@ -78,10 +78,10 @@ namespace SchedulerWebApp.Models.PostalEmail
             try
             {
                 //sending email using web.config credentials
-                email.Send();
+                //email.Send();
 
                 //sending email using above credentials
-                //emailService.Send(email);
+                emailService.Send(email);
             }
             catch (Exception exception)
             {

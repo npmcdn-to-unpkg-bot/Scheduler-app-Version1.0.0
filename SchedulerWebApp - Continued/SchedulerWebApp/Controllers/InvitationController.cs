@@ -211,7 +211,6 @@ namespace SchedulerWebApp.Controllers
 
         #endregion
 
-
         /// <summary>
         /// Called when there are emaills that are not saved
         /// </summary>
