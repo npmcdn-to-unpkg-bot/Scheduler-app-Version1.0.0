@@ -10,6 +10,7 @@ using System.Web;
 using Microsoft.AspNet.Identity;
 using SchedulerWebApp.Models.DBContext;
 using SchedulerWebApp.Models.PostalEmail;
+using SchedulerWebApp.Models.ValidationAttributes;
 
 namespace SchedulerWebApp.Models
 {
@@ -106,11 +107,10 @@ namespace SchedulerWebApp.Models
 
         public bool EventHasNotPassed(Event eventForInvitation)
         {
-            var todaysDate = DateTime.UtcNow.ToLocalTime();
+            var todaysDate = ConvertDateTime.ToSwissTimezone(DateTime.UtcNow);
             var compareDates = eventForInvitation.StartDate.GetValueOrDefault().CompareTo(todaysDate);
 
             bool notPassed = compareDates >= 0;
-
             return notPassed;
         }
 

@@ -10,6 +10,7 @@ using SchedulerWebApp.Models;
 using SchedulerWebApp.Models.DBContext;
 using SchedulerWebApp.Models.HangfireJobs;
 using SchedulerWebApp.Models.PostalEmail;
+using SchedulerWebApp.Models.ValidationAttributes;
 using SchedulerWebApp.Models.ViewModels;
 
 namespace SchedulerWebApp.Controllers
@@ -54,17 +55,26 @@ namespace SchedulerWebApp.Controllers
                 return View(ReturnInvitationModel(id));
             }
 
+            //ToDo: change list and remainder dates to swiss time to be used for sending email
+
             // get event from database
             var eventForInvitation = GetEvent(id);
-            eventForInvitation.ListDate = model.ListDate;
-            eventForInvitation.ReminderDate = model.ReminderDate;
+            eventForInvitation.ListDate =
+            // ReSharper disable once PossibleInvalidOperationException
+                ConvertDateTime.ToSwissTimezone(TimeZoneInfo.ConvertTimeToUtc((DateTime) model.ListDate));
+
+            if (model.ReminderDate != null)
+            {
+                eventForInvitation.ReminderDate = ConvertDateTime.ToSwissTimezone(TimeZoneInfo.ConvertTimeToUtc((DateTime)model.ReminderDate));
+                Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("{ From Invitation controller sending invitation } Remainder date is on " + eventForInvitation.ReminderDate));
+            }
 
             /*
              * This is used to check time on the server 
              * when this is deployed
              */
-            Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("{ From Invitation controller sending invitation } Remainder date is on " + model.ReminderDate));
-            Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("{ From Invitation controller sending invitation } List date is on " + model.ListDate));
+           
+            Elmah.ErrorSignal.FromCurrentContext().Raise(new Exception("{ From Invitation controller sending invitation } List date is on " + eventForInvitation.ListDate));
 
 
             //Check if invitations can still be sent
@@ -195,9 +205,9 @@ namespace SchedulerWebApp.Controllers
         private static int GetParticipantId(Event eventForInvitation, string email)
         {
             return eventForInvitation.Participants
-                .Where(p => p.Email == email)
-                .Select(p => p.Id)
-                .FirstOrDefault();
+                                     .Where(p => p.Email == email)
+                                     .Select(p => p.Id)
+                                     .FirstOrDefault();
         }
 
         private string CreateUrl(string actionName, string controllerName, Event eventForInvitation, int participantId)

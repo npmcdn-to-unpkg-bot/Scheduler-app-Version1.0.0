@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Net;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Elmah;
-using Microsoft.AspNet.Identity;
 using SchedulerWebApp.Models;
 using SchedulerWebApp.Models.DBContext;
 using SchedulerWebApp.Models.HangfireJobs;
 using SchedulerWebApp.Models.PostalEmail;
+using SchedulerWebApp.Models.ValidationAttributes;
 
 namespace SchedulerWebApp.Controllers
 {
@@ -158,9 +157,14 @@ namespace SchedulerWebApp.Controllers
                 return View(@event);
             }
 
-            ConvertDateToSwissTimeZone(@event);
-
-            ErrorSignal.FromCurrentContext().Raise(new Exception(@event.StartDate.ToString()));
+            // ReSharper disable once PossibleInvalidOperationException
+            ConvertDateTime.ToSwissTimezone(TimeZoneInfo.ConvertTimeToUtc((DateTime)@event.StartDate));
+            /*
+                 * Todo: the line below is only for debugging purposes:
+                 *       Its to log current time to see if the application is using client or server machine
+                 *       local time
+                 */
+            ErrorSignal.FromCurrentContext().Raise(new Exception(String.Format("The current Event Date(local swiss time) is: {0}.  - (From Events controller)", @event.StartDate)));
 
             _service.SaveEvent(@event);
             return RedirectToAction("SendEventsInvitation", "Invitation", new { id = @event.Id });
@@ -183,31 +187,17 @@ namespace SchedulerWebApp.Controllers
             {
                 return View("Create", @event);
             }
-
-            ConvertDateToSwissTimeZone(@event);
+            // ReSharper disable once PossibleInvalidOperationException
+            ConvertDateTime.ToSwissTimezone(TimeZoneInfo.ConvertTimeToUtc((DateTime)@event.StartDate));
+            /*
+                 * Todo: the line below is only for debugging purposes:
+                 *       Its to log current time to see if the application is using client or server machine
+                 *       local time
+                 */
+            ErrorSignal.FromCurrentContext().Raise(new Exception(String.Format("The current Event Date(local swiss time) is: {0}.  - (From Events controller)", @event.StartDate)));
 
             _service.SaveEvent(@event);
-
             return RedirectToAction("SendEventsInvitation", "Invitation", new { id = @event.Id });
-        }
-
-        private void ConvertDateToSwissTimeZone(Event @event)
-        {
-            if (@event.StartDate != null)
-            {
-                var startDateUtc = TimeZoneInfo.ConvertTimeToUtc((DateTime)@event.StartDate);
-                var swissTimezone = TimeZoneInfo.FindSystemTimeZoneById("W. Europe Standard Time");
-
-                var startDateUtcToLocal = TimeZoneInfo.ConvertTime(startDateUtc, swissTimezone);
-                @event.StartDate = startDateUtcToLocal;
-            }
-
-            /*
-             * Todo: the line below is only for debugging purposes:
-             *       Its to log current time to see if the application is using client or server machine
-             *       local time
-             */
-            ErrorSignal.FromCurrentContext().Raise(new Exception(String.Format("The current Event Date(local swiss time) is: {0}.  - (From Events controller)", @event.StartDate)));
         }
 
         #endregion

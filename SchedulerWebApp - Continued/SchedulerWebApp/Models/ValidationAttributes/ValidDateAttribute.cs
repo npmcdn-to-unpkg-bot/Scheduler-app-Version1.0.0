@@ -17,21 +17,17 @@ namespace SchedulerWebApp.Models.ValidationAttributes
             else return new ValidationResult("Date is Required!");
 
             var dateTimeNowUtc = DateTime.UtcNow;
-
+            var currentSwissTime = ConvertDateTime.ToSwissTimezone(dateTimeNowUtc);
 
             /*
              * Todo: the line below is only for debugging purposes:
              *      Its to log current time to see if the application is using client or server machine
              *      local time
              */
-            var swissTimezone = TimeZoneInfo.FindSystemTimeZoneById("W. Europe Standard Time");
-            var currentSwissTime = TimeZoneInfo.ConvertTime(dateTimeNowUtc, swissTimezone);
             ErrorSignal.FromCurrentContext().Raise(new Exception("The Current local machine time is: " + currentSwissTime.ToString("g") + " - { From Validation attribute }"));
 
             DateTime dateTime;
             const string format = "g";
-
-            /*var validDateformat = DateTime.TryParse(dateString, out dateTime);*/
 
             var validDateformat = DateTime.TryParseExact(dateString,
                                                          format,
@@ -44,7 +40,7 @@ namespace SchedulerWebApp.Models.ValidationAttributes
             }
 
             var enteredDateUtc = TimeZoneInfo.ConvertTimeToUtc(dateTime);
-            var enteredDate = TimeZoneInfo.ConvertTime(enteredDateUtc, swissTimezone);
+            var enteredDate = ConvertDateTime.ToSwissTimezone(enteredDateUtc);
             ErrorSignal.FromCurrentContext().Raise(new Exception("Entered date time is: " + enteredDate.ToString("g") + " - { From Validation attribute }"));
 
             if (enteredDate >= currentSwissTime)
@@ -53,5 +49,7 @@ namespace SchedulerWebApp.Models.ValidationAttributes
             }
             return new ValidationResult(ErrorMessage);
         }
+
+
     }
 }
