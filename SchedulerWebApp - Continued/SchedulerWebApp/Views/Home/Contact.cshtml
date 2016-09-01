@@ -16,39 +16,37 @@
                         We would like to hear from you. Tell us your experience using our website. Sugestions on how we can improve are welcome and highly appreciated.
                     </p>
                     <div class="contact-form">
-                        @using (Html.BeginForm("Contact", "Home", FormMethod.Post, new { id = "contactForm" }))
+                        @using (Html.BeginForm("Contact", "Home", FormMethod.Post, new { id = "contactForm", @class = "wow fadeInDown", data_wow_duration = "500ms", data_wow_delay = ".6s" }))
                         {
                             @Html.AntiForgeryToken()
-                            <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".6s">
-                                @Html.EditorFor(model => model.SenderFistName, new { htmlAttributes = new { @class = "form-control", autofocus = "autofocus", placeholder="First name" } })
+                            <div class="form-group">
+                                @Html.EditorFor(model => model.SenderFistName, new { htmlAttributes = new { @class = "form-control", autofocus = "autofocus", placeholder = "First name" } })
                                 @Html.ValidationMessageFor(model => model.SenderFistName, "", new { @class = "text-danger" })
                             </div>
 
-                            <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".8s">
+                            <div class="form-group ">
                                 @Html.EditorFor(model => model.SenderLastName, new { htmlAttributes = new { @class = "form-control", placeholder = "Last name" } })
                                 @Html.ValidationMessageFor(model => model.SenderLastName, "", new { @class = "text-danger" })
                             </div>
 
-                            <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay="1s">
+                            <div class="form-group ">
                                 @Html.EditorFor(model => model.From, new { htmlAttributes = new { @class = "form-control", placeholder = "Your email" } })
                                 @Html.ValidationMessageFor(model => model.From, "", new { @class = "text-danger" })
                             </div>
 
-                            <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay="1.2s">
+                            <div class="form-group">
                                 @Html.EditorFor(model => model.EmailSubject, new { htmlAttributes = new { @class = "form-control", placeholder = "Subject" } })
                                 @Html.ValidationMessageFor(model => model.EmailSubject, "", new { @class = "text-danger" })
                             </div>
 
-                            <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay="1.4s">
+                            <div class="form-group">
                                 @Html.EditorFor(model => model.EmailBody, new { htmlAttributes = new { @class = "form-control", rows = "6", placeholder = "Message" } })
                                 @Html.ValidationMessageFor(model => model.EmailBody, "", new { @class = "text-danger" })
                             </div>
-
-
-                            <div id="submit" class="wow fadeInDown" data-wow-duration="500ms" data-wow-delay="1.4s">
-                                <button type="submit" class="btn btn-default btn-send btn-block zero-radius form_element-height">Send Email</button>
+                            
+                            <div id="submit">
+                                <button id="sendEmailBtn" type="submit" class="btn btn-default btn-send btn-block zero-radius form_element-height">Send Email</button>
                             </div>
-
                         }
                     </div>
                 </div>
@@ -56,3 +54,15 @@
         </div>
     </div>
 </section>
+
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/custom")
+    <script type="text/javascript">
+        (function () {
+            onValidFormSubmit("sendEmailBtn", "Sending");
+        })();
+    </script>
+}

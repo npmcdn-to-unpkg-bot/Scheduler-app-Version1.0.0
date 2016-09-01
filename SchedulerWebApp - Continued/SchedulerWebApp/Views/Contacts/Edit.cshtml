@@ -11,7 +11,7 @@
         <div class="row">
             <div class="col-md-6 col-md-offset-3">
                 <div class="block">
-                    @using (Html.BeginForm())
+                    @using (Html.BeginForm("Edit","Contacts", FormMethod.Post,new {@class="wow fadeInDown", data_wow_duration="500ms", data_wow_delay=".3s"}))
                     {
                         @Html.AntiForgeryToken()
 
@@ -19,30 +19,30 @@
                             @Html.HiddenFor(m => m.ContactId)
 
                             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                            <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".3s">
+                            <div class="form-group" >
                                 @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control", placeholder = "First name" } })
                                 @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
                             </div>
 
-                            <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".5s">
+                            <div class="form-group">
                                 @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control", placeholder = "Last name" } })
                                 @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
                             </div>
                             
-                            <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".7s">
+                            <div class="form-group">
                                 @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", placeholder = "Email" } })
                                 @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
                             </div>
 
-                            <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".9s">
+                            <div class="form-group">
                                 @Html.EditorFor(model => model.PhoneNumber, new { htmlAttributes = new { @class = "form-control", placeholder = "07X XXX XX XX" } })
                                 @Html.ValidationMessageFor(model => model.PhoneNumber, "", new { @class = "text-danger" })
                             </div>
 
-                            <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay="1.1s">
+                            <div class="form-group">
                                 <button type="submit" class="zero-radius btn btn-block btn-info form_element-height"> Save</button>
                             </div>
-                            <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay="1.3s">
+                            <div class="form-group">
                                 @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-danger form-control zero-radius form_element-height" })
                             </div>
                         </div>

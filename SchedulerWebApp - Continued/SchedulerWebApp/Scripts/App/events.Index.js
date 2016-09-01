@@ -15,7 +15,6 @@ $(document).ready(function () {
         var self = $(this);
         self.on('shown.bs.tab', function () {
             addMasonry(container);
-            fixContainerHeight();
         });
     });
 

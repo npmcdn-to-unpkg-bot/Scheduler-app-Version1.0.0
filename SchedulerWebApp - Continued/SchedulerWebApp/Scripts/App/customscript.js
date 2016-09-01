@@ -202,16 +202,6 @@ function changeButtonText(buttonId, newText) {
     $(id).html(newElement);
 }
 
-function fixContainerHeight() {
-    var windowHeight = $(window).height();
-    var containerHeight = $('.body-div').height();
-
-    if (containerHeight < windowHeight) {
-
-        $('.body-div').css("height", "85vh");
-    }
-}
-
 function adjustHeight() {
     var events = $(".event-div").length;
     if (events > 6) {
@@ -292,7 +282,7 @@ function createMap(selector, locationElementSelctor) {
                             }
                         });
  
-        $(this).find("img").attr('src', 'https://maps.googleapis.com/maps/api/staticmap?center=' + address + '&zoom=14&size=350x250&markers=color:red%7Clabel:0%7C11211%7C11206%7C11222|' + address + '&key=AIzaSyB7hmntE1W-a7pmy7UoocDrQlawzUujTwI');
+            $(this).find(".img-map").attr('src', 'https://maps.googleapis.com/maps/api/staticmap?center=' + address + '&zoom=14&size=350x250&markers=color:red%7Clabel:0%7C11211%7C11206%7C11222|' + address + '&key=AIzaSyB7hmntE1W-a7pmy7UoocDrQlawzUujTwI');
     });
 }
 

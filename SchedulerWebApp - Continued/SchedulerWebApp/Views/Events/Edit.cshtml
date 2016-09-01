@@ -14,7 +14,7 @@
             <div class="col-md-6 col-md-offset-3">
                 <div class="block">
 
-                    @using (Html.BeginForm())
+                    @using (Html.BeginForm("Edit", "Events", FormMethod.Post, new { @class = "wow fadeInDown", data_wow_duration = "500ms", data_wow_delay = ".3s" }))
                     {
                         @Html.AntiForgeryToken()
 
@@ -23,17 +23,17 @@
                             @Html.HiddenFor(model => model.Id)
                             @Html.HiddenFor(model => model.SchedulerUserId)
 
-                            <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".3s">
+                            <div class="form-group">
                                 @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", autofocus = "autofocus", placeholder = "What" } })
                                 @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
                             </div>
 
-                            <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".5s">
+                            <div class="form-group">
                                 @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control", placeholder = "Where" } })
                                 @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
                             </div>
 
-                            <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".7s">
+                            <div class="form-group">
                                 <div class='input-group date '>
                                     @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control", id = "datePickerStart", placeholder = "Event's date" } })
                                     <span class="input-group-addon zero-radius">
@@ -44,7 +44,7 @@
                                 @Html.ValidationMessage("dateError", "", new { @class = "text-danger" })
                             </div>
 
-                            <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".9s">
+                            <div class="form-group">
                                 <div class='input-group date '>
                                     @Html.EditorFor(model => model.ListDate, new { htmlAttributes = new { @class = "form-control", id = "datePickerList", placeholder = "Date to receive list of participants" } })
                                     <span class="input-group-addon zero-radius">
@@ -57,7 +57,7 @@
 
                             @if (Model.ReminderDate != null)
                             {
-                                <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay="1s">
+                                <div class="form-group">
                                     <div class='input-group date '>
                                         @Html.EditorFor(model => model.ReminderDate, new { htmlAttributes = new { @class = "form-control", id = "datePickerRemainder", placeholder = "Date to send remainders" } })
                                         <span class="input-group-addon zero-radius">
@@ -69,17 +69,17 @@
                                 </div>
                             }
 
-                            <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay="1.1s">
+                            <div class="form-group">
                                 @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", rows = "6", placeholder = "Event description" } })
                                 @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
-                        <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay="1.3s">
+                        <div class="form-group">
                             <button id="saveButton" type="submit" class="btn btn-info btn-send  form-control zero-radius form_element-height">Save</button>
                         </div>
 
-                        <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay="1.5s">
+                        <div class="form-group">
                             @Html.ActionLink("Cancel", "Details", "Events", new { id = Model.Id }, new { id = "cancelButton", @class = "btn btn-info zero-radius form-control form_element-height" })
                         </div>
                     }
@@ -90,88 +90,6 @@
     </div>
 </section>
 
-
-<!-- #region old form -->
-@*<div class="col-md-8 col-md-offset-2">
-        <h2 class="text-center-smallScreen ">Edit @Model.Title</h2>
-
-
-        @using (Html.BeginForm())
-        {
-            @Html.AntiForgeryToken()
-
-            <div class="form-horizontal">
-                <hr />
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                @Html.HiddenFor(model => model.Id)
-                @Html.HiddenFor(model => model.SchedulerUserId)
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Title, new { @class = "control-label col-md-3" })
-                    <div class="col-md-9">
-                        @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control", autofocus = "autofocus", placeholder = "Name of the event" } })
-                        @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Location, new { @class = "control-label col-md-3" })
-                    <div class="col-md-9">
-                        @Html.EditorFor(model => model.Location, new { htmlAttributes = new { @class = "form-control", placeholder = "Where event's take place" } })
-                        @Html.ValidationMessageFor(model => model.Location, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.StartDate, new { @class = "control-label col-md-3" })
-                    <div class="col-md-9">
-                        @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control", id = "datePickerStart", placeholder = "Event's date" } })
-                        @Html.ValidationMessageFor(model => model.StartDate, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.ListDate, new { @class = "control-label col-md-3" })
-                    <div class="col-md-9">
-                        @Html.EditorFor(model => model.ListDate, new { htmlAttributes = new { @class = "form-control", id = "datePickerList", placeholder = "Date to get participants list" } })
-                        @Html.ValidationMessageFor(model => model.ListDate, "", new { @class = "text-danger" })
-                        @Html.ValidationMessage("dateError", "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.ReminderDate, new { @class = "control-label col-md-3" })
-                    <div class="col-md-9">
-                        @Html.EditorFor(model => model.ReminderDate, new { htmlAttributes = new { @class = "form-control", id = "datePickerRemainder", placeholder = "Date to send remainders" } })
-                        @Html.ValidationMessageFor(model => model.ReminderDate, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-3" })
-                    <div class="col-md-9">
-                        @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", placeholder = "Event description" } })
-                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-md-9 col-md-offset-3 col-xs-12">
-                        <input type="submit" value="Save" class=" form-control btn btn-info col-xs-12 " />
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-md-offset-3 col-md-9 col-xs-12">
-                        @Html.ActionLink("Cancel", "Details", "Events", new { id = Model.Id }, new { @class = "form-control btn btn-danger col-md-11 col-xs-12" })
-                    </div>
-                </div>
-            </div>
-        }
-
-    </div>*@
-
-<!-- #endregion -->
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/dateTimePicker")
