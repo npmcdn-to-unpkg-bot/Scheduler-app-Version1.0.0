@@ -49,7 +49,5 @@ namespace SchedulerWebApp.Models.ValidationAttributes
             }
             return new ValidationResult(ErrorMessage);
         }
-
-
     }
 }

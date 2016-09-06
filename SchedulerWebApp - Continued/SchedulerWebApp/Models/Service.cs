@@ -70,8 +70,12 @@ namespace SchedulerWebApp.Models
 
         public static DateTime GetRemanderDate(Event eventToEdit)
         {
-            var remanderDate = eventToEdit.ReminderDate;
-            return remanderDate.GetValueOrDefault();
+            // ReSharper disable once PossibleInvalidOperationException
+            var remanderDateUtc = TimeZoneInfo.ConvertTimeToUtc((DateTime) eventToEdit.ReminderDate);
+
+            var remainderDate = ConvertDateTime.ToSwissTimezone(remanderDateUtc);
+
+            return remainderDate;
         }
 
         #endregion

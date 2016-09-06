@@ -234,7 +234,7 @@ namespace SchedulerWebApp.Controllers
 
                 #endregion
                 
-                return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                return RedirectToAction("ForgotPasswordConfirmation", "Account",new {userEmail= model.Email});
             }
 
             // If we got this far, something failed, redisplay form
@@ -244,8 +244,9 @@ namespace SchedulerWebApp.Controllers
         //
         // GET: /Account/ForgotPasswordConfirmation
         [AllowAnonymous]
-        public ActionResult ForgotPasswordConfirmation()
+        public ActionResult ForgotPasswordConfirmation(string userEmail)
         {
+            ViewBag.userEmail = userEmail;
             return View();
         }
 
