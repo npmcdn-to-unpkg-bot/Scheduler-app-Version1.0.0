@@ -2,7 +2,7 @@
 
 <h2 class="subtitle wow fadeInLeft" data-wow-duration="500ms" data-wow-delay=".3s">Invitees</h2>
 
-<table id="participantTable" class="table table-responsive table-condensed detailsTable display" cellspacing="0" width="100%">
+<table id="participantTable" class="table table-condensed detailsTable display nowrap" cellspacing="0" width="100%">
     <thead>
         <tr>
             <th>Email</th>
@@ -20,7 +20,6 @@
                 <span class="hidden colorSpan">@(item.Availability ? "Attending" : "Absent") @(item.Responce ? "Responded" : "No Response")</span>
             </td>
 
-            @*@(item.Availability ? "attending" : "Absent")*@
 
             @if (item.Availability)
             {
@@ -37,7 +36,6 @@
             }
 
 
-            @*@(item.Responce ? "Responded" : "No Response")*@
             @if (item.Responce)
             {
                 <td data-order="a" class="text-center">
@@ -51,7 +49,6 @@
                 </td>
             }
             <td>
-
                 @Html.DisplayFor(modelItem => item.Comments)
             </td>
 

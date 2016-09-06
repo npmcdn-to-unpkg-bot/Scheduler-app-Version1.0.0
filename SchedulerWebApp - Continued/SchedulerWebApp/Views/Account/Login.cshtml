@@ -4,7 +4,7 @@
     ViewBag.Title = "Log in";
 }
 
-@Html.Partial("_GlobalPageHeader", ViewData["heading"]="Log in")
+@Html.Partial("_GlobalPageHeader", ViewData["heading"] = "Log in")
 
 <section id="contact-section" class="form-section">
     <div class="container">
@@ -21,76 +21,75 @@
                         {
                             @Html.AntiForgeryToken()
 
-                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            if (!ViewData.ModelState.IsValid)
+                            {
+                                <div class="alert alert-danger wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".5s">
+                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                </div>
+                            }
 
                             <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".6s">
-                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email" })
-                                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-                            </div>
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Email" })
+                                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                                </div>
 
-                            <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".8s">
-                                <div class="input-group">
-                                    @Html.PasswordFor(m => m.Password, new { id = "password", @class = "form-control", placeholder = "Password" })
-                                    <div id="passwordIcon" class="input-group-addon zero-radius">
-                                        <i class="glyphicon glyphicon-eye-open"></i>
+                                <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".8s">
+                                    <div class="input-group">
+                                        @Html.PasswordFor(m => m.Password, new { id = "password", @class = "form-control", placeholder = "Password" })
+                                        <div id="passwordIcon" class="input-group-addon zero-radius">
+                                            <i class="glyphicon glyphicon-eye-open"></i>
+                                        </div>
+                                    </div>
+                                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                </div>
+                                <br />
+                                <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay="1s">
+                                    <div class="checkbox">
+                                        <label>
+                                            @Html.CheckBoxFor(m => m.RememberMe, new { @class = "large-checkbox" })
+                                            @Html.LabelFor(m => m.RememberMe, new { id = "labelLgCheckbox" })
+                                        </label>
                                     </div>
                                 </div>
-                                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                            </div>
-                            <br />
-                            <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay="1s">
-                                <div class="checkbox">
-                                    <label>
-                                        @Html.CheckBoxFor(m => m.RememberMe, new { @class = "large-checkbox" })
-                                        @Html.LabelFor(m => m.RememberMe, new { id = "labelLgCheckbox" })
-                                    </label>
-                                </div>
-                            </div>
 
-                            <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay="1.2s">
-                                <div id="submit">
-                                    <button id="submitBtn" type="submit" class="btn btn-default btn-send btn-block zero-radius form_element-height">Log in</button>
+                                <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay="1.2s">
+                                    <div id="submit">
+                                        <button id="submitBtn" type="submit" class="btn btn-default btn-send btn-block zero-radius form_element-height">Log in</button>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay="1.4s">
-                                @Html.ActionLink("Forgot your password?", "ForgotPassword")
-                            </div>
+                                <div class="form-group wow fadeInDown" data-wow-duration="500ms" data-wow-delay="1.4s">
+                                    @Html.ActionLink("Forgot your password?", "ForgotPassword")
+                                </div>
                         }
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="map-area">
-                    <h2 class="subtitle wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".3s">Use Google</h2>
-                    <p class="subtitle-des wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".5s">
-                        Use your google account to log in
-                    </p>
-                    <div class="map">
-                        <section id="socialLoginForm" class="wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".8s">
-                            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-                        </section>
-                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</section>
+                            <div class="col-md-3">
+                                <div class="map-area">
+                                    <h2 class="subtitle wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".3s">Use Google</h2>
+                                    <p class="subtitle-des wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".5s">
+                                        Use your google account to log in
+                                    </p>
+                                    <div class="map">
+                                        <section id="socialLoginForm" class="wow fadeInDown" data-wow-duration="500ms" data-wow-delay=".8s">
+                                            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
+                                        </section>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
     <script type="text/javascript">
+        (function () {
+            showHidePassword('#passwordIcon', '#password');
 
-        showHidePassword('#passwordIcon', '#password');
-
-        $('form').submit(function (e) {
-
-            var isValid = $(this).valid();
-            console.log(isValid);
-
-            if (isValid) {
-                changeButtonText('submitBtn', 'logging in');
-            }
-        });
+            onValidFormSubmit('submitBtn', 'logging in');
+        })();
     </script>
 }
