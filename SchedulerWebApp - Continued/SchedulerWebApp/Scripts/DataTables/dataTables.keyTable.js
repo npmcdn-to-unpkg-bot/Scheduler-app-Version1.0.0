@@ -1,15 +1,15 @@
-/*! KeyTable 2.0.0
- * ©2009-2015 SpryMedia Ltd - datatables.net/license
+/*! KeyTable 2.1.2
+ * ©2009-2016 SpryMedia Ltd - datatables.net/license
  */
 
 /**
  * @summary     KeyTable
  * @description Spreadsheet like keyboard navigation for DataTables
- * @version     2.0.0
+ * @version     2.1.2
  * @file        dataTables.keyTable.js
  * @author      SpryMedia Ltd (www.sprymedia.co.uk)
  * @contact     www.sprymedia.co.uk/contact
- * @copyright   Copyright 2009-2015 SpryMedia Ltd.
+ * @copyright   Copyright 2009-2016 SpryMedia Ltd.
  *
  * This source file is free software, available under the following license:
  *   MIT license - http://datatables.net/license/mit
@@ -21,13 +21,34 @@
  * For details please refer to: http://www.datatables.net
  */
 
+(function( factory ){
+	if ( typeof define === 'function' && define.amd ) {
+		// AMD
+		define( ['jquery', 'datatables.net'], function ( $ ) {
+			return factory( $, window, document );
+		} );
+	}
+	else if ( typeof exports === 'object' ) {
+		// CommonJS
+		module.exports = function (root, $) {
+			if ( ! root ) {
+				root = window;
+			}
 
-(function(window, document, undefined) {
+			if ( ! $ || ! $.fn.dataTable ) {
+				$ = require('datatables.net')(root, $).$;
+			}
 
-
-var factory = function( $, DataTable ) {
-"use strict";
-
+			return factory( $, root, root.document );
+		};
+	}
+	else {
+		// Browser
+		factory( jQuery, window, document );
+	}
+}(function( $, window, document, undefined ) {
+'use strict';
+var DataTable = $.fn.dataTable;
 
 
 var KeyTable = function ( dt, opts ) {
@@ -48,7 +69,10 @@ var KeyTable = function ( dt, opts ) {
 		/** @type {DataTable.Api} DataTables' API instance */
 		dt: new DataTable.Api( dt ),
 
-		enable: true
+		enable: true,
+
+		/** @type {bool} Flag for if a draw is triggered by focus */
+		focusDraw: false
 	};
 
 	// DOM items
@@ -68,7 +92,7 @@ var KeyTable = function ( dt, opts ) {
 };
 
 
-KeyTable.prototype = {
+$.extend( KeyTable.prototype, {
 	/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 	 * API methods for DataTables API interface
 	 */
@@ -99,6 +123,23 @@ KeyTable.prototype = {
 	focus: function ( row, column )
 	{
 		this._focus( this.s.dt.cell( row, column ) );
+	},
+
+	/**
+	 * Is the cell focused
+	 * @param  {object} cell Cell index to check
+	 * @returns {boolean} true if focused, false otherwise
+	 */
+	focused: function ( cell )
+	{
+		var lastFocus = this.s.lastFocus;
+
+		if ( ! lastFocus ) {
+			return false;
+		}
+
+		var lastIdx = this.s.lastFocus.index();
+		return cell.row === lastIdx.row && cell.column === lastIdx.column;
 	},
 
 
@@ -136,17 +177,17 @@ KeyTable.prototype = {
 				return;
 			}
 
-			that._focus( cell );
+			that._focus( cell, null, false );
 		} );
 
 		// Key events
-		$( document.body ).on( 'keydown.keyTable', function (e) {
+		$( document ).on( 'keydown.keyTable', function (e) {
 			that._key( e );
 		} );
 
 		// Click blur
 		if ( this.c.blurable ) {
-			$( document.body ).on( 'click.keyTable', function ( e ) {
+			$( document ).on( 'click.keyTable', function ( e ) {
 				// Click on the search input will blur focus
 				if ( $(e.target).parents( '.dataTables_filter' ).length ) {
 					that._blur();
@@ -167,7 +208,7 @@ KeyTable.prototype = {
 		}
 
 		if ( this.c.editor ) {
-			dt.on( 'key.kt', function ( e, dt, key, cell, orig ) {
+			dt.on( 'key.keyTable', function ( e, dt, key, cell, orig ) {
 				that._editor( key, orig );
 			} );
 		}
@@ -181,6 +222,27 @@ KeyTable.prototype = {
 			} );
 		}
 
+		// Reload - re-focus on the currently selected item. In SSP mode this
+		// has the effect of keeping the focus in position when changing page as
+		// well (which is different from how client-side processing works).
+		dt.on( 'xhr.keyTable', function ( e ) {
+			if ( that.s.focusDraw ) {
+				// Triggered by server-side processing, and thus `_focus` will
+				// do the refocus on the next draw event
+				return;
+			}
+
+			var lastFocus = that.s.lastFocus;
+
+			if ( lastFocus ) {
+				that.s.lastFocus = null;
+
+				dt.one( 'draw', function () {
+					that._focus( lastFocus );
+				} );
+			}
+		} );
+
 		dt.on( 'destroy.keyTable', function () {
 			dt.off( '.keyTable' );
 			$( dt.table().body() ).off( 'click.keyTable', 'th, td' );
@@ -193,7 +255,15 @@ KeyTable.prototype = {
 		var state = dt.state.loaded();
 
 		if ( state && state.keyTable ) {
-			dt.cell( state.keyTable ).focus();
+			// Wait until init is done
+			dt.one( 'init', function () {
+				var cell = dt.cell( state.keyTable );
+
+				// Ensure that the saved cell still exists
+				if ( cell.any() ) {
+					cell.focus();
+				}
+			} );
 		}
 		else if ( this.c.focus ) {
 			dt.cell( this.c.focus ).focus();
@@ -264,10 +334,16 @@ KeyTable.prototype = {
 
 		orig.stopPropagation();
 
+		// Return key should do nothing - for textareas's it would empty the
+		// contents
+		if ( key === 13 ) {
+			orig.preventDefault();
+		}
+
 		editor.inline( this.s.lastFocus.index() );
 
 		// Excel style - select all text
-		var input = $('div.DTE input');
+		var input = $('div.DTE input, div.DTE textarea');
 		if ( input.length ) {
 			input[0].select();
 		}
@@ -314,9 +390,10 @@ KeyTable.prototype = {
 	 * @param  {integer} [column] Not required if a cell is given as the first
 	 *   parameter. Otherwise this is the column data index for the cell to
 	 *   focus on
+	 * @param {boolean} [shift=true] Should the viewport be moved to show cell
 	 * @private
 	 */
-	_focus: function ( row, column )
+	_focus: function ( row, column, shift )
 	{
 		var that = this;
 		var dt = this.s.dt;
@@ -346,9 +423,12 @@ KeyTable.prototype = {
 
 		// Is the row on the current page? If not, we need to redraw to show the
 		// page
-		if ( row < pageInfo.start || row >= pageInfo.start+pageInfo.length ) {
+		if ( pageInfo.length !== -1 && (row < pageInfo.start || row >= pageInfo.start+pageInfo.length) ) {
+			this.s.focusDraw = true;
+
 			dt
 				.one( 'draw', function () {
+					that.s.focusDraw = false;
 					that._focus( row, column );
 				} )
 				.page( Math.floor( row / pageInfo.length ) )
@@ -368,7 +448,7 @@ KeyTable.prototype = {
 			row -= pageInfo.start;
 		}
 
-		var cell = dt.cell( ':eq('+row+')', column );
+		var cell = dt.cell( ':eq('+row+')', column, {search: 'applied'} );
 
 		if ( lastFocus ) {
 			// Don't trigger a refocus on the same cell
@@ -384,13 +464,15 @@ KeyTable.prototype = {
 		node.addClass( this.c.className );
 
 		// Shift viewpoint and page to make cell visible
-		this._scroll( $(window), $(document.body), node, 'offset' );
+		if ( shift === undefined || shift === true ) {
+			this._scroll( $(window), $(document.body), node, 'offset' );
 
-		var bodyParent = dt.table().body().parentNode;
-		if ( bodyParent !== dt.table().header().parentNode ) {
-			var parent = $(bodyParent.parentNode);
+			var bodyParent = dt.table().body().parentNode;
+			if ( bodyParent !== dt.table().header().parentNode ) {
+				var parent = $(bodyParent.parentNode);
 
-			this._scroll( parent, parent, node, 'position' );
+				this._scroll( parent, parent, node, 'position' );
+			}
 		}
 
 		// Event and finish
@@ -529,12 +611,12 @@ KeyTable.prototype = {
 		}
 
 		// Bottom correction
-		if ( offset.top + height > scrollTop + containerHeight ) {
+		if ( offset.top + height > scrollTop + containerHeight && height < containerHeight ) {
 			scroller.scrollTop( offset.top + height - containerHeight );
 		}
 
 		// Right correction
-		if ( offset.left + width > scrollLeft + containerWidth ) {
+		if ( offset.left + width > scrollLeft + containerWidth && width < containerWidth ) {
 			scroller.scrollLeft( offset.left + width - containerWidth );
 		}
 	},
@@ -610,8 +692,7 @@ KeyTable.prototype = {
 			row++;
 		}
 
-		if ( row    >= 0 && row    < rows &&
-			 column >= 0 && column <= columns.length
+		if ( row >= 0 && row < rows && $.inArray( column, columns ) !== -1
 		) {
 			e.preventDefault();
 
@@ -656,10 +737,10 @@ KeyTable.prototype = {
 			.insertBefore( dt.table().node() );
 
 		div.children().on( 'focus', function () {
-			that._focus( dt.cell(':eq(0)', {page: 'current'}) );
+			that._focus( dt.cell(':eq(0)', '0:visible', {page: 'current'}) );
 		} );
 	}
-};
+} );
 
 
 /**
@@ -717,7 +798,7 @@ KeyTable.defaults = {
 
 
 
-KeyTable.version = "2.0.0";
+KeyTable.version = "2.1.2";
 
 
 $.fn.dataTable.KeyTable = KeyTable;
@@ -756,6 +837,27 @@ DataTable.Api.register( 'keys.enable()', function ( opts ) {
 	} );
 } );
 
+// Cell selector
+DataTable.ext.selector.cell.push( function ( settings, opts, cells ) {
+	var focused = opts.focused;
+	var kt = settings.keytable;
+	var out = [];
+
+	if ( ! kt || focused === undefined ) {
+		return cells;
+	}
+
+	for ( var i=0, ien=cells.length ; i<ien ; i++ ) {
+		if ( (focused === true &&  kt.focused( cells[i] ) ) ||
+			 (focused === false && ! kt.focused( cells[i] ) )
+		) {
+			out.push( cells[i] );
+		}
+	}
+
+	return out;
+} );
+
 
 // Attach a listener to the document which listens for DataTables initialisation
 // events so we can automatically initialise
@@ -778,21 +880,4 @@ $(document).on( 'preInit.dt.dtk', function (e, settings, json) {
 
 
 return KeyTable;
-}; // /factory
-
-
-// Define as an AMD module if possible
-if ( typeof define === 'function' && define.amd ) {
-	define( ['jquery', 'datatables'], factory );
-}
-else if ( typeof exports === 'object' ) {
-    // Node/CommonJS
-    factory( require('jquery'), require('datatables') );
-}
-else if ( jQuery && !jQuery.fn.dataTable.KeyTable ) {
-	// Otherwise simply initialise as normal, stopping multiple evaluation
-	factory( jQuery, jQuery.fn.dataTable );
-}
-
-
-})(window, document);
+}));

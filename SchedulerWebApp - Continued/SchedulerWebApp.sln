@@ -9,6 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchedulerWebApp.Tests", "Sc
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{B4C77D97-D15B-4B05-B3C1-2412578480E4}"
 	ProjectSection(SolutionItems) = preProject
+		SchedulerWebApp\Content\DataTables\css\dataTables.bootstrap.css = SchedulerWebApp\Content\DataTables\css\dataTables.bootstrap.css
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
