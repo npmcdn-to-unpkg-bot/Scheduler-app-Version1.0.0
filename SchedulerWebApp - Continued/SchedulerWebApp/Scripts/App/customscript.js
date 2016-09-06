@@ -10,6 +10,7 @@ function elementsInitialization(elementId) {
     $(id).datetimepicker({
         format: "DD.MM.YYYY HH:mm",
         toolbarPlacement: 'bottom',
+        widgetPositioning: { horizontal: 'auto', vertical: 'bottom' },
         minDate: todaysDate.subtract(0, 'days').startOf('day')
     });
 }
@@ -23,6 +24,7 @@ function linkTwoInputs(listDateElement, remeinderElement, maxDatetime) {
     $(listId).datetimepicker({
         format: "DD.MM.YYYY HH:mm",
         minDate: dateToday,
+        widgetPositioning: { horizontal: 'auto', vertical: 'bottom' },
         toolbarPlacement: 'top',
         maxDate: maxDatetime
     });
@@ -30,6 +32,7 @@ function linkTwoInputs(listDateElement, remeinderElement, maxDatetime) {
     $(remeinderId).datetimepicker({
         format: "DD.MM.YYYY HH:mm",
         minDate: dateToday,
+        widgetPositioning: { horizontal: 'auto', vertical: 'top' },
         toolbarPlacement: 'top',
         maxDate: maxDatetime,
         useCurrent: false //Important! See issue #1075
@@ -271,18 +274,18 @@ function createMap(selector, locationElementSelctor) {
         var address = $(this).find(locationElementSelctor).text();
         console.log(address);
 
-            geocoder.geocode({ 'address': address },
-                        function (results, status) {
-                            if (status === google.maps.GeocoderStatus.OK) {
-                                address = address;
+        geocoder.geocode({ 'address': address },
+                    function (results, status) {
+                        if (status === google.maps.GeocoderStatus.OK) {
+                            address = address;
 
-                            } else {
-                                console.log('Geocode for ' + address + ' was not successful for the following reason: ' + status);
-                                //$(".wow img").attr('src', "../Images/image2.jpg");
-                            }
-                        });
- 
-            $(this).find(".img-map").attr('src', 'https://maps.googleapis.com/maps/api/staticmap?center=' + address + '&zoom=14&size=350x250&markers=color:red%7Clabel:0%7C11211%7C11206%7C11222|' + address + '&key=AIzaSyB7hmntE1W-a7pmy7UoocDrQlawzUujTwI');
+                        } else {
+                            console.log('Geocode for ' + address + ' was not successful for the following reason: ' + status);
+                            //$(".wow img").attr('src', "../Images/image2.jpg");
+                        }
+                    });
+
+        $(this).find(".img-map").attr('src', 'https://maps.googleapis.com/maps/api/staticmap?center=' + address + '&zoom=14&size=350x250&markers=color:red%7Clabel:0%7C11211%7C11206%7C11222|' + address + '&key=AIzaSyB7hmntE1W-a7pmy7UoocDrQlawzUujTwI');
     });
 }
 
