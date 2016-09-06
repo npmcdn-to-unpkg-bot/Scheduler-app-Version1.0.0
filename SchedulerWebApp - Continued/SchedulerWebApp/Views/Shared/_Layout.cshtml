@@ -7,12 +7,6 @@
     <title>@ViewBag.Title - easyshedule.ch</title>
     <link rel="shortcut icon" type="image/ico" href="~/Images/favicon.ico">
 
-    <style type="text/css">
-        .no-fouc {
-            display: none;
-        }
-    </style>
-
     <!--Stylesheets-->
     @Styles.Render("~/Content/css")
     <link href='https://fonts.googleapis.com/css?family=Oxygen:400,700,300' rel='stylesheet' type='text/css'>
@@ -43,9 +37,6 @@
 
     <!--Modenizr-->
     @Scripts.Render("~/bundles/modernizr")
-    <script type="text/javascript">
-        document.documentElement.className = 'no-fouc';
-    </script>
 
 </head>
 <body>
@@ -161,13 +152,6 @@
     <script src="~/Scripts/Template-js/jquery.fancybox.js"></script>
     <!-- template main js -->
     <script src="~/Scripts/Template-js/main.js"></script>
-    <script type="text/javascript">
-        
-
-        $(window).bind("load", function () {
-            $('.no-fouc').removeClass('no-fouc');
-        });
-    </script>
     @RenderSection("scripts", false)
     <!-- #endregion -->
 </body>
